@@ -1,0 +1,36 @@
+.prodCategory_mainContainer {
+  padding: 30px;
+}
+.prodCategory_buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.prodCategory_textFieldContainer {
+  margin-bottom: 30px !important;
+}
+.prodCategory_buttonSubContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.prodCategory_titleText {
+  font-size: 24px !important;
+  font-weight: 300 !important;
+  color: var(--black) !important;
+}
+.prodCategory_titleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.prodCategory_BtnContainer {
+  margin-top: 30px !important;
+}

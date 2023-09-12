@@ -1,0 +1,19 @@
+.tabs{
+    background-color: var(--primary500);
+    border: 1px solid var(--primary500);
+    border-radius: 4px;
+}
+.tab{
+    width: 100% !important;
+    text-transform: capitalize !important;
+    color: var(--white) !important;
+}
+.innerTab{
+    padding: 24px 0px !important;
+}
+.Mui-selected {
+    color: var(--primary500) !important;
+    font-family: var(--fontFamily) !important;
+    text-transform: capitalize !important;
+    background-color: var(--white) !important;
+}

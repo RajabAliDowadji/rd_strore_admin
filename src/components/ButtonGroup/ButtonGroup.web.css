@@ -1,0 +1,32 @@
+.buttonConainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonInnerConainer {
+    margin: 0px 10px;
+}
+
+.buttonGroup_activeButton {
+    font-family: var(--fontFamily) !important;
+    background-color: var(--primary500) !important;
+    border-radius: 4px !important;
+    padding: 10px !important;
+    color: var(--white) !important;
+    text-transform: capitalize !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+}
+
+.buttonGroup_deleteButton {
+    font-family: var(--fontFamily) !important;
+    background-color: var(--white) !important;
+    border-radius: 4px !important;
+    padding: 10px !important;
+    color: var(--red) !important;
+    text-transform: capitalize !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    border: 1px solid var(--red) !important;
+}

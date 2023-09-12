@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --red: #ff0000;
+  --primary500: #4e8102;
+  --gray: #cccccc;
+  --gray200: #f1f0f0;
+  --gray600: #cccccc80;
+  --gray900: #5a5a5a;
+  --fontFamily: Open Sans;
+  --border: rgba(0, 0, 0, 0.23);
+}
+
+body,
+html {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  width: 100%;
+}
+
+body > #root > div {
+  height: 100vh;
+}

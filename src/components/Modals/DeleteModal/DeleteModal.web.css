@@ -1,0 +1,38 @@
+.delete_modalContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete_modalSubContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--white);
+    border-radius: 29px;
+    padding: 32px;
+    justify-content: center;
+}
+.delete_modalTitleText{
+    font-size: 24px !important;
+    font-weight: 500 !important;
+    text-align: center !important;
+}
+.delete_modalSubTitleText{
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    text-align: center !important;
+    margin-bottom: 40px !important;
+}
+.delete_modalBorder{
+    height: 1px;
+    margin: 32px 0px;
+    border-bottom: 0.3px solid var(--gray);
+}
+.delete_btnContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

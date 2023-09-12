@@ -1,0 +1,36 @@
+.prodSubCategory_mainContainer {
+  padding: 30px;
+}
+.prodSubCategory_buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.prodSubCategory_textFieldContainer {
+  margin-bottom: 30px !important;
+}
+.prodSubCategory_buttonSubContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.prodSubCategory_titleText {
+  font-size: 24px !important;
+  font-weight: 300 !important;
+  color: var(--black) !important;
+}
+.prodSubCategory_titleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.prodSubCategory_BtnContainer {
+  margin-top: 30px !important;
+}

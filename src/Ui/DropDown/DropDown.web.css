@@ -1,0 +1,15 @@
+.label {
+  font-family: var(--fontFamily) !important;
+  font-size: 14px !important;
+  color: var(--black) !important;
+  font-weight: 300 !important;
+  margin-bottom: 3px !important;
+}
+.dropDown {
+  font-family: var(--fontFamily);
+  border-radius: 4px !important;
+  padding: 12px 10px !important;
+}
+.error {
+  border: 1px solid var(--red) !important;
+}

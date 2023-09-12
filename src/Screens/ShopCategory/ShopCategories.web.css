@@ -1,0 +1,36 @@
+.shopCategory_mainContainer {
+  padding: 30px;
+}
+.shopCategory_buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.shopCategory_textFieldContainer {
+  margin-bottom: 30px !important;
+}
+.shopCategory_buttonSubContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.shopCategory_titleText {
+  font-size: 24px !important;
+  font-weight: 300 !important;
+  color: var(--black) !important;
+}
+.shopCategory_titleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.shopCategory_BtnContainer {
+  margin-top: 30px !important;
+}

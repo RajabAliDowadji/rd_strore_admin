@@ -1,0 +1,73 @@
+.label {
+  font-family: var(--fontFamily) !important;
+  font-size: 14px !important;
+  color: var(--black) !important;
+  font-weight: 300 !important;
+  margin-bottom: 3px !important;
+}
+
+.textField {
+  width: 100% !important;
+}
+
+.textField_InputProps {
+  padding: 15px 8px !important;
+  font-family: var(--fontFamily) !important;
+}
+
+.textField_Input {
+  border-radius: 4px !important;
+  background: var(--white) !important;
+  width: 100% !important;
+  color: var(--black) !important;
+  font-family: var(--fontFamily) !important;
+}
+.textField_DisabledInput {
+  border-radius: 4px !important;
+  background: var(--gray600) !important;
+  width: 100% !important;
+  color: var(--gray900) !important;
+  font-family: var(--fontFamily) !important;
+}
+.textArea_Input {
+  border-radius: 4px !important;
+  background: var(--white) !important;
+  width: 100% !important;
+  color: var(--black) !important;
+  font-family: var(--fontFamily) !important;
+  padding: 0px !important;
+}
+.textArea_DisabledInput {
+  border-radius: 4px !important;
+  background: var(--gray600) !important;
+  width: 100% !important;
+  color: var(--gray900) !important;
+  font-family: var(--fontFamily) !important;
+  padding: 0px !important;
+}
+.errorText {
+  font-size: 13px !important;
+  color: var(--red) !important;
+  font-weight: 400 !important;
+  margin-top: 3px !important;
+  margin-left: 10px !important;
+  font-family: var(--fontFamily) !important;
+}
+.phoneField_InputProps {
+  padding: 15px 0px !important;
+  font-family: var(--fontFamily) !important;
+  width: 100%;
+  border-radius: 4px !important;
+  color: var(--black) !important;
+  border: 1px solid var(--border);
+  outline: none !important;
+}
+.phoneField_ErrotInputProps {
+  padding: 15px 0px !important;
+  font-family: var(--fontFamily) !important;
+  width: 100%;
+  border-radius: 4px !important;
+  color: var(--black) !important;
+  border: 1px solid var(--red);
+  outline: none !important;
+}

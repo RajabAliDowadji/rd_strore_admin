@@ -1,0 +1,9 @@
+.dashboard_mainContainer {
+  height: 100%;
+}
+
+.dashboard_innerContainer {
+  height: -moz-calc(100% - 125px);
+  height: -webkit-calc(100% - 125px);
+  height: calc(100% - 125px);
+}

@@ -1,0 +1,16 @@
+.productRating_mainContainer {
+  padding: 30px;
+}
+.productRating_buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.productRating_titleText {
+  font-size: 24px !important;
+  font-weight: 300 !important;
+  color: var(--black) !important;
+}

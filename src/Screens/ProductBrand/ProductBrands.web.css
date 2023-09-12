@@ -1,0 +1,36 @@
+.prodBrand_mainContainer {
+  padding: 30px;
+}
+.prodBrand_buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.prodBrand_textFieldContainer {
+  margin-bottom: 30px !important;
+}
+.prodBrand_buttonSubContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.prodBrand_titleText {
+  font-size: 24px !important;
+  font-weight: 300 !important;
+  color: var(--black) !important;
+}
+.prodBrand_titleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.prodBrand_BtnContainer {
+  margin-top: 30px !important;
+}

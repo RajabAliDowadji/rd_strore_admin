@@ -1,0 +1,35 @@
+.customdrawer_mainContainer {
+  height: 100%;
+}
+
+.customdrawer_subContainer {
+  height: 100%;
+}
+
+.customdrawer_gridConatiner {
+  border-right: 1px solid var(--gray);
+  border-top: 1px solid var(--gray);
+}
+
+.customdrawer_innerContainer {
+  border-bottom: 1px solid var(--gray);
+  padding: 20px 0px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.customdrawer_titleTxt {
+  line-height: 1 !important;
+  font-family: var(--fontFamily) !important;
+  font-size: 20px !important;
+}
+
+.customdrawer_notActiveTab {
+  color: var(--black);
+  background-color: var(--white);
+}
+
+.customdrawer_activeTab {
+  color: var(--white);
+  background-color: var(--primary500);
+}

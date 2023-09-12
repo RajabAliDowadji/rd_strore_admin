@@ -1,0 +1,35 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 70%;
+    width: 70%;
+}
+
+.modalImage_fade {
+    height: 100%;
+    width: 100%;
+    background-color: var(--white);
+    border-radius: 6px;
+}
+
+.modalImage {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.modalImage_subContainer {
+    position: relative;
+}
+
+.cancelIcon {
+    position: absolute;
+    font-size: 32px !important;
+    color: var(--white);
+    right: 0%;
+    margin: -10px;
+    cursor: pointer;
+}

@@ -1,0 +1,46 @@
+.productInventory_mainContainer {
+  padding: 30px;
+}
+.productInventory_buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.productInventory_textFieldContainer {
+  margin-bottom: 30px !important;
+}
+.productInventory_buttonSubContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.productInventory_titleText {
+  font-size: 24px !important;
+  font-weight: 300 !important;
+  color: var(--black) !important;
+}
+.productInventory_titleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.productInventory_BtnContainer {
+  margin-top: 30px !important;
+}
+.productInventory_label {
+  font-family: var(--fontFamily) !important;
+  font-size: 14px !important;
+  color: var(--black) !important;
+  font-weight: 300 !important;
+  margin-bottom: 3px !important;
+}
+.productInventory_todoContainer {
+  padding: 20px 30px;
+}
