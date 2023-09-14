@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Grid, Typography } from "@material-ui/core";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
@@ -7,6 +7,9 @@ import { passwordValidate } from "../../Validations/passwordValidate.web";
 import { isEmpty } from "../../Utils/common";
 import { front_loginImg } from "./assets";
 import "./Login.web.css";
+import { USER_LOGIN } from "../../Hooks/Saga/Constant";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const configJSON = require("../../Constants/Users");
 
@@ -26,6 +29,20 @@ const Login = () => {
       password: "",
     },
   });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const state = useSelector((state: any) => state);
+  console.log("state", state);
+  useEffect(() => {
+    if (state && state.user && state.user.isLoginSuccess) {
+      localStorage.setItem(
+        "user_data",
+        JSON.stringify(state.user.userLoginResponse.data)
+      );
+      localStorage.setItem("token", state.user.userLoginResponse.data.token);
+      navigate("/dashboard");
+    }
+  }, [state, navigate]);
   const inputChangeHandle = (
     fieldName: string,
     event: React.ChangeEvent<HTMLInputElement>
@@ -69,7 +86,10 @@ const Login = () => {
         },
       }));
     } else {
-      //TODO for Login
+      dispatch({
+        type: USER_LOGIN,
+        payload: formData,
+      });
     }
   };
   return (
