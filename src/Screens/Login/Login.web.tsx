@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 const configJSON = require("../../Constants/Users");
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const initialData = {
     email: "",
     password: "",
@@ -29,17 +31,18 @@ const Login = () => {
       password: "",
     },
   });
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const state = useSelector((state: any) => state);
-  console.log("state", state);
+
   useEffect(() => {
-    if (state && state.user && state.user.isLoginSuccess) {
+    if (state && state.login_user && state.login_user.isLoginSuccess) {
       localStorage.setItem(
         "user_data",
-        JSON.stringify(state.user.userLoginResponse.data)
+        JSON.stringify(state.login_user.userLoginResponse.data)
       );
-      localStorage.setItem("token", state.user.userLoginResponse.data.token);
+      localStorage.setItem(
+        "token",
+        state.login_user.userLoginResponse.data.token
+      );
       navigate("/dashboard");
     }
   }, [state, navigate]);

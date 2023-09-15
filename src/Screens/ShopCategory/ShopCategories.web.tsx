@@ -1,25 +1,48 @@
-import React, { useState } from "react";
-import Dashboard from "../Dashboard/Dashboard.web";
+import React, { useEffect, useState } from "react";
 import { Box } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Dashboard from "../Dashboard/Dashboard.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import { useNavigate } from "react-router-dom";
+import { ShopCategory } from "../../Modal/GetShopCategories.modal";
+import { GET_SHOP_CATEGORIES } from "../../Hooks/Saga/Constant";
 import "./ShopCategories.web.css";
 
 const configJSON = require("../../Constants/Shop");
 
 const ShopCategories = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const rows = [
-    {
-      _id: "64eb02a6b6d2a72189288213",
-      category_name: "Bronze",
-      lower_range: 1,
-      upper_range: 10000,
-    },
-  ];
+  const [shopCategories, setShopCategories] = useState<ShopCategory[]>([]);
+  useEffect(() => {
+    dispatch({
+      type: GET_SHOP_CATEGORIES,
+    });
+  }, [dispatch]);
+  useEffect(() => {
+    if (
+      state &&
+      state.get_shop_categories &&
+      state.get_shop_categories.shopCategories &&
+      state.get_shop_categories.shopCategories.length !== 0
+    ) {
+      let tempArr: ShopCategory[] = [];
+      state.get_shop_categories.shopCategories.map(
+        (shopCategory: ShopCategory) =>
+          tempArr.push({
+            _id: shopCategory._id,
+            category_name: shopCategory.category_name,
+            lower_range: shopCategory.lower_range,
+            upper_range: shopCategory.upper_range,
+          })
+      );
+      setShopCategories(tempArr);
+    }
+  }, [state]);
   const addShopCategoryHandle = () => {
     navigate("/shop-categories/create");
   };
@@ -58,7 +81,7 @@ const ShopCategories = () => {
             />
           </Box>
           <DataTable
-            rows={rows}
+            rows={shopCategories}
             columns={configJSON.shopCategoriesColumns}
             onViewClick={viewShopCategoryHandle}
             onEditClick={editShopCategoryHandle}

@@ -1,24 +1,46 @@
-import React, { useState } from "react";
-import Dashboard from "../Dashboard/Dashboard.web";
+import React, { useEffect, useState } from "react";
 import { Box } from "@material-ui/core";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Dashboard from "../Dashboard/Dashboard.web";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
+import { ProductType } from "../../Modal/GetProductTypes.modal";
+import { GET_PRODUCT_TYPES } from "../../Hooks/Saga/Constant";
 import "./ProductTypes.web.css";
 
 const configJSON = require("../../Constants/Products");
 
 const ProductTypes = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const rows = [
-    {
-      _id: "64eb2fb3537c71c902a55602",
-      type_name: "Grocceries",
-      search_name: "",
-    },
-  ];
+  const [productTypes, setProductTypes] = useState<ProductType[]>([]);
+  useEffect(() => {
+    dispatch({
+      type: GET_PRODUCT_TYPES,
+    });
+  }, [dispatch]);
+  useEffect(() => {
+    if (
+      state &&
+      state.get_product_types &&
+      state.get_product_types.productTypes &&
+      state.get_product_types.productTypes.length !== 0
+    ) {
+      let tempArr: ProductType[] = [];
+      state.get_product_types.productTypes.map((productType: ProductType) =>
+        tempArr.push({
+          _id: productType._id,
+          type_name: productType.type_name,
+          search_name: productType.search_name,
+        })
+      );
+      setProductTypes(tempArr);
+    }
+  }, [state]);
   const addProductTypeHandle = () => {
     navigate("/product-types/create");
   };
@@ -57,7 +79,7 @@ const ProductTypes = () => {
             />
           </Box>
           <DataTable
-            rows={rows}
+            rows={productTypes}
             columns={configJSON.productTypeColumns}
             onViewClick={viewProductTypeClickHandle}
             onEditClick={editProductTypeHandle}

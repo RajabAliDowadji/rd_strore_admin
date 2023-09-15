@@ -1,24 +1,47 @@
-import React, { useState } from "react";
-import Dashboard from "../Dashboard/Dashboard.web";
+import React, { useEffect, useState } from "react";
 import { Box } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Dashboard from "../Dashboard/Dashboard.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import { useNavigate } from "react-router-dom";
+import { GET_COMMISSION_TYPES } from "../../Hooks/Saga/Constant";
+import { CommissionType } from "../../Modal/CommissionTypes.modal";
 import "./CommissionTypes.web.css";
 
 const configJSON = require("../../Constants/Commission");
 
 const CommissionTypes = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const rows = [
-    {
-      _id: "64eb008ed511b1b9f1df47d5",
-      commission_name: "Ruppess",
-      commission_sign: "₹",
-    },
-  ];
+  const [commissionTypes, setCommissionTypes] = useState<CommissionType[]>([]);
+  useEffect(() => {
+    dispatch({
+      type: GET_COMMISSION_TYPES,
+    });
+  }, [dispatch]);
+  useEffect(() => {
+    if (
+      state &&
+      state.get_commission_types &&
+      state.get_commission_types.commissionTypes &&
+      state.get_commission_types.commissionTypes.length !== 0
+    ) {
+      let tempArr: CommissionType[] = [];
+      state.get_commission_types.commissionTypes.map(
+        (commissionType: CommissionType) =>
+          tempArr.push({
+            _id: commissionType._id,
+            commission_name: commissionType.commission_name,
+            commission_sign: commissionType.commission_sign,
+          })
+      );
+      setCommissionTypes(tempArr);
+    }
+  }, [state]);
   const addCommissionTypeHandle = () => {
     navigate("/commission-types/create");
   };
@@ -57,7 +80,7 @@ const CommissionTypes = () => {
             />
           </Box>
           <DataTable
-            rows={rows}
+            rows={commissionTypes}
             columns={configJSON.commissionTypeColumns}
             onViewClick={viewCommissionTypeHandle}
             onEditClick={editCommissionTypeHandle}

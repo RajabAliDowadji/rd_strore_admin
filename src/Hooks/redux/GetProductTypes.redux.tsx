@@ -1,27 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserLoginState } from "../../Modal/UserLogin.modal";
+import { GetProductTypesState } from "../../Modal/GetProductTypes.modal";
 
 const initialState = {
+  productTypes: [],
   isLoading: false,
   isError: false,
   isErrorMessage: "",
-  isLoginSuccess: false,
-  userLoginResponse: {},
-} as UserLoginState;
+} as GetProductTypesState;
 
-const userSlice = createSlice({
-  name: "login_user",
+const getProductTypesSlice = createSlice({
+  name: "get_product_types",
   initialState,
   reducers: {
-    getUserLogin(state) {
+    getProductTypes(state) {
       state.isLoading = true;
     },
-    userLoginSuccess(state, action) {
-      state.userLoginResponse = action.payload.data;
-      state.isLoginSuccess = true;
+    getProductTypesSuccess(state, action) {
+      state.productTypes = action.payload.data.data;
       state.isLoading = false;
     },
-    userLoginFailure(state, action) {
+    getProductTypesFailure(state, action) {
       state.isError = true;
       state.isErrorMessage = action.payload.data.error.message;
       state.isLoading = false;
@@ -34,9 +32,10 @@ const userSlice = createSlice({
 });
 
 export const {
-  getUserLogin,
-  userLoginSuccess,
-  userLoginFailure,
+  getProductTypes,
+  getProductTypesSuccess,
+  getProductTypesFailure,
   internalServerFailure,
-} = userSlice.actions;
-export default userSlice.reducer;
+} = getProductTypesSlice.actions;
+
+export default getProductTypesSlice.reducer;

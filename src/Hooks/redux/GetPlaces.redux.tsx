@@ -1,27 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserLoginState } from "../../Modal/UserLogin.modal";
+import { GetPlacesState } from "../../Modal/GetPlaces.modal";
 
 const initialState = {
+  places: [],
   isLoading: false,
   isError: false,
   isErrorMessage: "",
-  isLoginSuccess: false,
-  userLoginResponse: {},
-} as UserLoginState;
+} as GetPlacesState;
 
-const userSlice = createSlice({
-  name: "login_user",
+const getPlacesSlice = createSlice({
+  name: "get_places",
   initialState,
   reducers: {
-    getUserLogin(state) {
+    getPlaces(state) {
       state.isLoading = true;
     },
-    userLoginSuccess(state, action) {
-      state.userLoginResponse = action.payload.data;
-      state.isLoginSuccess = true;
+    getPlacesSuccess(state, action) {
+      state.places = action.payload.data.data;
       state.isLoading = false;
     },
-    userLoginFailure(state, action) {
+    getPlacesFailure(state, action) {
       state.isError = true;
       state.isErrorMessage = action.payload.data.error.message;
       state.isLoading = false;
@@ -34,9 +32,10 @@ const userSlice = createSlice({
 });
 
 export const {
-  getUserLogin,
-  userLoginSuccess,
-  userLoginFailure,
+  getPlaces,
+  getPlacesSuccess,
+  getPlacesFailure,
   internalServerFailure,
-} = userSlice.actions;
-export default userSlice.reducer;
+} = getPlacesSlice.actions;
+
+export default getPlacesSlice.reducer;

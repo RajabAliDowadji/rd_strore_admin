@@ -1,20 +1,20 @@
 import { takeEvery, put } from "redux-saga/effects";
+import { AxiosResponse } from "axios";
 import { USER_LOGIN } from "./Constant";
 import { userLoginAPI } from "../../services/UserLogin.api";
 import {
   getUserLogin,
   userLoginFailure,
-  userLoginInternalFailure,
+  internalServerFailure,
   userLoginSuccess,
 } from "../redux/UserLogin.redux";
-import { AxiosResponse } from "axios";
-import { userLoginPayload } from "../../Modal/UserLogin.modal";
+import { UserLoginPayload } from "../../Modal/UserLogin.modal";
 
 export function* userLoginAPISaga({
   payload,
 }: {
   type: string;
-  payload: userLoginPayload;
+  payload: UserLoginPayload;
 }) {
   yield put(getUserLogin());
   let result: AxiosResponse;
@@ -26,7 +26,7 @@ export function* userLoginAPISaga({
       yield put(userLoginFailure(result));
     }
   } catch (e) {
-    yield put(userLoginInternalFailure());
+    yield put(internalServerFailure());
   }
 }
 
