@@ -1,28 +1,53 @@
-import React, { useState } from "react";
-import Dashboard from "../Dashboard/Dashboard.web";
+import React, { useEffect, useState } from "react";
 import { Box } from "@material-ui/core";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Dashboard from "../Dashboard/Dashboard.web";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
+import { GET_SHOPS } from "../../Hooks/Saga/Constant";
+import { GetShopColumns, Shop } from "../../Modal/GetShops.modal";
 import "./Shops.web.css";
 
 const configJSON = require("../../Constants/Shop");
 
 const Shops = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const rows = [
-    {
-      _id: "64eb02a6b6d2a72189288213",
-      shop_name: "RDStore",
-      owner_name: "officewala Abbas Bhai",
-      email: "abbasvora04@gmail.com",
-      phone_number: "+919727366046",
-      isActive: true,
-      isCompleted: false,
-    },
-  ];
+  const [shops, setShops] = useState<GetShopColumns[]>([]);
+
+  useEffect(() => {
+    dispatch({
+      type: GET_SHOPS,
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_shops &&
+      state.get_shops.shops &&
+      state.get_shops.shops.length !== 0
+    ) {
+      let tempArr: GetShopColumns[] = [];
+      state.get_shops.shops.map((shop: Shop) =>
+        tempArr.push({
+          _id: shop._id,
+          shop_name: shop.shop_name,
+          owner_name: shop.owner_name,
+          email: shop.email,
+          phone_number: shop.phone_number,
+          isActive: shop.isActive,
+          isCompleted: shop.isCompleted,
+        })
+      );
+      setShops(tempArr);
+    }
+  }, [state]);
+
   const addShopHandle = () => {
     navigate("/shops/create");
   };
@@ -61,7 +86,7 @@ const Shops = () => {
             />
           </Box>
           <DataTable
-            rows={rows}
+            rows={shops}
             columns={configJSON.shopColumns}
             onViewClick={viewShopHandle}
             onEditClick={editShopHandle}

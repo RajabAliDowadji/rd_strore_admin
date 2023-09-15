@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetCommissionTypesState } from "../../Modal/CommissionTypes.modal";
+import { GetCommissionTypesState } from "../../Modal/GetCommissionTypes.modal";
 
 const initialState = {
   commissionTypes: [],

@@ -1,27 +1,56 @@
-import React from "react";
-import Dashboard from "../Dashboard/Dashboard.web";
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import Dashboard from "../Dashboard/Dashboard.web";
 import DataTable from "../../components/DataTable/DataTable.web";
+import {
+  GetProductRatingsColumns,
+  ProductRating,
+} from "../../Modal/GetProductRatings.modal";
+import { GET_PRODUCT_RATINGS } from "../../Hooks/Saga/Constant";
 import "./ProductRatings.web.css";
 
 const configJSON = require("../../Constants/Products");
 
 const ProductRatings = () => {
-  const rows = [
-    {
-      _id: "64eb569e0165857d2237d1ec",
-      rating: 2,
-      product: {
-        product_title: "Amul Quality Ghee",
-        product_size: "1000g",
-        product_MRP_price: 600,
-        product_price: 550,
-        product_sub_category: "64eb34721ab30213d3853b82",
-        product_brand: "64eb462cf0896dfc3973fe70",
-        is_vegetarian: true,
-      },
-    },
-  ];
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
+  const [ProductRatings, setProductRatings] = useState<
+    GetProductRatingsColumns[]
+  >([]);
+  useEffect(() => {
+    dispatch({
+      type: GET_PRODUCT_RATINGS,
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_product_ratings &&
+      state.get_product_ratings.productRatings &&
+      state.get_product_ratings.productRatings.length !== 0
+    ) {
+      let tempArr: GetProductRatingsColumns[] = [];
+      state.get_product_ratings.productRatings.map(
+        (productRating: ProductRating) =>
+          tempArr.push({
+            _id: productRating._id,
+            rating: productRating.rating,
+            product_title: productRating.product.product_title,
+            product_size: productRating.product.product_size,
+            product_MRP_price: productRating.product.product_MRP_price,
+            product_price: productRating.product.product_price,
+            sub_category_name:
+              productRating.product.product_sub_category.sub_category_name,
+            brand_name: productRating.product.product_brand.brand_name,
+            is_vegetarian: productRating.product.is_vegetarian,
+          })
+      );
+      setProductRatings(tempArr);
+    }
+  }, [state]);
+
   return (
     <Box>
       <Dashboard>
@@ -32,7 +61,7 @@ const ProductRatings = () => {
             </Typography>
           </Box>
           <DataTable
-            rows={rows}
+            rows={ProductRatings}
             columns={configJSON.productRatingColumns}
             onViewClick={undefined}
             onEditClick={undefined}

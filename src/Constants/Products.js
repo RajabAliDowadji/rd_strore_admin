@@ -28,7 +28,7 @@ exports.productSubCatColumns = [
 exports.productBrandBtnTxt = "Create product brand";
 exports.createProductBrandTitleText = "Create product brand";
 exports.editProductBrandTitleText = "Edit product brand";
-exports.productBrandColumns = ["Id", "Product brand name", "Search name"];
+exports.productBrandColumns = ["Id", "Product brand name"];
 
 exports.productBtnTxt = "Create product";
 exports.createProductTitleText = "Create product";

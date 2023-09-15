@@ -1,31 +1,50 @@
-import React, { useState } from "react";
-import Dashboard from "../Dashboard/Dashboard.web";
+import React, { useEffect, useState } from "react";
 import { Box } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Dashboard from "../Dashboard/Dashboard.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import { useNavigate } from "react-router-dom";
+import { GET_COMMISSIONS } from "../../Hooks/Saga/Constant";
 import "./Commissions.web.css";
+import { Commission, GetCommission } from "../../Modal/GetCommissions.modal";
 
 const configJSON = require("../../Constants/Commission");
 
 const Commissions = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const rows = [
-    {
-      _id: "64eb008ed511b1b9f1df47d5",
-      commission_type: {
-        commission_name: "Percentage",
-        commission_sign: "%",
-      },
-      product: {
-        product_title: "Amul Quality Ghee",
-        product_price: 550,
-      },
-      commission: 2,
-    },
-  ];
+  const [commissions, setCommissions] = useState<GetCommission[]>([]);
+  useEffect(() => {
+    dispatch({
+      type: GET_COMMISSIONS,
+    });
+  }, [dispatch]);
+  useEffect(() => {
+    if (
+      state &&
+      state.get_commissions &&
+      state.get_commissions.commissions &&
+      state.get_commissions.commissions.length !== 0
+    ) {
+      let tempArr: GetCommission[] = [];
+      state.get_commissions.commissions.map((commission: Commission) =>
+        tempArr.push({
+          _id: commission._id,
+          commission_name: commission.commission_type.commission_name,
+          commission_sign: commission.commission_type.commission_sign,
+          product_title: commission.product.product_title,
+          product_price: commission.product.product_price,
+          commission: commission.commission,
+        })
+      );
+      setCommissions(tempArr);
+    }
+  }, [state]);
+
   const addCommissionTypeHandle = () => {
     navigate("/commissions/create");
   };
@@ -64,7 +83,7 @@ const Commissions = () => {
             />
           </Box>
           <DataTable
-            rows={rows}
+            rows={commissions}
             columns={configJSON.commissionColumns}
             onViewClick={viewCommissionTypeHandle}
             onEditClick={editCommissionTypeHandle}

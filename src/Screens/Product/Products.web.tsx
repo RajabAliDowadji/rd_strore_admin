@@ -1,34 +1,55 @@
-import React, { useState } from "react";
-import Dashboard from "../Dashboard/Dashboard.web";
-import { Box } from "@material-ui/core";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Box } from "@material-ui/core";
+import Dashboard from "../Dashboard/Dashboard.web";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
+import { GetProductColumns, Product } from "../../Modal/GetProducts.modal";
+import { GET_PRODUCTS } from "../../Hooks/Saga/Constant";
 import "./Products.web.css";
 
 const configJSON = require("../../Constants/Products");
 
 const Products = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const rows = [
-    {
-      _id: "64eb4cdd8a92b57617fee7ba",
-      product_title: "Amul Quality Ghee",
-      product_size: "1000g",
-      product_MRP_price: 600,
-      product_price: 550,
-      product_sub_category: {
-        sub_category_name: "Buffalo Ghee",
-      },
-      product_brand: {
-        brand_name: "Amul",
-      },
-      is_vegetarian: true,
-      is_published: false,
-    },
-  ];
+  const [products, setProducts] = useState<GetProductColumns[]>([]);
+
+  useEffect(() => {
+    dispatch({
+      type: GET_PRODUCTS,
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_products &&
+      state.get_products.products &&
+      state.get_products.products.length !== 0
+    ) {
+      let tempArr: GetProductColumns[] = [];
+      state.get_products.products.map((product: Product) =>
+        tempArr.push({
+          _id: product._id,
+          product_title: product.product_title,
+          product_size: product.product_size,
+          product_MRP_price: product.product_MRP_price,
+          product_price: product.product_price,
+          sub_category_name: product.product_sub_category.sub_category_name,
+          brand_name: product.product_brand.brand_name,
+          is_published: product.is_published,
+          is_vegetarian: product.is_vegetarian,
+        })
+      );
+      setProducts(tempArr);
+    }
+  }, [state]);
+
   const addProductHandle = () => {
     navigate("/products/create");
   };
@@ -67,7 +88,7 @@ const Products = () => {
             />
           </Box>
           <DataTable
-            rows={rows}
+            rows={products}
             columns={configJSON.productColumns}
             onViewClick={viewProductHandle}
             onEditClick={editProductHandle}

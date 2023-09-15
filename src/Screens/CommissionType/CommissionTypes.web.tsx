@@ -7,7 +7,7 @@ import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
 import { GET_COMMISSION_TYPES } from "../../Hooks/Saga/Constant";
-import { CommissionType } from "../../Modal/CommissionTypes.modal";
+import { CommissionType } from "../../Modal/GetCommissionTypes.modal";
 import "./CommissionTypes.web.css";
 
 const configJSON = require("../../Constants/Commission");
