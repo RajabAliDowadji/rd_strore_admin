@@ -1,5 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { GetPlaceResponse } from "../../Modal/GetPlace.modal";
+import {
+  ADD_PLACE,
+  DELETE_PLACE,
+  EDIT_PLACE,
+  GET_PLACE,
+  GET_PLACE_BY_ID,
+} from "../../Hooks/Saga/Constant";
 import Dashboard from "../Dashboard/Dashboard.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -13,19 +22,24 @@ import "./Place.web.css";
 const configJSON = require("../../Constants/Dashboard");
 
 const TodoPlace = () => {
-  const initialData = {
-    pincode: "",
-    town: "",
-    district: "",
-    city: "",
-    state: "",
-  };
+  let { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  let { id } = useParams();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
+  const initialData = useMemo(() => {
+    return {
+      pincode: "",
+      town: "",
+      district: "",
+      city: "",
+      state: "",
+    };
+  }, []);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [formData, setFormData] = useState(initialData);
+  const [isCall, setIsCall] = useState<boolean>(false);
+  const [formData, setFormData] = useState<any>(initialData);
   const [dataError, setDataError] = useState({
     errors: {
       pincode: false,
@@ -34,6 +48,38 @@ const TodoPlace = () => {
       pincode: "",
     },
   });
+
+  useEffect(() => {
+    if (id) {
+      setIsCall(true);
+      dispatch({
+        type: GET_PLACE_BY_ID,
+        payload: { id: id },
+      });
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_place_by_id &&
+      state.get_place_by_id.place &&
+      state.get_place_by_id.place !== null &&
+      isCall
+    ) {
+      let temp: GetPlaceResponse = initialData;
+      temp.pincode = state.get_place_by_id.place.pincode;
+      temp.city = state.get_place_by_id.place.city;
+      temp.state = state.get_place_by_id.place.state;
+      temp.town = state.get_place_by_id.place.town;
+      temp.district = state.get_place_by_id.place.district;
+      setFormData((prev: GetPlaceResponse) => ({
+        ...prev,
+        ...temp,
+      }));
+    }
+  }, [initialData, isCall, state]);
+
   useEffect(() => {
     const route = location.pathname.split("/");
     if (route && route.length > 0) {
@@ -45,21 +91,55 @@ const TodoPlace = () => {
     }
   }, [location]);
 
+  useEffect(() => {
+    if (
+      state &&
+      state.add_edit_place &&
+      state.add_edit_place.place &&
+      state.add_edit_place.place !== null &&
+      isCall
+    ) {
+      navigate("/places");
+    }
+  }, [isCall, navigate, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_place &&
+      state.get_place.place &&
+      state.get_place.place.length !== 0 &&
+      isCall
+    ) {
+      let temp: GetPlaceResponse = initialData;
+      temp.pincode = state.get_place.place[0].pincode;
+      temp.city = state.get_place.place[0].city;
+      temp.state = state.get_place.place[0].state;
+      temp.town = state.get_place.place[0].village;
+      temp.district = state.get_place.place[0].district;
+      setFormData((prev: GetPlaceResponse) => ({
+        ...prev,
+        ...temp,
+      }));
+    }
+  }, [initialData, isCall, state]);
+
   const cancelPlaceHandle = () => {
     navigate("/places");
   };
+
   const deletePlaceHandle = () => {
     setModalOpen(true);
   };
+
   const modalHandleClose = () => {
     setModalOpen(false);
   };
+
   const pincodeChangeHandle = (event: any) => {
     let isValid = pincodeValidate("Pincode", event.target.value);
-    setFormData((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }));
+    let tempFormData: GetPlaceResponse = formData;
+    tempFormData.pincode = event.target.value;
     setDataError((prev) => ({
       ...prev,
       errors: { ...dataError.errors, [event.target.name]: isValid.status },
@@ -68,9 +148,20 @@ const TodoPlace = () => {
         [event.target.name]: isValid.message,
       },
     }));
-    if (!isValid) {
-      //TODO API CALL FOR PINCODE DATA AND RESPONSE SET INTO FORM DATA
+    if (!isValid.status) {
+      tempFormData.pincode = event.target.value;
+      setIsCall(true);
+      dispatch({
+        type: GET_PLACE,
+        payload: { pincode: event.target.value },
+      });
+    } else {
+      tempFormData.city = "";
+      tempFormData.district = "";
+      tempFormData.state = "";
+      tempFormData.town = "";
     }
+    setFormData(tempFormData);
   };
 
   const formSubmitHandle = (event: React.FormEvent<HTMLFormElement>) => {
@@ -89,19 +180,30 @@ const TodoPlace = () => {
         },
       }));
     } else {
+      setIsCall(true);
       if (isEdit) {
-        // TODO UPDATE PLACE API CALL
-        navigate("/places");
+        dispatch({
+          type: EDIT_PLACE,
+          payload: { id: id, values: formData },
+        });
       } else {
-        // TODO CREATE PLACE API CALL
-        navigate("/places");
+        dispatch({
+          type: ADD_PLACE,
+          payload: formData,
+        });
       }
     }
   };
+
   const onDeleteConfirmHandle = () => {
+    setIsCall(true);
+    dispatch({
+      type: DELETE_PLACE,
+      payload: { id: id },
+    });
     navigate("/places");
-    //TODO DELETE PLACE API CALL
   };
+
   return (
     <Box>
       <Dashboard>

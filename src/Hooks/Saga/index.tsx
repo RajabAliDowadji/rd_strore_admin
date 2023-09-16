@@ -1,6 +1,9 @@
 import { all, fork } from "redux-saga/effects";
 import userLoginSaga from "./UserLogin.saga";
 import getPlacesSaga from "./GetPlaces.saga";
+import getPlaceSaga from "./GetPlace.saga";
+import getPlaceByIdSaga from "./GetPlaceById.saga";
+import { addPlaceSaga, editPlaceSaga } from "./AddEditPlace.saga";
 import getShopCategoriesSaga from "./GetShopCategories.saga";
 import getCommissionTypesSaga from "./GetCommissionTypes.saga";
 import getProductTypesSaga from "./GetProductTypes.saga";
@@ -12,11 +15,19 @@ import getProductsSaga from "./GetProducts.saga";
 import getCommissionsSaga from "./GetCommissions.saga";
 import getProductInventoriesSaga from "./GetProductInventories.saga";
 import getProductRatingsSaga from "./GetProductRatings.saga";
+import deletePlaceSaga from "./DeletePlace.saga";
 
 export default function* rootSaga() {
   yield all([
     fork(userLoginSaga),
+    //Place Saga Start
     fork(getPlacesSaga),
+    fork(getPlaceSaga),
+    fork(getPlaceByIdSaga),
+    fork(addPlaceSaga),
+    fork(editPlaceSaga),
+    fork(deletePlaceSaga),
+    //Place Saga End
     fork(getShopCategoriesSaga),
     fork(getCommissionTypesSaga),
     fork(getProductTypesSaga),

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import Dashboard from "../Dashboard/Dashboard.web";
-import DataTable from "../../components/DataTable/DataTable.web";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
-import ActiveButton from "../../Ui/Button/ActiveButton.web";
-import { GET_PLACES } from "../../Hooks/Saga/Constant";
 import { Place } from "../../Modal/GetPlaces.modal";
+import { useDispatch, useSelector } from "react-redux";
+import ActiveButton from "../../Ui/Button/ActiveButton.web";
+import DataTable from "../../components/DataTable/DataTable.web";
+import { DELETE_PLACE, GET_PLACES } from "../../Hooks/Saga/Constant";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import "./Place.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
@@ -18,17 +18,22 @@ const Places = () => {
   const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [places, setPlaces] = useState<Place[]>([]);
+  const [isCall, setIsCall] = useState<boolean>(true);
+  const [placeId, setPlaceId] = useState<string>("");
+
   useEffect(() => {
     dispatch({
       type: GET_PLACES,
     });
   }, [dispatch]);
+
   useEffect(() => {
     if (
       state &&
       state.get_places &&
       state.get_places.places &&
-      state.get_places.places.length !== 0
+      state.get_places.places.length !== 0 &&
+      isCall
     ) {
       let tempArr: Place[] = [];
       state.get_places.places.map((place: Place) =>
@@ -43,27 +48,39 @@ const Places = () => {
       );
       setPlaces(tempArr);
     }
-  }, [state]);
+  }, [isCall, state]);
+
   const addPlaceHandle = () => {
     navigate("/places/create");
   };
+
   const editPlaceHandle = (id: string) => {
     navigate(`/places/edit/${id}`);
   };
+
   const viewPlaceClickHandle = (id: string) => {
     navigate(`/places/view/${id}`);
   };
-  const deleteBtnClickHandle = () => {
+
+  const deleteBtnClickHandle = (id: string) => {
+    setPlaceId(id);
     setModalOpen(true);
   };
+
   const modalHandleClose = () => {
     setModalOpen(false);
   };
+
   const onDeleteConfirmHandle = () => {
-    navigate("/places");
+    dispatch({
+      type: DELETE_PLACE,
+      payload: { id: placeId },
+    });
+    setIsCall(false);
+    setPlaces(places.filter((place: Place) => place._id !== placeId));
     setModalOpen(false);
-    //TODO DELETE PLACE API CALL
   };
+
   return (
     <Box>
       <Dashboard>

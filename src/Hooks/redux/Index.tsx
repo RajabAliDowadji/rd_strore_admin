@@ -1,6 +1,10 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./UserLogin.redux";
 import getPlacesReducer from "./GetPlaces.redux";
+import getPlaceReducer from "./GetPlace.redux";
+import getPlaceByIdReducer from "./GetPlaceById.redux";
+import addEditPlaceReducer from "./AddEditPlace.redux";
+import deletePlaceReducer from "./DeletePlace.redux";
 import getShopCategoriesReducer from "./GetShopCategories.redux";
 import getCommissionTypesReducer from "./GetCommissionTypes.redux";
 import getProductTypesReducer from "./GetProductTypes.redux";
@@ -15,7 +19,13 @@ import getProductRatingsReducer from "./GetProductRatings.redux";
 
 const rootReducers = combineReducers({
   login_user: userReducer,
+  //Place Reducer Start
   get_places: getPlacesReducer,
+  get_place: getPlaceReducer,
+  get_place_by_id: getPlaceByIdReducer,
+  add_edit_place: addEditPlaceReducer,
+  delete_place: deletePlaceReducer,
+  //Place Reducer End
   get_shop_categories: getShopCategoriesReducer,
   get_commission_types: getCommissionTypesReducer,
   get_product_types: getProductTypesReducer,

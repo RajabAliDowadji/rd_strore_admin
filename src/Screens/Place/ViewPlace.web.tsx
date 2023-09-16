@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
-import ActiveButton from "../../Ui/Button/ActiveButton.web";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
+import Dashboard from "../Dashboard/Dashboard.web";
 import DeleteButton from "../../Ui/Button/DeleteButton.web";
+import ActiveButton from "../../Ui/Button/ActiveButton.web";
+import { GetPlaceResponse } from "../../Modal/GetPlace.modal";
+import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import { DELETE_PLACE, GET_PLACE_BY_ID } from "../../Hooks/Saga/Constant";
 import "./Place.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
@@ -13,23 +16,75 @@ const configJSON = require("../../Constants/Dashboard");
 const ViewPlace = () => {
   let { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
+
+  const initialData = useMemo(() => {
+    return {
+      _id: "",
+      pincode: "",
+      town: "",
+      district: "",
+      city: "",
+      state: "",
+    };
+  }, []);
+
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [formData, setFormData] = useState<any>(initialData);
+
+  useEffect(() => {
+    dispatch({
+      type: GET_PLACE_BY_ID,
+      payload: { id: id },
+    });
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_place_by_id &&
+      state.get_place_by_id.place &&
+      state.get_place_by_id.place !== null
+    ) {
+      let temp: GetPlaceResponse = initialData;
+      temp._id = state.get_place_by_id.place._id;
+      temp.pincode = state.get_place_by_id.place.pincode;
+      temp.city = state.get_place_by_id.place.city;
+      temp.state = state.get_place_by_id.place.state;
+      temp.town = state.get_place_by_id.place.town;
+      temp.district = state.get_place_by_id.place.district;
+      setFormData((prev: GetPlaceResponse) => ({
+        ...prev,
+        ...temp,
+      }));
+    }
+  }, [initialData, state]);
+
   const addPlaceHandle = () => {
     navigate("/places/create");
   };
+
   const editPlaceHandle = () => {
     navigate(`/places/edit/${id}`);
   };
+
   const deletePlaceHandle = () => {
     setModalOpen(true);
   };
+
   const modalHandleClose = () => {
     setModalOpen(false);
   };
+
   const onDeleteConfirmHandle = () => {
+    dispatch({
+      type: DELETE_PLACE,
+      payload: { id: id },
+    });
     navigate("/places");
-    //TODO DELETE PLACE API CALL
   };
+
   return (
     <Box>
       <Dashboard>
@@ -54,7 +109,7 @@ const ViewPlace = () => {
                 type="text"
                 label="Id"
                 name="_id"
-                value="64eafd3438f621bdc72a570b"
+                value={formData._id}
                 disabled={true}
               />
             </Box>
@@ -64,7 +119,7 @@ const ViewPlace = () => {
                 type="text"
                 label="Town"
                 name="town"
-                value="Halvad"
+                value={formData.town}
                 disabled={true}
               />
             </Box>
@@ -74,7 +129,7 @@ const ViewPlace = () => {
                 type="text"
                 label="District"
                 name="district"
-                value="Halvad"
+                value={formData.district}
                 disabled={true}
               />
             </Box>
@@ -85,7 +140,7 @@ const ViewPlace = () => {
                 type="text"
                 label="City"
                 name="city"
-                value="SURENDRA NAGAR"
+                value={formData.city}
                 disabled={true}
               />
             </Box>
@@ -95,7 +150,7 @@ const ViewPlace = () => {
                 type="text"
                 label="State"
                 name="state"
-                value="GUJARAT"
+                value={formData.state}
                 disabled={true}
               />
             </Box>
@@ -105,7 +160,7 @@ const ViewPlace = () => {
                 type="number"
                 label="Pincode"
                 name="pincode"
-                value="363330"
+                value={formData.pincode}
                 disabled={true}
               />
             </Box>

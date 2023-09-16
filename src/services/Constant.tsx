@@ -15,7 +15,20 @@ export const authHeader = (token: string) => {
 };
 
 export const Login_END_POINT = "user/login";
+
+// Place End Point Start
 export const Get_Places_END_POINT = "rd_admin/places";
+export const Get_Place_END_POINT = "rd_admin/place";
+export const Add_Place_END_POINT = "rd_admin/place/create";
+export const Place_By_Id_END_POINT = "rd_admin/place/";
+export const getPlacesEndPoint = BASE_URL + Get_Places_END_POINT;
+export const getPlaceEndPoint = BASE_URL + Get_Place_END_POINT;
+export const addPlaceEndPoint = BASE_URL + Add_Place_END_POINT;
+export const placeByIdEndPoint = (id: string) => {
+  return BASE_URL + Place_By_Id_END_POINT + id;
+};
+// Place End Point End
+
 export const Product_END_POINT = "rd_admin/product/";
 export const Get_Shop_Categories_END_POINT = "rd_admin/shop_categories";
 export const Get_Commission_Types_END_POINT = "rd_admin/commissiontypes";
@@ -30,8 +43,6 @@ export const Get_Product_Rating_END_POINT = "product/ratings";
 export const Get_Product_Inventories_END_POINT = "inventories";
 
 export const userLoginEndPoint = BASE_URL + Login_END_POINT;
-
-export const getPlacesEndPoint = BASE_URL + Get_Places_END_POINT;
 
 export const getShopCategoriesEndPoint =
   BASE_URL + Get_Shop_Categories_END_POINT;

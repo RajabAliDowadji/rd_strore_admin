@@ -1,5 +1,12 @@
 export const USER_LOGIN: string = "USER_LOGIN";
+// Place API Type Start
 export const GET_PLACES: string = "GET_PLACES";
+export const GET_PLACE: string = "GET_PLACE";
+export const GET_PLACE_BY_ID: string = "GET_PLACE_BY_ID";
+export const ADD_PLACE: string = "ADD_PLACE";
+export const EDIT_PLACE: string = "EDIT_PLACE";
+export const DELETE_PLACE: string = "DELETE_PLACE";
+// Place API Type End
 export const GET_SHOP_CATEGORIES: string = "GET_SHOP_CATEGORIES";
 export const GET_COMMISSION_TYPES: string = "GET_COMMISSION_TYPES";
 export const GET_PRODUCT_TYPES: string = "GET_PRODUCT_TYPES";
