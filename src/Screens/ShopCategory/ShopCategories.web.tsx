@@ -9,6 +9,7 @@ import DataTable from "../../components/DataTable/DataTable.web";
 import { ShopCategory } from "../../Modal/GetShopCategories.modal";
 import { GET_SHOP_CATEGORIES } from "../../Hooks/Saga/Constant";
 import "./ShopCategories.web.css";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
 
 const configJSON = require("../../Constants/Shop");
 
@@ -80,14 +81,18 @@ const ShopCategories = () => {
               onClick={addShopCategoryHandle}
             />
           </Box>
-          <DataTable
-            rows={shopCategories}
-            columns={configJSON.shopCategoriesColumns}
-            onViewClick={viewShopCategoryHandle}
-            onEditClick={editShopCategoryHandle}
-            onDeleteClick={deleteBtnClickHandle}
-            isAction={true}
-          />
+          {shopCategories.length === 0 ? (
+            <NoDataFound />
+          ) : (
+            <DataTable
+              rows={shopCategories}
+              columns={configJSON.shopCategoriesColumns}
+              onViewClick={viewShopCategoryHandle}
+              onEditClick={editShopCategoryHandle}
+              onDeleteClick={deleteBtnClickHandle}
+              isAction={true}
+            />
+          )}
         </Box>
       </Dashboard>
     </Box>

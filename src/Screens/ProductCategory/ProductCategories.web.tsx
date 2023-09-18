@@ -11,6 +11,7 @@ import {
   GetProductCategoriesColumns,
 } from "../../Modal/GetProductCategories.modal";
 import { GET_PRODUCT_CATEGORIES } from "../../Hooks/Saga/Constant";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./ProductCategories.web.css";
 
 const configJSON = require("../../Constants/Products");
@@ -85,14 +86,18 @@ const ProductCategories = () => {
               onClick={addProductTypeHandle}
             />
           </Box>
-          <DataTable
-            rows={productCategories}
-            columns={configJSON.productCatColumns}
-            onViewClick={viewProductTypeClickHandle}
-            onEditClick={editProductTypeHandle}
-            onDeleteClick={deleteBtnClickHandle}
-            isAction={true}
-          />
+          {productCategories.length === 0 ? (
+            <NoDataFound />
+          ) : (
+            <DataTable
+              rows={productCategories}
+              columns={configJSON.productCatColumns}
+              onViewClick={viewProductTypeClickHandle}
+              onEditClick={editProductTypeHandle}
+              onDeleteClick={deleteBtnClickHandle}
+              isAction={true}
+            />
+          )}
         </Box>
       </Dashboard>
     </Box>

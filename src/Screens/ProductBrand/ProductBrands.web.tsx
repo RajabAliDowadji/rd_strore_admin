@@ -11,6 +11,7 @@ import {
   ProductBrandColumns,
 } from "../../Modal/GetProductBrands.modal";
 import { GET_PRODUCT_BRANDS } from "../../Hooks/Saga/Constant";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./ProductBrands.web.css";
 
 const configJSON = require("../../Constants/Products");
@@ -80,14 +81,18 @@ const ProductBrands = () => {
               onClick={addProductBrandHandle}
             />
           </Box>
-          <DataTable
-            rows={productBrands}
-            columns={configJSON.productBrandColumns}
-            onViewClick={viewProductBrandClickHandle}
-            onEditClick={editProductBrandHandle}
-            onDeleteClick={deleteBtnClickHandle}
-            isAction={true}
-          />
+          {productBrands.length === 0 ? (
+            <NoDataFound />
+          ) : (
+            <DataTable
+              rows={productBrands}
+              columns={configJSON.productBrandColumns}
+              onViewClick={viewProductBrandClickHandle}
+              onEditClick={editProductBrandHandle}
+              onDeleteClick={deleteBtnClickHandle}
+              isAction={true}
+            />
+          )}
         </Box>
       </Dashboard>
     </Box>

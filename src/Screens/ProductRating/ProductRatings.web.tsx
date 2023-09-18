@@ -8,6 +8,7 @@ import {
   ProductRating,
 } from "../../Modal/GetProductRatings.modal";
 import { GET_PRODUCT_RATINGS } from "../../Hooks/Saga/Constant";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./ProductRatings.web.css";
 
 const configJSON = require("../../Constants/Products");
@@ -60,14 +61,18 @@ const ProductRatings = () => {
               {configJSON.productRatingTxt}
             </Typography>
           </Box>
-          <DataTable
-            rows={ProductRatings}
-            columns={configJSON.productRatingColumns}
-            onViewClick={undefined}
-            onEditClick={undefined}
-            onDeleteClick={undefined}
-            isAction={false}
-          />
+          {ProductRatings.length === 0 ? (
+            <NoDataFound />
+          ) : (
+            <DataTable
+              rows={ProductRatings}
+              columns={configJSON.productRatingColumns}
+              onViewClick={undefined}
+              onEditClick={undefined}
+              onDeleteClick={undefined}
+              isAction={false}
+            />
+          )}
         </Box>
       </Dashboard>
     </Box>

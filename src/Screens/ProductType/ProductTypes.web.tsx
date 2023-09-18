@@ -8,6 +8,7 @@ import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
 import { ProductType } from "../../Modal/GetProductTypes.modal";
 import { GET_PRODUCT_TYPES } from "../../Hooks/Saga/Constant";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./ProductTypes.web.css";
 
 const configJSON = require("../../Constants/Products");
@@ -78,14 +79,18 @@ const ProductTypes = () => {
               onClick={addProductTypeHandle}
             />
           </Box>
-          <DataTable
-            rows={productTypes}
-            columns={configJSON.productTypeColumns}
-            onViewClick={viewProductTypeClickHandle}
-            onEditClick={editProductTypeHandle}
-            onDeleteClick={deleteBtnClickHandle}
-            isAction={true}
-          />
+          {productTypes.length === 0 ? (
+            <NoDataFound />
+          ) : (
+            <DataTable
+              rows={productTypes}
+              columns={configJSON.productTypeColumns}
+              onViewClick={viewProductTypeClickHandle}
+              onEditClick={editProductTypeHandle}
+              onDeleteClick={deleteBtnClickHandle}
+              isAction={true}
+            />
+          )}
         </Box>
       </Dashboard>
     </Box>

@@ -7,8 +7,9 @@ import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
 import { GET_COMMISSIONS } from "../../Hooks/Saga/Constant";
-import "./Commissions.web.css";
 import { Commission, GetCommission } from "../../Modal/GetCommissions.modal";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import "./Commissions.web.css";
 
 const configJSON = require("../../Constants/Commission");
 
@@ -82,14 +83,18 @@ const Commissions = () => {
               onClick={addCommissionTypeHandle}
             />
           </Box>
-          <DataTable
-            rows={commissions}
-            columns={configJSON.commissionColumns}
-            onViewClick={viewCommissionTypeHandle}
-            onEditClick={editCommissionTypeHandle}
-            onDeleteClick={deleteBtnClickHandle}
-            isAction={true}
-          />
+          {commissions.length === 0 ? (
+            <NoDataFound />
+          ) : (
+            <DataTable
+              rows={commissions}
+              columns={configJSON.commissionColumns}
+              onViewClick={viewCommissionTypeHandle}
+              onEditClick={editCommissionTypeHandle}
+              onDeleteClick={deleteBtnClickHandle}
+              isAction={true}
+            />
+          )}
         </Box>
       </Dashboard>
     </Box>

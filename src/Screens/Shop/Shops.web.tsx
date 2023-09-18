@@ -8,6 +8,7 @@ import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
 import { GET_SHOPS } from "../../Hooks/Saga/Constant";
 import { GetShopColumns, Shop } from "../../Modal/GetShops.modal";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./Shops.web.css";
 
 const configJSON = require("../../Constants/Shop");
@@ -85,14 +86,18 @@ const Shops = () => {
               onClick={addShopHandle}
             />
           </Box>
-          <DataTable
-            rows={shops}
-            columns={configJSON.shopColumns}
-            onViewClick={viewShopHandle}
-            onEditClick={editShopHandle}
-            onDeleteClick={deleteBtnClickHandle}
-            isAction={true}
-          />
+          {shops.length === 0 ? (
+            <NoDataFound />
+          ) : (
+            <DataTable
+              rows={shops}
+              columns={configJSON.shopColumns}
+              onViewClick={viewShopHandle}
+              onEditClick={editShopHandle}
+              onDeleteClick={deleteBtnClickHandle}
+              isAction={true}
+            />
+          )}
         </Box>
       </Dashboard>
     </Box>

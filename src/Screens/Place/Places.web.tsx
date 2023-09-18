@@ -13,6 +13,7 @@ import {
 } from "../../Hooks/Saga/Constant";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import { errorToaster, successToaster } from "../../Utils/common";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./Place.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
@@ -122,14 +123,18 @@ const Places = () => {
               onClick={addPlaceHandle}
             />
           </Box>
-          <DataTable
-            rows={places}
-            columns={configJSON.placesCoulmns}
-            onViewClick={viewPlaceClickHandle}
-            onEditClick={editPlaceHandle}
-            onDeleteClick={deleteBtnClickHandle}
-            isAction={true}
-          />
+          {places.length === 0 ? (
+            <NoDataFound />
+          ) : (
+            <DataTable
+              rows={places}
+              columns={configJSON.placesCoulmns}
+              onViewClick={viewPlaceClickHandle}
+              onEditClick={editPlaceHandle}
+              onDeleteClick={deleteBtnClickHandle}
+              isAction={true}
+            />
+          )}
         </Box>
       </Dashboard>
     </Box>

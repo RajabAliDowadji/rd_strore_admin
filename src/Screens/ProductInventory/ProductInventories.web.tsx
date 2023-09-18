@@ -11,6 +11,7 @@ import {
   ProductInventory,
 } from "../../Modal/GetProductInventories.modal";
 import { GET_PRODUCT_INVENTORIES } from "../../Hooks/Saga/Constant";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./ProductInventories.web.css";
 
 const configJSON = require("../../Constants/Products");
@@ -93,14 +94,18 @@ const ProductInventories = () => {
               onClick={addProductiInvHandle}
             />
           </Box>
-          <DataTable
-            rows={productInventories}
-            columns={configJSON.productInvColumns}
-            onViewClick={viewProductInvHandle}
-            onEditClick={editProductInvHandle}
-            onDeleteClick={deleteBtnClickHandle}
-            isAction={true}
-          />
+          {productInventories.length === 0 ? (
+            <NoDataFound />
+          ) : (
+            <DataTable
+              rows={productInventories}
+              columns={configJSON.productInvColumns}
+              onViewClick={viewProductInvHandle}
+              onEditClick={editProductInvHandle}
+              onDeleteClick={deleteBtnClickHandle}
+              isAction={true}
+            />
+          )}
         </Box>
       </Dashboard>
     </Box>

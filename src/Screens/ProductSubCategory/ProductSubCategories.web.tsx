@@ -11,6 +11,7 @@ import {
   ProductSubCategory,
 } from "../../Modal/GetProductSubCategories.modal";
 import { GET_PRODUCT_SUB_CATEGORIES } from "../../Hooks/Saga/Constant";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./ProductSubCategories.web.css";
 
 const configJSON = require("../../Constants/Products");
@@ -85,14 +86,18 @@ const ProductSubCategories = () => {
               onClick={addProductTypeHandle}
             />
           </Box>
-          <DataTable
-            rows={productSubCategories}
-            columns={configJSON.productSubCatColumns}
-            onViewClick={viewProductTypeClickHandle}
-            onEditClick={editProductTypeHandle}
-            onDeleteClick={deleteBtnClickHandle}
-            isAction={true}
-          />
+          {productSubCategories.length === 0 ? (
+            <NoDataFound />
+          ) : (
+            <DataTable
+              rows={productSubCategories}
+              columns={configJSON.productSubCatColumns}
+              onViewClick={viewProductTypeClickHandle}
+              onEditClick={editProductTypeHandle}
+              onDeleteClick={deleteBtnClickHandle}
+              isAction={true}
+            />
+          )}
         </Box>
       </Dashboard>
     </Box>

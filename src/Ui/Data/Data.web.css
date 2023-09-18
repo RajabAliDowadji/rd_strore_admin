@@ -1,0 +1,13 @@
+.noDataImgContainer {
+  width: 100%;
+  text-align: center;
+}
+.noDataFoundImg {
+  height: auto;
+  object-fit: cover;
+}
+.noDataImgTitleTxt {
+  font-size: 24px !important;
+  font-weight: 400 !important;
+  color: var(--gray600) !important;
+}
