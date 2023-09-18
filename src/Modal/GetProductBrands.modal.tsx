@@ -3,7 +3,7 @@ import { ProductSubCategory } from "./GetProductSubCategories.modal";
 export interface GetProductBrandsState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   productBrands: ProductBrand[];
 }
 export interface SuccessResponseState {

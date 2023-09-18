@@ -7,7 +7,7 @@ export interface UserLoginPayload {
 export interface UserLoginState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   isLoginSuccess: boolean;
   userLoginResponse: SuccessResponseState | ErrorResponseState;
 }

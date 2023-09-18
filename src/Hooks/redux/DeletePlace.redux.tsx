@@ -4,7 +4,7 @@ import { DeletePlaceState } from "../../Modal/DeletePlace.modal";
 const initialState = {
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
 } as DeletePlaceState;
 
 const deletePlaceSlice = createSlice({
@@ -16,10 +16,17 @@ const deletePlaceSlice = createSlice({
     },
     deletePlaceSuccess(state, action) {
       state.isLoading = false;
+      state.isError = false;
+      state.message = action.payload.message;
     },
     deletePlaceFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
+      state.isLoading = false;
+    },
+    deletePlaceResetState(state) {
+      state.isError = false;
+      state.message = "";
       state.isLoading = false;
     },
     internalServerFailure(state) {
@@ -33,6 +40,7 @@ export const {
   deletePlace,
   deletePlaceSuccess,
   deletePlaceFailure,
+  deletePlaceResetState,
   internalServerFailure,
 } = deletePlaceSlice.actions;
 

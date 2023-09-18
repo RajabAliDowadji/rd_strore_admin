@@ -4,7 +4,7 @@ import { GetShopsState } from "../../Modal/GetShops.modal";
 const initialState = {
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
   shops: [],
 } as GetShopsState;
 
@@ -16,12 +16,14 @@ const getShopsSlice = createSlice({
       state.isLoading = true;
     },
     getShopsSuccess(state, action) {
-      state.shops = action.payload.data.data;
+      state.shops = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getShopsFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

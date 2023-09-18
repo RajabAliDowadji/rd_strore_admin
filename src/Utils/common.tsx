@@ -1,3 +1,7 @@
+import toast from "react-hot-toast";
+import { Typography } from "@material-ui/core";
+import "./common.css";
+
 export const capatalizeString = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
@@ -20,5 +24,26 @@ export const isImageUpload = (fieldName: string, val: string) => {
     };
   } else {
     return { status: false, message: "" };
+  }
+};
+
+export const successToaster = (message: string) => {
+  if (message) {
+    return toast.success(
+      <Typography className="toasterText">{message}</Typography>,
+      {
+        duration: 3000,
+      }
+    );
+  }
+};
+export const errorToaster = (message: string) => {
+  if (message) {
+    return toast.error(
+      <Typography className="toasterText">{message}</Typography>,
+      {
+        duration: 3000,
+      }
+    );
   }
 };

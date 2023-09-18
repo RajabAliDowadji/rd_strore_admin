@@ -3,7 +3,7 @@ import { Place } from "./GetPlaces.modal";
 export interface GetPlaceState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   place: Place[];
 }
 export interface SuccessResponseState {

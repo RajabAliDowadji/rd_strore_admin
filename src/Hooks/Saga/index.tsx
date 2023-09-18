@@ -16,10 +16,12 @@ import getCommissionsSaga from "./GetCommissions.saga";
 import getProductInventoriesSaga from "./GetProductInventories.saga";
 import getProductRatingsSaga from "./GetProductRatings.saga";
 import deletePlaceSaga from "./DeletePlace.saga";
+import resetStateSaga from "./ResetState.saga";
 
 export default function* rootSaga() {
   yield all([
     fork(userLoginSaga),
+    fork(resetStateSaga),
     //Place Saga Start
     fork(getPlacesSaga),
     fork(getPlaceSaga),

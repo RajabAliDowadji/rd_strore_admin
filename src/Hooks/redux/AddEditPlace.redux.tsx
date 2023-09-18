@@ -5,7 +5,7 @@ const initialState = {
   place: null,
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
 } as AddEditPlacesState;
 
 const addEditPlaceSlice = createSlice({
@@ -16,13 +16,21 @@ const addEditPlaceSlice = createSlice({
       state.isLoading = true;
     },
     addEditPlaceSuccess(state, action) {
-      state.place = action.payload.data.data;
+      state.place = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     addEditPlaceFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
+    },
+    addEditPlaceResetState(state) {
+      state.place = null;
+      state.message = "";
+      state.isLoading = false;
+      state.isError = false;
     },
     internalServerFailure(state) {
       state.isError = true;
@@ -35,6 +43,7 @@ export const {
   addEditPlace,
   addEditPlaceSuccess,
   addEditPlaceFailure,
+  addEditPlaceResetState,
   internalServerFailure,
 } = addEditPlaceSlice.actions;
 

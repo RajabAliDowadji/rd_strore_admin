@@ -1,7 +1,7 @@
 export interface GetPlacesState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   places: Place[];
 }
 export interface SuccessResponseState {

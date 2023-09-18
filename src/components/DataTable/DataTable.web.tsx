@@ -38,7 +38,6 @@ const DataTable = ({
     onDeleteClick(id);
   };
   const booleanValueCell = (value: any) => {
-    console.log("value", value);
     return (
       <>
         {value ? (

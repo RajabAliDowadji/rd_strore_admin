@@ -8,7 +8,12 @@ import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import { GetPlaceResponse } from "../../Modal/GetPlace.modal";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
-import { DELETE_PLACE, GET_PLACE_BY_ID } from "../../Hooks/Saga/Constant";
+import {
+  DELETE_PLACE,
+  GET_PLACE_BY_ID,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
+import { errorToaster, successToaster } from "../../Utils/common";
 import "./Place.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
@@ -61,6 +66,22 @@ const ViewPlace = () => {
     }
   }, [initialData, state]);
 
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_place &&
+      !state.delete_place.isError &&
+      state.delete_place.message !== ""
+    ) {
+      successToaster(state.delete_place.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "delete_place" },
+      });
+    } else if (state && state.delete_place && state.delete_place.isError) {
+      errorToaster(state.delete_place.message);
+    }
+  }, [dispatch, navigate, state]);
   const addPlaceHandle = () => {
     navigate("/places/create");
   };

@@ -3,7 +3,7 @@ import { Place } from "./GetPlaces.modal";
 export interface AddEditPlacesState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   place: Place | null;
 }
 

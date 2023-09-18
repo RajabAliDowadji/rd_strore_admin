@@ -4,7 +4,7 @@ import { UserLoginState } from "../../Modal/UserLogin.modal";
 const initialState = {
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
   isLoginSuccess: false,
   userLoginResponse: {},
 } as UserLoginState;
@@ -17,13 +17,15 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     userLoginSuccess(state, action) {
-      state.userLoginResponse = action.payload.data;
+      state.userLoginResponse = action.payload;
+      state.message = action.payload.message;
       state.isLoginSuccess = true;
       state.isLoading = false;
+      state.isError = false;
     },
     userLoginFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

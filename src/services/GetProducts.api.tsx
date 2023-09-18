@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { getProductsEndPoint, GET, authHeader, publicHeader } from "./Constant";
 
 export const getProductsAPI = () => {
@@ -10,10 +10,16 @@ export const getProductsAPI = () => {
   } else {
     header = publicHeader;
   }
-  const getProductsResponse = axios({
+
+  return axios({
     method: GET,
     url: URL,
     headers: header,
-  });
-  return getProductsResponse;
+  })
+    .then((response: AxiosResponse) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
 };

@@ -4,7 +4,7 @@ import { GetProductSubCategoriesState } from "../../Modal/GetProductSubCategorie
 const initialState = {
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
   productSubCategories: [],
 } as GetProductSubCategoriesState;
 
@@ -16,12 +16,14 @@ const getProductSubCategoriesSlice = createSlice({
       state.isLoading = true;
     },
     getProductSubCategoriesSuccess(state, action) {
-      state.productSubCategories = action.payload.data.data;
+      state.productSubCategories = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getProductSubCategoriesFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

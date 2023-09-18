@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetPlacesState } from "../../Modal/GetPlaces.modal";
+import { GetPlacesState, Place } from "../../Modal/GetPlaces.modal";
 
 const initialState = {
   places: [],
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
 } as GetPlacesState;
 
 const getPlacesSlice = createSlice({
@@ -16,13 +16,20 @@ const getPlacesSlice = createSlice({
       state.isLoading = true;
     },
     getPlacesSuccess(state, action) {
-      state.places = action.payload.data.data;
+      state.places = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getPlacesFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
+    },
+    removePlaceById(state, action) {
+      state.places = state.places.filter(
+        (place: Place) => place._id !== action.payload.id
+      );
     },
     internalServerFailure(state) {
       state.isError = true;
@@ -35,6 +42,7 @@ export const {
   getPlaces,
   getPlacesSuccess,
   getPlacesFailure,
+  removePlaceById,
   internalServerFailure,
 } = getPlacesSlice.actions;
 

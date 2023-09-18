@@ -1,15 +1,20 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { userLoginEndPoint, POST, publicHeader } from "./Constant";
 import { UserLoginPayload } from "../Modal/UserLogin.modal";
 
 export const userLoginAPI = (payload: UserLoginPayload) => {
   const URL = userLoginEndPoint;
 
-  const userLoginResponse = axios({
+  return axios({
     method: POST,
     url: URL,
     headers: publicHeader,
     data: JSON.stringify(payload),
-  });
-  return userLoginResponse;
+  })
+    .then((response: AxiosResponse) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
 };

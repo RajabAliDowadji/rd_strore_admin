@@ -6,8 +6,13 @@ import { Place } from "../../Modal/GetPlaces.modal";
 import { useDispatch, useSelector } from "react-redux";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import { DELETE_PLACE, GET_PLACES } from "../../Hooks/Saga/Constant";
+import {
+  DELETE_PLACE,
+  GET_PLACES,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import { errorToaster, successToaster } from "../../Utils/common";
 import "./Place.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
@@ -18,7 +23,6 @@ const Places = () => {
   const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [places, setPlaces] = useState<Place[]>([]);
-  const [isCall, setIsCall] = useState<boolean>(true);
   const [placeId, setPlaceId] = useState<string>("");
 
   useEffect(() => {
@@ -32,8 +36,7 @@ const Places = () => {
       state &&
       state.get_places &&
       state.get_places.places &&
-      state.get_places.places.length !== 0 &&
-      isCall
+      state.get_places.places.length !== 0
     ) {
       let tempArr: Place[] = [];
       state.get_places.places.map((place: Place) =>
@@ -47,13 +50,36 @@ const Places = () => {
         })
       );
       setPlaces(tempArr);
+    } else if (
+      state &&
+      state.get_places &&
+      state.get_places.places &&
+      state.get_places.places.length === 0
+    ) {
+      setPlaces([]);
     }
-  }, [isCall, state]);
+  }, [state, state.get_places]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_place &&
+      !state.delete_place.isError &&
+      state.delete_place.message !== ""
+    ) {
+      successToaster(state.delete_place.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "delete_place" },
+      });
+    } else if (state && state.delete_place && state.delete_place.isError) {
+      errorToaster(state.delete_place.message);
+    }
+  }, [dispatch, navigate, placeId, places, state]);
 
   const addPlaceHandle = () => {
     navigate("/places/create");
   };
-
   const editPlaceHandle = (id: string) => {
     navigate(`/places/edit/${id}`);
   };
@@ -76,8 +102,6 @@ const Places = () => {
       type: DELETE_PLACE,
       payload: { id: placeId },
     });
-    setIsCall(false);
-    setPlaces(places.filter((place: Place) => place._id !== placeId));
     setModalOpen(false);
   };
 

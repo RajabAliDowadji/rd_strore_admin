@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   getCommissionsEndPoint,
   GET,
@@ -15,10 +15,15 @@ export const getCommissionsAPI = () => {
   } else {
     header = publicHeader;
   }
-  const getCommissionsResponse = axios({
+  return axios({
     method: GET,
     url: URL,
     headers: header,
-  });
-  return getCommissionsResponse;
+  })
+    .then((response: AxiosResponse) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
 };

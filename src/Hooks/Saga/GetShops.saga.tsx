@@ -1,5 +1,4 @@
 import { takeEvery, put } from "redux-saga/effects";
-import { AxiosResponse } from "axios";
 import { GET_SHOPS } from "./Constant";
 import { getShopsAPI } from "../../services/GetShops.api";
 import {
@@ -8,13 +7,14 @@ import {
   getShopsFailure,
   internalServerFailure,
 } from "../redux/GetShops.redux";
+import { SuccessResponseState } from "../../Modal/GetShops.modal";
 
 export function* getShopsAPISaga() {
   yield put(getShops());
-  let result: AxiosResponse;
+  let result: SuccessResponseState;
   try {
     result = yield getShopsAPI();
-    if (result.data.status === 200) {
+    if (result.status === 200) {
       yield put(getShopsSuccess(result));
     } else {
       yield put(getShopsFailure(result));

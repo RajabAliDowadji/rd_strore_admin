@@ -5,7 +5,7 @@ const initialState = {
   place: null,
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
 } as GetPlaceByIdState;
 
 const getPlaceByIdSlice = createSlice({
@@ -16,13 +16,21 @@ const getPlaceByIdSlice = createSlice({
       state.isLoading = true;
     },
     getPlaceByIdSuccess(state, action) {
-      state.place = action.payload.data.data;
+      state.place = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getPlaceByIdFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
+    },
+    getPlaceByIdResetState(state) {
+      state.place = null;
+      state.message = "";
+      state.isLoading = false;
+      state.isError = false;
     },
     internalServerFailure(state) {
       state.isError = true;
@@ -35,6 +43,7 @@ export const {
   getPlaceById,
   getPlaceByIdSuccess,
   getPlaceByIdFailure,
+  getPlaceByIdResetState,
   internalServerFailure,
 } = getPlaceByIdSlice.actions;
 

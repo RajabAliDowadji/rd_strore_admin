@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { placeByIdEndPoint, GET, authHeader, publicHeader } from "./Constant";
 import { GetPlaceByIdPayload } from "../Modal/GetPlaceById.modal";
 
@@ -11,10 +11,15 @@ export const getPlaceByIdAPI = (payload: GetPlaceByIdPayload) => {
   } else {
     header = publicHeader;
   }
-  const addPlaceResponse = axios({
+  return axios({
     method: GET,
     url: URL,
     headers: header,
-  });
-  return addPlaceResponse;
+  })
+    .then((response: AxiosResponse) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
 };

@@ -1,5 +1,4 @@
 import { takeEvery, put } from "redux-saga/effects";
-import { AxiosResponse } from "axios";
 import { DELETE_PLACE } from "./Constant";
 import { deletePlaceAPI } from "../../services/DeletePlace.api";
 import {
@@ -8,7 +7,11 @@ import {
   deletePlaceFailure,
   internalServerFailure,
 } from "../redux/DeletePlace.redux";
-import { deletePlaceByIdPayload } from "../../Modal/DeletePlace.modal";
+import {
+  SuccessResponseState,
+  deletePlaceByIdPayload,
+} from "../../Modal/DeletePlace.modal";
+import { removePlaceById } from "../redux/GetPlaces.redux";
 
 export function* deletePlaceAPISaga({
   payload,
@@ -17,10 +20,11 @@ export function* deletePlaceAPISaga({
   payload: deletePlaceByIdPayload;
 }) {
   yield put(deletePlace());
-  let result: AxiosResponse;
+  let result: SuccessResponseState;
   try {
+    yield put(removePlaceById(payload));
     result = yield deletePlaceAPI(payload);
-    if (result.data.status === 200) {
+    if (result.status === 200) {
       yield put(deletePlaceSuccess(result));
     } else {
       yield put(deletePlaceFailure(result));

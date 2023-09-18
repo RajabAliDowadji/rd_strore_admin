@@ -5,7 +5,7 @@ const initialState = {
   productCategories: [],
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
 } as GetProductCategoriesState;
 
 const getProductCategoriesSlice = createSlice({
@@ -16,12 +16,14 @@ const getProductCategoriesSlice = createSlice({
       state.isLoading = true;
     },
     getProductCategoriesSuccess(state, action) {
-      state.productCategories = action.payload.data.data;
+      state.productCategories = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getProductCategoriesFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

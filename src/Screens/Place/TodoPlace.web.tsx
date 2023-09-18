@@ -8,6 +8,7 @@ import {
   EDIT_PLACE,
   GET_PLACE,
   GET_PLACE_BY_ID,
+  RESET_STATE,
 } from "../../Hooks/Saga/Constant";
 import Dashboard from "../Dashboard/Dashboard.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
@@ -17,6 +18,7 @@ import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
 import { pincodeValidate } from "../../Validations/pincodeValidate.web";
+import { errorToaster, successToaster } from "../../Utils/common";
 import "./Place.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
@@ -38,7 +40,6 @@ const TodoPlace = () => {
   }, []);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [isCall, setIsCall] = useState<boolean>(false);
   const [formData, setFormData] = useState<any>(initialData);
   const [dataError, setDataError] = useState({
     errors: {
@@ -50,8 +51,25 @@ const TodoPlace = () => {
   });
 
   useEffect(() => {
+    if (
+      state &&
+      state.add_edit_place &&
+      state.add_edit_place.place &&
+      state.add_edit_place.place !== null &&
+      !state.add_edit_place.isError &&
+      state.add_edit_place.message !== ""
+    ) {
+      successToaster(state.add_edit_place.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "add_edit_place" },
+      });
+      navigate("/places");
+    }
+  }, [dispatch, navigate, state]);
+
+  useEffect(() => {
     if (id) {
-      setIsCall(true);
       dispatch({
         type: GET_PLACE_BY_ID,
         payload: { id: id },
@@ -65,7 +83,7 @@ const TodoPlace = () => {
       state.get_place_by_id &&
       state.get_place_by_id.place &&
       state.get_place_by_id.place !== null &&
-      isCall
+      id
     ) {
       let temp: GetPlaceResponse = initialData;
       temp.pincode = state.get_place_by_id.place.pincode;
@@ -77,9 +95,10 @@ const TodoPlace = () => {
         ...prev,
         ...temp,
       }));
+    } else if (state.get_place_by_id.isError) {
+      errorToaster(state.get_place_by_id.message);
     }
-  }, [initialData, isCall, state]);
-
+  }, [id, initialData, state]);
   useEffect(() => {
     const route = location.pathname.split("/");
     if (route && route.length > 0) {
@@ -94,22 +113,9 @@ const TodoPlace = () => {
   useEffect(() => {
     if (
       state &&
-      state.add_edit_place &&
-      state.add_edit_place.place &&
-      state.add_edit_place.place !== null &&
-      isCall
-    ) {
-      navigate("/places");
-    }
-  }, [isCall, navigate, state]);
-
-  useEffect(() => {
-    if (
-      state &&
       state.get_place &&
       state.get_place.place &&
-      state.get_place.place.length !== 0 &&
-      isCall
+      state.get_place.place.length !== 0
     ) {
       let temp: GetPlaceResponse = initialData;
       temp.pincode = state.get_place.place[0].pincode;
@@ -121,8 +127,27 @@ const TodoPlace = () => {
         ...prev,
         ...temp,
       }));
+    } else if (state.get_place.isError) {
+      errorToaster(state.get_place.message);
     }
-  }, [initialData, isCall, state]);
+  }, [initialData, state]);
+
+  // useEffect(() => {
+  //   if (
+  //     state &&
+  //     state.delete_place &&
+  //     !state.delete_place.isError &&
+  //     state.delete_place.message !== ""
+  //   ) {
+  //     successToaster(state.delete_place.message);
+  //     dispatch({
+  //       type: RESET_STATE,
+  //       payload: { state: "delete_place" },
+  //     });
+  //   } else if (state && state.delete_place && state.get_place.isError) {
+  //     errorToaster(state.get_place.message);
+  //   }
+  // }, [dispatch, initialData, navigate, state]);
 
   const cancelPlaceHandle = () => {
     navigate("/places");
@@ -150,7 +175,6 @@ const TodoPlace = () => {
     }));
     if (!isValid.status) {
       tempFormData.pincode = event.target.value;
-      setIsCall(true);
       dispatch({
         type: GET_PLACE,
         payload: { pincode: event.target.value },
@@ -180,7 +204,6 @@ const TodoPlace = () => {
         },
       }));
     } else {
-      setIsCall(true);
       if (isEdit) {
         dispatch({
           type: EDIT_PLACE,
@@ -196,7 +219,6 @@ const TodoPlace = () => {
   };
 
   const onDeleteConfirmHandle = () => {
-    setIsCall(true);
     dispatch({
       type: DELETE_PLACE,
       payload: { id: id },

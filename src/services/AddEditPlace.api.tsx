@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   addPlaceEndPoint,
   POST,
@@ -18,13 +18,18 @@ export const addPlaceAPI = (payload: AddPlacePayload) => {
   } else {
     header = publicHeader;
   }
-  const addPlaceResponse = axios({
+  return axios({
     method: POST,
     url: URL,
     headers: header,
     data: JSON.stringify(payload),
-  });
-  return addPlaceResponse;
+  })
+    .then((response: AxiosResponse) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
 };
 
 export const editPlaceAPI = (payload: EditPlacePayload) => {
@@ -36,11 +41,17 @@ export const editPlaceAPI = (payload: EditPlacePayload) => {
   } else {
     header = publicHeader;
   }
-  const addPlaceResponse = axios({
+
+  return axios({
     method: PUT,
     url: URL,
     headers: header,
     data: JSON.stringify(payload.values),
-  });
-  return addPlaceResponse;
+  })
+    .then((response: AxiosResponse) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
 };

@@ -4,7 +4,7 @@ import { GetProductsState } from "../../Modal/GetProducts.modal";
 const initialState = {
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
   products: [],
 } as GetProductsState;
 
@@ -16,12 +16,14 @@ const getProductsSlice = createSlice({
       state.isLoading = true;
     },
     getProductsSuccess(state, action) {
-      state.products = action.payload.data.data;
+      state.products = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getProductsFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

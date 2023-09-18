@@ -1,5 +1,4 @@
 import { takeEvery, put } from "redux-saga/effects";
-import { AxiosResponse } from "axios";
 import { GET_COMMISSIONS } from "./Constant";
 import { getCommissionsAPI } from "../../services/GetCommissions.api";
 import {
@@ -8,13 +7,14 @@ import {
   getCommissionsFailure,
   internalServerFailure,
 } from "../redux/GetCommissions.redux";
+import { SuccessResponseState } from "../../Modal/GetCommissions.modal";
 
 export function* getCommissionsAPISaga() {
   yield put(getCommissions());
-  let result: AxiosResponse;
+  let result: SuccessResponseState;
   try {
     result = yield getCommissionsAPI();
-    if (result.data.status === 200) {
+    if (result.status === 200) {
       yield put(getCommissionsSuccess(result));
     } else {
       yield put(getCommissionsFailure(result));

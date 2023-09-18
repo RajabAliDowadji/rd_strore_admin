@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { getPlacesEndPoint, GET, authHeader, publicHeader } from "./Constant";
 
 export const getPlacesAPI = () => {
@@ -10,10 +10,15 @@ export const getPlacesAPI = () => {
   } else {
     header = publicHeader;
   }
-  const getPlacesResponse = axios({
+  return axios({
     method: GET,
     url: URL,
     headers: header,
-  });
-  return getPlacesResponse;
+  })
+    .then((response: AxiosResponse) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
 };

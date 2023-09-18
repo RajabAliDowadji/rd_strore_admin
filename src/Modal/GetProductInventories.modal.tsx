@@ -3,7 +3,7 @@ import { Product } from "./GetProducts.modal";
 export interface GetProductInventoriesState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   productInventories: ProductInventory[];
 }
 

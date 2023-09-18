@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { getPlaceEndPoint, POST, authHeader, publicHeader } from "./Constant";
 import { AddPlacePayload } from "../Modal/AddEditPlace.modal";
 
@@ -11,11 +11,16 @@ export const getPlaceAPI = (payload: AddPlacePayload) => {
   } else {
     header = publicHeader;
   }
-  const getPlaceResponse = axios({
+  return axios({
     method: POST,
     url: URL,
     headers: header,
     data: JSON.stringify(payload),
-  });
-  return getPlaceResponse;
+  })
+    .then((response: AxiosResponse) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
 };

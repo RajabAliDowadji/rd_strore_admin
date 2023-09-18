@@ -1,0 +1,5 @@
+.toasterText {
+  font-size: 14px !important;
+  color: var(--black) !important;
+  font-family: var(--fontFamily);
+}

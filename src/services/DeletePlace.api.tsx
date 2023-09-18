@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   placeByIdEndPoint,
   DELETE,
@@ -16,10 +16,16 @@ export const deletePlaceAPI = (payload: deletePlaceByIdPayload) => {
   } else {
     header = publicHeader;
   }
-  const addPlaceResponse = axios({
+  return axios({
     method: DELETE,
     url: URL,
     headers: header,
-  });
-  return addPlaceResponse;
+    data: JSON.stringify(payload),
+  })
+    .then((response: AxiosResponse) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
 };

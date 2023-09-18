@@ -4,7 +4,7 @@ import { GetCommissionsState } from "../../Modal/GetCommissions.modal";
 const initialState = {
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
   commissions: [],
 } as GetCommissionsState;
 
@@ -16,12 +16,14 @@ const getCommissionsSlice = createSlice({
       state.isLoading = true;
     },
     getCommissionsSuccess(state, action) {
-      state.commissions = action.payload.data.data;
+      state.commissions = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getCommissionsFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

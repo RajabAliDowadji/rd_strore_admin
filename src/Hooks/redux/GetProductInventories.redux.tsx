@@ -4,7 +4,7 @@ import { GetProductInventoriesState } from "../../Modal/GetProductInventories.mo
 const initialState = {
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
   productInventories: [],
 } as GetProductInventoriesState;
 
@@ -16,12 +16,14 @@ const getProductInventoriesSlice = createSlice({
       state.isLoading = true;
     },
     getProductInventoriesSuccess(state, action) {
-      state.productInventories = action.payload.data.data;
+      state.productInventories = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getProductInventoriesFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

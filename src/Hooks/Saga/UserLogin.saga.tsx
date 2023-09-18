@@ -1,5 +1,4 @@
 import { takeEvery, put } from "redux-saga/effects";
-import { AxiosResponse } from "axios";
 import { USER_LOGIN } from "./Constant";
 import { userLoginAPI } from "../../services/UserLogin.api";
 import {
@@ -8,7 +7,10 @@ import {
   internalServerFailure,
   userLoginSuccess,
 } from "../redux/UserLogin.redux";
-import { UserLoginPayload } from "../../Modal/UserLogin.modal";
+import {
+  SuccessResponseState,
+  UserLoginPayload,
+} from "../../Modal/UserLogin.modal";
 
 export function* userLoginAPISaga({
   payload,
@@ -17,10 +19,10 @@ export function* userLoginAPISaga({
   payload: UserLoginPayload;
 }) {
   yield put(getUserLogin());
-  let result: AxiosResponse;
+  let result: SuccessResponseState;
   try {
     result = yield userLoginAPI(payload);
-    if (result.data.status === 200) {
+    if (result.status === 200) {
       yield put(userLoginSuccess(result));
     } else {
       yield put(userLoginFailure(result));

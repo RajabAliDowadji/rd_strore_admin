@@ -4,7 +4,7 @@ import { ShopCategory } from "./GetShopCategories.modal";
 export interface GetShopsState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   shops: Shop[];
 }
 export interface SuccessResponseState {

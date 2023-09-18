@@ -5,7 +5,7 @@ const initialState = {
   productTypes: [],
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
 } as GetProductTypesState;
 
 const getProductTypesSlice = createSlice({
@@ -16,12 +16,14 @@ const getProductTypesSlice = createSlice({
       state.isLoading = true;
     },
     getProductTypesSuccess(state, action) {
-      state.productTypes = action.payload.data.data;
+      state.productTypes = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getProductTypesFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

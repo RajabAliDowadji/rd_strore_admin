@@ -1,7 +1,7 @@
 export interface GetShopCategoriesState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   shopCategories: ShopCategory[];
 }
 export interface SuccessResponseState {

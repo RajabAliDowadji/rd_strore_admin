@@ -4,7 +4,7 @@ import { Product } from "./GetProducts.modal";
 export interface GetCommissionsState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   commissions: Commission[];
 }
 

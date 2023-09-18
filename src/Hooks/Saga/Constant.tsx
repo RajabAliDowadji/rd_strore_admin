@@ -1,4 +1,5 @@
 export const USER_LOGIN: string = "USER_LOGIN";
+export const RESET_STATE: string = "RESET_STATE";
 // Place API Type Start
 export const GET_PLACES: string = "GET_PLACES";
 export const GET_PLACE: string = "GET_PLACE";

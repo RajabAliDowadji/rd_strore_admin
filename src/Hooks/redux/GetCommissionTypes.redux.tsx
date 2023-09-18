@@ -5,7 +5,7 @@ const initialState = {
   commissionTypes: [],
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
 } as GetCommissionTypesState;
 
 const getCommissionTypesSlice = createSlice({
@@ -16,12 +16,14 @@ const getCommissionTypesSlice = createSlice({
       state.isLoading = true;
     },
     getCommissionTypesSuccess(state, action) {
-      state.commissionTypes = action.payload.data.data;
+      state.commissionTypes = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getCommissionTypesFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

@@ -1,5 +1,4 @@
 import { takeEvery, put } from "redux-saga/effects";
-import { AxiosResponse } from "axios";
 import { ADD_PLACE, EDIT_PLACE } from "./Constant";
 import { addPlaceAPI, editPlaceAPI } from "../../services/AddEditPlace.api";
 import {
@@ -11,6 +10,7 @@ import {
 import {
   AddPlacePayload,
   EditPlacePayload,
+  SuccessResponseState,
 } from "../../Modal/AddEditPlace.modal";
 
 export function* addPlaceAPISaga({
@@ -20,10 +20,10 @@ export function* addPlaceAPISaga({
   payload: AddPlacePayload;
 }) {
   yield put(addEditPlace());
-  let result: AxiosResponse;
+  let result: SuccessResponseState;
   try {
     result = yield addPlaceAPI(payload);
-    if (result.data.status === 201) {
+    if (result.status === 201) {
       yield put(addEditPlaceSuccess(result));
     } else {
       yield put(addEditPlaceFailure(result));
@@ -44,10 +44,10 @@ export function* editPlaceAPISaga({
   payload: EditPlacePayload;
 }) {
   yield put(addEditPlace());
-  let result: AxiosResponse;
+  let result: SuccessResponseState;
   try {
     result = yield editPlaceAPI(payload);
-    if (result.data.status === 200) {
+    if (result.status === 200) {
       yield put(addEditPlaceSuccess(result));
     } else {
       yield put(addEditPlaceFailure(result));

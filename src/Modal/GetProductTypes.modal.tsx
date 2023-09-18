@@ -1,7 +1,7 @@
 export interface GetProductTypesState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   productTypes: ProductType[];
 }
 export interface SuccessResponseState {

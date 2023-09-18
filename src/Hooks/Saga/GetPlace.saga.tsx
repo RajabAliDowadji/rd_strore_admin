@@ -1,5 +1,4 @@
 import { takeEvery, put } from "redux-saga/effects";
-import { AxiosResponse } from "axios";
 import { GET_PLACE } from "./Constant";
 import { getPlaceAPI } from "../../services/GetPlace.api";
 import {
@@ -8,7 +7,10 @@ import {
   getPlaceFailure,
   internalServerFailure,
 } from "../redux/GetPlace.redux";
-import { GetPlacePayload } from "../../Modal/GetPlace.modal";
+import {
+  GetPlacePayload,
+  SuccessResponseState,
+} from "../../Modal/GetPlace.modal";
 
 export function* getPlaceAPISaga({
   payload,
@@ -18,9 +20,9 @@ export function* getPlaceAPISaga({
 }) {
   yield put(getPlace());
   try {
-    let result: AxiosResponse;
+    let result: SuccessResponseState;
     result = yield getPlaceAPI(payload);
-    if ((result.data.status = 200)) {
+    if (result.status === 200) {
       yield put(getPlaceSuccess(result));
     } else {
       yield put(getPlaceFailure(result));

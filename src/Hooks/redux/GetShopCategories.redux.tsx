@@ -5,7 +5,7 @@ const initialState = {
   shopCategories: [],
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
 } as GetShopCategoriesState;
 
 const getShopCategoriesSlice = createSlice({
@@ -16,12 +16,14 @@ const getShopCategoriesSlice = createSlice({
       state.isLoading = true;
     },
     getShopCategoriesSuccess(state, action) {
-      state.shopCategories = action.payload.data.data;
+      state.shopCategories = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getShopCategoriesFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

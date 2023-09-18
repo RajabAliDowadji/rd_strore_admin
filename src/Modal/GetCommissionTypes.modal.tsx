@@ -1,7 +1,7 @@
 export interface GetCommissionTypesState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   commissionTypes: CommissionType[];
 }
 export interface SuccessResponseState {

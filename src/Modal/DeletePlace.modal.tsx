@@ -1,7 +1,7 @@
 export interface DeletePlaceState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
 }
 export interface SuccessResponseState {
   status: number;

@@ -4,7 +4,7 @@ import { ProductSubCategory } from "./GetProductSubCategories.modal";
 export interface GetProductsState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   products: Product[];
 }
 

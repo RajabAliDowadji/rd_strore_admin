@@ -4,7 +4,7 @@ import { GetProductBrandsState } from "../../Modal/GetProductBrands.modal";
 const initialState = {
   isLoading: false,
   isError: false,
-  isErrorMessage: "",
+  message: "",
   productBrands: [],
 } as GetProductBrandsState;
 
@@ -16,12 +16,14 @@ const getProductBrandsSlice = createSlice({
       state.isLoading = true;
     },
     getProductBrandsSuccess(state, action) {
-      state.productBrands = action.payload.data.data;
+      state.productBrands = action.payload.data;
+      state.message = action.payload.message;
       state.isLoading = false;
+      state.isError = false;
     },
     getProductBrandsFailure(state, action) {
       state.isError = true;
-      state.isErrorMessage = action.payload.data.error.message;
+      state.message = action.payload.error.message;
       state.isLoading = false;
     },
     internalServerFailure(state) {

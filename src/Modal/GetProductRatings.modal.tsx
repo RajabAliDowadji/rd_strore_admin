@@ -3,7 +3,7 @@ import { Product } from "./GetProducts.modal";
 export interface GetProductRatingsState {
   isLoading: boolean;
   isError: boolean;
-  isErrorMessage: string;
+  message: string;
   productRatings: ProductRating[];
 }
 export interface SuccessResponseState {
