@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetShopCategoriesState } from "../../Modal/GetShopCategories.modal";
+import {
+  GetShopCategoriesState,
+  ShopCategory,
+} from "../../Modal/GetShopCategories.modal";
 
 const initialState = {
   shopCategories: [],
@@ -26,6 +29,11 @@ const getShopCategoriesSlice = createSlice({
       state.message = action.payload.error.message;
       state.isLoading = false;
     },
+    removeShopCategoryById(state, action) {
+      state.shopCategories = state.shopCategories.filter(
+        (shopCategoey: ShopCategory) => shopCategoey._id !== action.payload.id
+      );
+    },
     internalServerFailure(state) {
       state.isError = true;
       state.isLoading = false;
@@ -37,6 +45,7 @@ export const {
   getShopCategories,
   getShopCategoriesSuccess,
   getShopCategoriesFailure,
+  removeShopCategoryById,
   internalServerFailure,
 } = getShopCategoriesSlice.actions;
 

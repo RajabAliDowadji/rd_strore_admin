@@ -1,5 +1,5 @@
 export const rangeValidate = (lower_range: any, upper_range: any) => {
-  if (upper_range.trim().length === 0 && upper_range.trim() === "") {
+  if (upper_range < 0 || upper_range === 0) {
     return {
       status: true,
       message: `Upper range is required.`,

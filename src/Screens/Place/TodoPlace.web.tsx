@@ -62,7 +62,7 @@ const TodoPlace = () => {
       successToaster(state.add_edit_place.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "add_edit_place" },
+        payload: { state: "place" },
       });
       navigate("/places");
     }
@@ -132,22 +132,22 @@ const TodoPlace = () => {
     }
   }, [initialData, state]);
 
-  // useEffect(() => {
-  //   if (
-  //     state &&
-  //     state.delete_place &&
-  //     !state.delete_place.isError &&
-  //     state.delete_place.message !== ""
-  //   ) {
-  //     successToaster(state.delete_place.message);
-  //     dispatch({
-  //       type: RESET_STATE,
-  //       payload: { state: "delete_place" },
-  //     });
-  //   } else if (state && state.delete_place && state.get_place.isError) {
-  //     errorToaster(state.get_place.message);
-  //   }
-  // }, [dispatch, initialData, navigate, state]);
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_place &&
+      !state.delete_place.isError &&
+      state.delete_place.message !== ""
+    ) {
+      successToaster(state.delete_place.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "place" },
+      });
+    } else if (state && state.delete_place && state.get_place.isError) {
+      errorToaster(state.get_place.message);
+    }
+  }, [dispatch, initialData, navigate, state]);
 
   const cancelPlaceHandle = () => {
     navigate("/places");

@@ -29,8 +29,19 @@ export const placeByIdEndPoint = (id: string) => {
 };
 // Place End Point End
 
-export const Product_END_POINT = "rd_admin/product/";
+// Shop Category End Point Start
 export const Get_Shop_Categories_END_POINT = "rd_admin/shop_categories";
+export const Get_Shop_Category_By_Id_END_POINT = "rd_admin/shop_category/";
+export const Add_Shop_Category_END_POINT = "rd_admin/shop_category/create";
+export const getShopCategoriesEndPoint =
+  BASE_URL + Get_Shop_Categories_END_POINT;
+export const shopCategoryByIdEndPoint = (id: string) => {
+  return BASE_URL + Get_Shop_Category_By_Id_END_POINT + id;
+};
+export const addShopCategoryEndPoint = BASE_URL + Add_Shop_Category_END_POINT;
+
+// Shop Category End Point End
+export const Product_END_POINT = "rd_admin/product/";
 export const Get_Commission_Types_END_POINT = "rd_admin/commissiontypes";
 export const Get_Product_Types_END_POINT = "types";
 export const Get_Product_Categories_END_POINT = "categories";
@@ -43,9 +54,6 @@ export const Get_Product_Rating_END_POINT = "product/ratings";
 export const Get_Product_Inventories_END_POINT = "inventories";
 
 export const userLoginEndPoint = BASE_URL + Login_END_POINT;
-
-export const getShopCategoriesEndPoint =
-  BASE_URL + Get_Shop_Categories_END_POINT;
 
 export const getCommissionTypesEndPoint =
   BASE_URL + Get_Commission_Types_END_POINT;

@@ -4,6 +4,9 @@ import { addEditPlaceResetState } from "../redux/AddEditPlace.redux";
 import { deletePlaceResetState } from "../redux/DeletePlace.redux";
 import { getPlaceByIdResetState } from "../redux/GetPlaceById.redux";
 import { getPlaceResetState } from "../redux/GetPlace.redux";
+import { deleteShopCategoryResetState } from "../redux/DeleteShopCategory.redux";
+import { addEditShopCategoryResetState } from "../redux/AddEditShopCategory.redux";
+import { getShopCategoryByIdResetState } from "../redux/GetShopCategoryById.redux";
 
 export function* resetStateAPISaga({
   payload,
@@ -11,12 +14,15 @@ export function* resetStateAPISaga({
   type: string;
   payload: any;
 }) {
-  if (payload.state === "add_edit_place") {
+  if (payload.state === "place") {
     yield put(addEditPlaceResetState());
     yield put(getPlaceByIdResetState());
     yield put(getPlaceResetState());
-  } else if (payload.state === "delete_place") {
     yield put(deletePlaceResetState());
+  } else if (payload.state === "shop_category") {
+    yield put(addEditShopCategoryResetState());
+    yield put(getShopCategoryByIdResetState());
+    yield put(deleteShopCategoryResetState());
   }
 }
 

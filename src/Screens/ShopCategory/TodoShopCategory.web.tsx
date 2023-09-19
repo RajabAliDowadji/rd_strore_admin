@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import Dashboard from "../Dashboard/Dashboard.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
@@ -7,24 +7,42 @@ import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
-import { isEmpty } from "../../Utils/common";
+import {
+  errorToaster,
+  isEmpty,
+  isNumEmpty,
+  successToaster,
+} from "../../Utils/common";
 import { rangeValidate } from "../../Validations/rangeValidate.web";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  DELETE_SHOP_CATEGORY,
+  GET_SHOP_CATEGORY_BY_ID,
+  RESET_STATE,
+  ADD_SHOP_CATEGORY,
+  EDIT_SHOP_CATEGORY,
+} from "../../Hooks/Saga/Constant";
+import { GetShopCategoryByIdResponse } from "../../Modal/GetShopCategoryById.modal";
 import "./ShopCategories.web.css";
 
 const configJSON = require("../../Constants/Shop");
 
 const TodoShopCategory = () => {
-  const initialData = {
-    category_name: "",
-    lower_range: "",
-    upper_range: "",
-  };
+  let { id } = useParams();
+  const initialData = useMemo(() => {
+    return {
+      category_name: "",
+      lower_range: 0,
+      upper_range: 0,
+    };
+  }, []);
   const navigate = useNavigate();
   const location = useLocation();
-  let { id } = useParams();
+  const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialData);
+  const state = useSelector((state: any) => state);
   const [dataError, setDataError] = useState({
     errors: {
       category_name: false,
@@ -37,6 +55,76 @@ const TodoShopCategory = () => {
       upper_range: "",
     },
   });
+  useEffect(() => {
+    if (id) {
+      dispatch({
+        type: GET_SHOP_CATEGORY_BY_ID,
+        payload: { id: id },
+      });
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_shop_category_by_id &&
+      state.get_shop_category_by_id.shopCategory &&
+      state.get_shop_category_by_id.shopCategory !== null
+    ) {
+      let temp: GetShopCategoryByIdResponse = initialData;
+      temp._id = state.get_shop_category_by_id.shopCategory._id;
+      temp.category_name =
+        state.get_shop_category_by_id.shopCategory.category_name;
+      temp.lower_range = state.get_shop_category_by_id.shopCategory.lower_range;
+      temp.upper_range = state.get_shop_category_by_id.shopCategory.upper_range;
+      setFormData((prev: GetShopCategoryByIdResponse) => ({
+        ...prev,
+        ...temp,
+      }));
+    } else if (state.get_shop_category_by_id.isError) {
+      errorToaster(state.get_shop_category_by_id.message);
+    }
+  }, [initialData, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_shop_category &&
+      !state.delete_shop_category.isError &&
+      state.delete_shop_category.message !== ""
+    ) {
+      successToaster(state.delete_shop_category.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "shop_category" },
+      });
+    } else if (
+      state &&
+      state.delete_shop_category &&
+      state.delete_shop_category.isError
+    ) {
+      errorToaster(state.delete_shop_category.message);
+    }
+  }, [dispatch, navigate, id, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.add_edit_shop_category &&
+      state.add_edit_shop_category.shopCategory &&
+      state.add_edit_shop_category.shopCategory !== null &&
+      !state.add_edit_shop_category.isError &&
+      state.add_edit_shop_category.message !== ""
+    ) {
+      successToaster(state.add_edit_shop_category.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "shop_category" },
+      });
+      navigate("/shop-categories");
+    }
+  }, [dispatch, navigate, state]);
+
   useEffect(() => {
     const route = location.pathname.split("/");
     if (route && route.length > 0) {
@@ -61,8 +149,11 @@ const TodoShopCategory = () => {
   };
 
   const onDeleteConfirmHandle = () => {
+    dispatch({
+      type: DELETE_SHOP_CATEGORY,
+      payload: { id: id },
+    });
     navigate("/shop-categories");
-    //TODO DELETE SHOP CATEGORY API CALL
   };
 
   const inputChangeHandle = (fieldName: string, event: any) => {
@@ -84,7 +175,7 @@ const TodoShopCategory = () => {
   const formSubmitHandle = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const isCategoryValid = isEmpty("Category name", formData.category_name);
-    const isLowerRangeValid = isEmpty("Lower range", formData.lower_range);
+    const isLowerRangeValid = isNumEmpty("Lower range", formData.lower_range);
     let isUpperRangeValid = rangeValidate(
       formData.lower_range,
       formData.upper_range
@@ -111,11 +202,15 @@ const TodoShopCategory = () => {
       }));
     } else {
       if (isEdit) {
-        // TODO UPDATE shopCategory API CALL
-        navigate("/shop-categories");
+        dispatch({
+          type: EDIT_SHOP_CATEGORY,
+          payload: { id: id, values: formData },
+        });
       } else {
-        // TODO CREATE shopCategory API CALL
-        navigate("/shop-categories");
+        dispatch({
+          type: ADD_SHOP_CATEGORY,
+          payload: formData,
+        });
       }
     }
   };
@@ -156,7 +251,7 @@ const TodoShopCategory = () => {
                 type="number"
                 label="Lower range"
                 name="lower_range"
-                value={formData.lower_range}
+                value={formData.lower_range.toString()}
                 error={dataError.errors.lower_range}
                 errorText={dataError.errorMsg.lower_range}
                 onChange={inputChangeHandle.bind(this, "Lower range")}
@@ -168,7 +263,7 @@ const TodoShopCategory = () => {
                 type="number"
                 label="Upper range"
                 name="upper_range"
-                value={formData.upper_range}
+                value={formData.upper_range.toString()}
                 error={dataError.errors.upper_range}
                 errorText={dataError.errorMsg.upper_range}
                 onChange={inputChangeHandle.bind(this, "Upper range")}

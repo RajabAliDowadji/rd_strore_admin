@@ -16,6 +16,17 @@ export const isEmpty = (fieldName: string, val: string) => {
     return { status: false, message: "" };
   }
 };
+
+export const isNumEmpty = (fieldName: string, val: number) => {
+  if (val < 0 || val === 0) {
+    return {
+      status: true,
+      message: `${capatalizeString(fieldName)} is required.`,
+    };
+  } else {
+    return { status: false, message: "" };
+  }
+};
 export const isImageUpload = (fieldName: string, val: string) => {
   if (val.trim().length === 0 && val.trim() === "") {
     return {

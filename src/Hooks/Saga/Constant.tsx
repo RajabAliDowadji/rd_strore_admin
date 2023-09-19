@@ -8,7 +8,15 @@ export const ADD_PLACE: string = "ADD_PLACE";
 export const EDIT_PLACE: string = "EDIT_PLACE";
 export const DELETE_PLACE: string = "DELETE_PLACE";
 // Place API Type End
+
+// Shop Category API Type Start
 export const GET_SHOP_CATEGORIES: string = "GET_SHOP_CATEGORIES";
+export const GET_SHOP_CATEGORY_BY_ID: string = "GET_SHOP_CATEGORY_BY_ID";
+export const DELETE_SHOP_CATEGORY: string = "DELETE_SHOP_CATEGORY";
+export const ADD_SHOP_CATEGORY: string = "ADD_SHOP_CATEGORY";
+export const EDIT_SHOP_CATEGORY: string = "EDIT_SHOP_CATEGORY";
+// Shop Category API Type Start
+
 export const GET_COMMISSION_TYPES: string = "GET_COMMISSION_TYPES";
 export const GET_PRODUCT_TYPES: string = "GET_PRODUCT_TYPES";
 export const GET_PRODUCT_CATEGORIES: string = "GET_PRODUCT_CATEGORIES";

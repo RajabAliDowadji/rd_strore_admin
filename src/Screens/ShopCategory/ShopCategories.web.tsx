@@ -7,9 +7,14 @@ import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
 import { ShopCategory } from "../../Modal/GetShopCategories.modal";
-import { GET_SHOP_CATEGORIES } from "../../Hooks/Saga/Constant";
+import {
+  DELETE_SHOP_CATEGORY,
+  GET_SHOP_CATEGORIES,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import "./ShopCategories.web.css";
 import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import { errorToaster, successToaster } from "../../Utils/common";
 
 const configJSON = require("../../Constants/Shop");
 
@@ -19,6 +24,7 @@ const ShopCategories = () => {
   const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [shopCategories, setShopCategories] = useState<ShopCategory[]>([]);
+  const [id, setId] = useState<string>("");
   useEffect(() => {
     dispatch({
       type: GET_SHOP_CATEGORIES,
@@ -42,8 +48,37 @@ const ShopCategories = () => {
           })
       );
       setShopCategories(tempArr);
+    } else if (
+      state &&
+      state.get_shop_categories &&
+      state.get_shop_categories.shopCategories &&
+      state.get_shop_categories.shopCategories.length === 0
+    ) {
+      setShopCategories([]);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_shop_category &&
+      !state.delete_shop_category.isError &&
+      state.delete_shop_category.message !== ""
+    ) {
+      successToaster(state.delete_shop_category.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "shop_category" },
+      });
+    } else if (
+      state &&
+      state.delete_shop_category &&
+      state.delete_shop_category.isError
+    ) {
+      errorToaster(state.delete_shop_category.message);
+    }
+  }, [dispatch, navigate, id, state]);
+
   const addShopCategoryHandle = () => {
     navigate("/shop-categories/create");
   };
@@ -53,16 +88,19 @@ const ShopCategories = () => {
   const viewShopCategoryHandle = (id: string) => {
     navigate(`/shop-categories/view/${id}`);
   };
-  const deleteBtnClickHandle = () => {
+  const deleteBtnClickHandle = (id: string) => {
+    setId(id);
     setModalOpen(true);
   };
   const modalHandleClose = () => {
     setModalOpen(false);
   };
   const onDeleteConfirmHandle = () => {
-    navigate("/shop-categories");
+    dispatch({
+      type: DELETE_SHOP_CATEGORY,
+      payload: { id: id },
+    });
     setModalOpen(false);
-    //TODO DELETE SHOP CATEGORY API CALL
   };
   return (
     <Box>

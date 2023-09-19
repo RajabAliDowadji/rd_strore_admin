@@ -71,7 +71,7 @@ const Places = () => {
       successToaster(state.delete_place.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "delete_place" },
+        payload: { state: "place" },
       });
     } else if (state && state.delete_place && state.delete_place.isError) {
       errorToaster(state.delete_place.message);
