@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import Dashboard from "../Dashboard/Dashboard.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
@@ -7,20 +7,32 @@ import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
-import { isEmpty } from "../../Utils/common";
-
+import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_PRODUCT_TYPE,
+  DELETE_PRODUCT_TYPE,
+  EDIT_PRODUCT_TYPE,
+  GET_PRODUCT_TYPE_BY_ID,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
+import { GetProductTypeByIdResponse } from "../../Modal/GetProductTypeById.modal";
 import "./ProductTypes.web.css";
 
 const configJSON = require("../../Constants/Products");
 
 const TodoProductType = () => {
-  const initialData = {
-    type_name: "",
-    search_name: "",
-  };
+  const initialData = useMemo(() => {
+    return {
+      type_name: "",
+      search_name: "",
+    };
+  }, []);
   let { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialData);
@@ -32,6 +44,73 @@ const TodoProductType = () => {
       type_name: "",
     },
   });
+
+  useEffect(() => {
+    if (
+      state &&
+      state.add_edit_product_type &&
+      state.add_edit_product_type.productType &&
+      state.add_edit_product_type.productType !== null &&
+      !state.add_edit_product_type.isError &&
+      state.add_edit_product_type.message !== ""
+    ) {
+      successToaster(state.add_edit_product_type.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product_type" },
+      });
+      navigate("/product-types");
+    }
+  }, [dispatch, navigate, state]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch({
+        type: GET_PRODUCT_TYPE_BY_ID,
+        payload: { id: id },
+      });
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_product_type_by_id &&
+      state.get_product_type_by_id.productType &&
+      state.get_product_type_by_id.productType !== null
+    ) {
+      let temp: GetProductTypeByIdResponse = initialData;
+      temp._id = state.get_product_type_by_id.productType._id;
+      temp.type_name = state.get_product_type_by_id.productType.type_name;
+      temp.search_name = state.get_product_type_by_id.productType.search_name;
+      setFormData((prev: GetProductTypeByIdResponse) => ({
+        ...prev,
+        ...temp,
+      }));
+    }
+  }, [initialData, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_product_type &&
+      !state.delete_product_type.isError &&
+      state.delete_product_type.message !== ""
+    ) {
+      successToaster(state.delete_product_type.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product_type" },
+      });
+    } else if (
+      state &&
+      state.delete_product_type &&
+      state.delete_product_type.isError
+    ) {
+      errorToaster(state.delete_product_type.message);
+    }
+  }, [dispatch, navigate, state]);
+
   useEffect(() => {
     const route = location.pathname.split("/");
     if (route && route.length > 0) {
@@ -53,6 +132,14 @@ const TodoProductType = () => {
     setModalOpen(false);
   };
 
+  const onDeleteConfirmHandle = () => {
+    dispatch({
+      type: DELETE_PRODUCT_TYPE,
+      payload: { id: id },
+    });
+    navigate("/product-types");
+  };
+
   const inputChangeHandle = (fieldName: string, event: any) => {
     let isValid = isEmpty(fieldName, event.target.value);
     setFormData((prev) => ({
@@ -68,12 +155,14 @@ const TodoProductType = () => {
       },
     }));
   };
+
   const optionalInputChangeHandle = (event: any) => {
     setFormData((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }));
   };
+
   const formSubmitHandle = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const isProdTypeValid = isEmpty("Product type", formData.type_name);
@@ -91,18 +180,17 @@ const TodoProductType = () => {
       }));
     } else {
       if (isEdit) {
-        // TODO UPDATE shopCategory API CALL
-        navigate("/product-types");
+        dispatch({
+          type: EDIT_PRODUCT_TYPE,
+          payload: { id: id, values: formData },
+        });
       } else {
-        // TODO CREATE shopCategory API CALL
-        navigate("/product-types");
+        dispatch({
+          type: ADD_PRODUCT_TYPE,
+          payload: formData,
+        });
       }
     }
-  };
-
-  const onDeleteConfirmHandle = () => {
-    navigate("/product-types");
-    //TODO DELETE PLACE API CALL
   };
   return (
     <Box>

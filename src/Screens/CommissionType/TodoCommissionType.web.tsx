@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import Dashboard from "../Dashboard/Dashboard.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
@@ -7,20 +7,32 @@ import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
-import { isEmpty } from "../../Utils/common";
-
+import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_COMMISSION_TYPE,
+  DELETE_COMMISSION_TYPE,
+  EDIT_COMMISSION_TYPE,
+  GET_COMMISSION_TYPE_BY_ID,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
+import { GetCommissionTypeByIdResponse } from "../../Modal/GetCommissionTypeById.modal";
 import "./CommissionTypes.web.css";
 
 const configJSON = require("../../Constants/Commission");
 
 const TodoCommissionType = () => {
-  const initialData = {
-    commission_name: "",
-    commission_sign: "",
-  };
+  const initialData = useMemo(() => {
+    return {
+      commission_name: "",
+      commission_sign: "",
+    };
+  }, []);
   const navigate = useNavigate();
   const location = useLocation();
   let { id } = useParams();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialData);
@@ -34,6 +46,74 @@ const TodoCommissionType = () => {
       commission_sign: "",
     },
   });
+  useEffect(() => {
+    if (
+      state &&
+      state.add_edit_commission_type &&
+      state.add_edit_commission_type.commissionType &&
+      state.add_edit_commission_type.commissionType !== null &&
+      !state.add_edit_commission_type.isError &&
+      state.add_edit_commission_type.message !== ""
+    ) {
+      successToaster(state.add_edit_commission_type.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "commission_type" },
+      });
+      navigate("/commission-types");
+    }
+  }, [dispatch, navigate, state]);
+  useEffect(() => {
+    if (id) {
+      dispatch({
+        type: GET_COMMISSION_TYPE_BY_ID,
+        payload: { id: id },
+      });
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_commission_type &&
+      !state.delete_commission_type.isError &&
+      state.delete_commission_type.message !== ""
+    ) {
+      successToaster(state.delete_commission_type.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "commission_type" },
+      });
+    } else if (
+      state &&
+      state.delete_commission_type &&
+      state.delete_commission_type.isError
+    ) {
+      errorToaster(state.delete_commission_type.message);
+    }
+  }, [dispatch, navigate, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_commission_type_by_id &&
+      state.get_commission_type_by_id.commissionType &&
+      state.get_commission_type_by_id.commissionType !== null
+    ) {
+      let temp: GetCommissionTypeByIdResponse = initialData;
+      temp.commission_name =
+        state.get_commission_type_by_id.commissionType.commission_name;
+      temp.commission_sign =
+        state.get_commission_type_by_id.commissionType.commission_sign;
+      setFormData((prev: GetCommissionTypeByIdResponse) => ({
+        ...prev,
+        ...temp,
+      }));
+    } else if (state.get_commission_type_by_id.isError) {
+      errorToaster(state.get_commission_type_by_id.message);
+    }
+  }, [id, initialData, state]);
+
   useEffect(() => {
     const route = location.pathname.split("/");
     if (route && route.length > 0) {
@@ -58,6 +138,10 @@ const TodoCommissionType = () => {
   };
 
   const onDeleteConfirmHandle = () => {
+    dispatch({
+      type: DELETE_COMMISSION_TYPE,
+      payload: { id: id },
+    });
     navigate("/commission-types");
     //TODO DELETE SHOP CATEGORY API CALL
   };
@@ -104,11 +188,15 @@ const TodoCommissionType = () => {
       }));
     } else {
       if (isEdit) {
-        // TODO UPDATE COMMISSION TYPE API CALL
-        navigate("/commission-types");
+        dispatch({
+          type: EDIT_COMMISSION_TYPE,
+          payload: { id: id, values: formData },
+        });
       } else {
-        // TODO CREATE COMMISSION TYPE API CALL
-        navigate("/commission-types");
+        dispatch({
+          type: ADD_COMMISSION_TYPE,
+          payload: formData,
+        });
       }
     }
   };

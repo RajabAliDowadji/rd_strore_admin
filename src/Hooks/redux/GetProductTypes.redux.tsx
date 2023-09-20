@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GetProductTypesState } from "../../Modal/GetProductTypes.modal";
+import { ProductType } from "../../Modal/GetProductCategories.modal";
 
 const initialState = {
   productTypes: [],
@@ -26,6 +27,11 @@ const getProductTypesSlice = createSlice({
       state.message = action.payload.error.message;
       state.isLoading = false;
     },
+    removeProductTypeById(state, action) {
+      state.productTypes = state.productTypes.filter(
+        (productType: ProductType) => productType._id !== action.payload.id
+      );
+    },
     internalServerFailure(state) {
       state.isError = true;
       state.isLoading = false;
@@ -37,6 +43,7 @@ export const {
   getProductTypes,
   getProductTypesSuccess,
   getProductTypesFailure,
+  removeProductTypeById,
   internalServerFailure,
 } = getProductTypesSlice.actions;
 

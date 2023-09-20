@@ -6,10 +6,15 @@ import Dashboard from "../Dashboard/Dashboard.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import { GET_COMMISSION_TYPES } from "../../Hooks/Saga/Constant";
+import {
+  GET_COMMISSION_TYPES,
+  RESET_STATE,
+  DELETE_COMMISSION_TYPE,
+} from "../../Hooks/Saga/Constant";
 import { CommissionType } from "../../Modal/GetCommissionTypes.modal";
 import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./CommissionTypes.web.css";
+import { errorToaster, successToaster } from "../../Utils/common";
 
 const configJSON = require("../../Constants/Commission");
 
@@ -19,6 +24,7 @@ const CommissionTypes = () => {
   const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [commissionTypes, setCommissionTypes] = useState<CommissionType[]>([]);
+  const [id, setId] = useState<string>("");
   useEffect(() => {
     dispatch({
       type: GET_COMMISSION_TYPES,
@@ -41,8 +47,37 @@ const CommissionTypes = () => {
           })
       );
       setCommissionTypes(tempArr);
+    } else if (
+      state &&
+      state.get_commission_types &&
+      state.get_commission_types.commissionTypes &&
+      state.get_commission_types.commissionTypes.length === 0
+    ) {
+      setCommissionTypes([]);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_commission_type &&
+      !state.delete_commission_type.isError &&
+      state.delete_commission_type.message !== ""
+    ) {
+      successToaster(state.delete_commission_type.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "commission_type" },
+      });
+    } else if (
+      state &&
+      state.delete_commission_type &&
+      state.delete_commission_type.isError
+    ) {
+      errorToaster(state.delete_commission_type.message);
+    }
+  }, [dispatch, navigate, state]);
+
   const addCommissionTypeHandle = () => {
     navigate("/commission-types/create");
   };
@@ -52,16 +87,19 @@ const CommissionTypes = () => {
   const viewCommissionTypeHandle = (id: string) => {
     navigate(`/commission-types/view/${id}`);
   };
-  const deleteBtnClickHandle = () => {
+  const deleteBtnClickHandle = (id: string) => {
+    setId(id);
     setModalOpen(true);
   };
   const modalHandleClose = () => {
     setModalOpen(false);
   };
   const onDeleteConfirmHandle = () => {
-    navigate("/commission-types");
+    dispatch({
+      type: DELETE_COMMISSION_TYPE,
+      payload: { id: id },
+    });
     setModalOpen(false);
-    //TODO DELETE COMMISSION TYPE API CALL
   };
   return (
     <Box>

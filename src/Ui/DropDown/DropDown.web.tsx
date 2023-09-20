@@ -17,6 +17,8 @@ interface dropDownProps {
   placeholder: string;
   error?: boolean;
   errorText?: string;
+  labelField?: string;
+  valueField?: string;
   onChange: any;
 }
 const DropDown = ({
@@ -31,6 +33,8 @@ const DropDown = ({
   placeholder,
   error,
   errorText,
+  labelField,
+  valueField,
   onChange,
 }: dropDownProps) => {
   return (
@@ -43,10 +47,12 @@ const DropDown = ({
         options={data}
         disabled={disabled}
         clearable={clearable}
-        values={data.filter((data: any) => values.includes(data.value))}
+        values={data.filter((data: any) => values.includes(data._id))}
         onChange={onChange}
         color={Colors.primary500}
         placeholder={placeholder}
+        labelField={labelField}
+        valueField={valueField}
         className={`dropDown ${error && `error`} `}
       />
       {error && <Typography className="errorText">{errorText}</Typography>}

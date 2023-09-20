@@ -10,6 +10,7 @@ export const dropDownValidate = (fieldName: string, values: any) => {
     return {
       status: false,
       message: "",
+      value: values[0].value,
     };
   }
 };

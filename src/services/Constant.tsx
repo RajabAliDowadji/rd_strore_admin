@@ -41,10 +41,50 @@ export const shopCategoryByIdEndPoint = (id: string) => {
 export const addShopCategoryEndPoint = BASE_URL + Add_Shop_Category_END_POINT;
 
 // Shop Category End Point End
-export const Product_END_POINT = "rd_admin/product/";
+
+// Commission Type End Point Start
 export const Get_Commission_Types_END_POINT = "rd_admin/commissiontypes";
+export const Get_Commission_Type_By_Id_END_POINT = "rd_admin/commissiontype/";
+export const Add_Commission_Type_END_POINT = "rd_admin/commissiontype/create";
+export const getCommissionTypesEndPoint =
+  BASE_URL + Get_Commission_Types_END_POINT;
+export const commissionTypeByIdEndPoint = (id: string) => {
+  return BASE_URL + Get_Commission_Type_By_Id_END_POINT + id;
+};
+export const addCommissionTypeEndPoint =
+  BASE_URL + Add_Commission_Type_END_POINT;
+// Commission Type End Point Start
+
+// Product Type End Point Start
+export const Product_END_POINT = "rd_admin/product/";
 export const Get_Product_Types_END_POINT = "types";
+export const Add_Product_Type_END_POINT = "type/create";
+export const Get_Product_Type_By_Id_END_POINT = "type/";
+export const getProductTypesEndPoint =
+  BASE_URL + Product_END_POINT + Get_Product_Types_END_POINT;
+export const productTypeByIdEndPoint = (id: string) => {
+  return BASE_URL + Product_END_POINT + Get_Product_Type_By_Id_END_POINT + id;
+};
+export const addProductTypeEndPoint =
+  BASE_URL + Product_END_POINT + Add_Product_Type_END_POINT;
+// Product Type End Point End
+
+// Product Category End Point Start
+
 export const Get_Product_Categories_END_POINT = "categories";
+export const Add_Product_Category_END_POINT = "category/create";
+export const Get_Product_Category_By_Id_END_POINT = "category/";
+export const getProductCategoriesEndPoint =
+  BASE_URL + Product_END_POINT + Get_Product_Categories_END_POINT;
+export const productCategoryByIdEndPoint = (id: string) => {
+  return (
+    BASE_URL + Product_END_POINT + Get_Product_Category_By_Id_END_POINT + id
+  );
+};
+export const addProductCategoryEndPoint =
+  BASE_URL + Product_END_POINT + Add_Product_Category_END_POINT;
+// Product Category End Point End
+
 export const Get_Product_Sub_Categories_END_POINT = "sub_categories";
 export const Get_Product_Brands_END_POINT = "brands";
 export const Get_Shops_END_POINT = "rd_admin/shops";
@@ -54,15 +94,6 @@ export const Get_Product_Rating_END_POINT = "product/ratings";
 export const Get_Product_Inventories_END_POINT = "inventories";
 
 export const userLoginEndPoint = BASE_URL + Login_END_POINT;
-
-export const getCommissionTypesEndPoint =
-  BASE_URL + Get_Commission_Types_END_POINT;
-
-export const getProductTypesEndPoint =
-  BASE_URL + Product_END_POINT + Get_Product_Types_END_POINT;
-
-export const getProductCategoriesEndPoint =
-  BASE_URL + Product_END_POINT + Get_Product_Categories_END_POINT;
 
 export const getProductSubCategoriesEndPoint =
   BASE_URL + Product_END_POINT + Get_Product_Sub_Categories_END_POINT;

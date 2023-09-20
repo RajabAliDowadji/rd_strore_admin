@@ -10,8 +10,13 @@ import {
   ProductCategory,
   GetProductCategoriesColumns,
 } from "../../Modal/GetProductCategories.modal";
-import { GET_PRODUCT_CATEGORIES } from "../../Hooks/Saga/Constant";
+import {
+  DELETE_PRODUCT_CATEGORY,
+  GET_PRODUCT_CATEGORIES,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import { errorToaster, successToaster } from "../../Utils/common";
 import "./ProductCategories.web.css";
 
 const configJSON = require("../../Constants/Products");
@@ -24,11 +29,13 @@ const ProductCategories = () => {
   const [productCategories, setProductCategories] = useState<
     GetProductCategoriesColumns[]
   >([]);
+  const [id, setId] = useState<string>("");
   useEffect(() => {
     dispatch({
       type: GET_PRODUCT_CATEGORIES,
     });
   }, [dispatch]);
+
   useEffect(() => {
     if (
       state &&
@@ -47,8 +54,37 @@ const ProductCategories = () => {
           })
       );
       setProductCategories(tempArr);
+    } else if (
+      state &&
+      state.get_product_categories &&
+      state.get_product_categories.productCategories &&
+      state.get_product_categories.productCategories.length === 0
+    ) {
+      setProductCategories([]);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_product_category &&
+      !state.delete_product_category.isError &&
+      state.delete_product_category.message !== ""
+    ) {
+      successToaster(state.delete_product_category.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product_category" },
+      });
+    } else if (
+      state &&
+      state.delete_product_category &&
+      state.delete_product_category.isError
+    ) {
+      errorToaster(state.delete_product_category.message);
+    }
+  }, [dispatch, navigate, state]);
+
   const addProductTypeHandle = () => {
     navigate("/product-categories/create");
   };
@@ -58,16 +94,19 @@ const ProductCategories = () => {
   const viewProductTypeClickHandle = (id: string) => {
     navigate(`/product-categories/view/${id}`);
   };
-  const deleteBtnClickHandle = () => {
+  const deleteBtnClickHandle = (id: string) => {
+    setId(id);
     setModalOpen(true);
   };
   const modalHandleClose = () => {
     setModalOpen(false);
   };
   const onDeleteConfirmHandle = () => {
-    navigate("/product-categories");
+    dispatch({
+      type: DELETE_PRODUCT_CATEGORY,
+      payload: { id: id },
+    });
     setModalOpen(false);
-    //TODO DELETE PRODUCT TYPE API CALL
   };
   return (
     <Box>

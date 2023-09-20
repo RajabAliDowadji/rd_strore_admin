@@ -7,8 +7,13 @@ import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
 import { ProductType } from "../../Modal/GetProductTypes.modal";
-import { GET_PRODUCT_TYPES } from "../../Hooks/Saga/Constant";
+import {
+  DELETE_PRODUCT_TYPE,
+  GET_PRODUCT_TYPES,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import { errorToaster, successToaster } from "../../Utils/common";
 import "./ProductTypes.web.css";
 
 const configJSON = require("../../Constants/Products");
@@ -19,6 +24,7 @@ const ProductTypes = () => {
   const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [productTypes, setProductTypes] = useState<ProductType[]>([]);
+  const [id, setId] = useState<string>("");
   useEffect(() => {
     dispatch({
       type: GET_PRODUCT_TYPES,
@@ -40,8 +46,37 @@ const ProductTypes = () => {
         })
       );
       setProductTypes(tempArr);
+    } else if (
+      state &&
+      state.get_product_types &&
+      state.get_product_types.productTypes &&
+      state.get_product_types.productTypes.length === 0
+    ) {
+      setProductTypes([]);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_product_type &&
+      !state.delete_product_type.isError &&
+      state.delete_product_type.message !== ""
+    ) {
+      successToaster(state.delete_product_type.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product_type" },
+      });
+    } else if (
+      state &&
+      state.delete_product_type &&
+      state.delete_product_type.isError
+    ) {
+      errorToaster(state.delete_product_type.message);
+    }
+  }, [dispatch, navigate, state]);
+
   const addProductTypeHandle = () => {
     navigate("/product-types/create");
   };
@@ -51,16 +86,19 @@ const ProductTypes = () => {
   const viewProductTypeClickHandle = (id: string) => {
     navigate(`/product-types/view/${id}`);
   };
-  const deleteBtnClickHandle = () => {
+  const deleteBtnClickHandle = (id: string) => {
+    setId(id);
     setModalOpen(true);
   };
   const modalHandleClose = () => {
     setModalOpen(false);
   };
   const onDeleteConfirmHandle = () => {
-    navigate("/product-types");
+    dispatch({
+      type: DELETE_PRODUCT_TYPE,
+      payload: { id: id },
+    });
     setModalOpen(false);
-    //TODO DELETE PRODUCT TYPE API CALL
   };
   return (
     <Box>

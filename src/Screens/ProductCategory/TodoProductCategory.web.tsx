@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import Dashboard from "../Dashboard/Dashboard.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
@@ -7,25 +7,41 @@ import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
-import { isEmpty } from "../../Utils/common";
+import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
 import { dropDownValidate } from "../../Validations/dropDownValidate.web";
 import DropDown from "../../Ui/DropDown/DropDown.web";
 import "./ProductCategories.web.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_PRODUCT_CATEGORY,
+  DELETE_PRODUCT_CATEGORY,
+  EDIT_PRODUCT_CATEGORY,
+  GET_PRODUCT_CATEGORY_BY_ID,
+  GET_PRODUCT_TYPES,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
+import { GetProductCategoryByIdResponse } from "../../Modal/GetProductCategoryById.modal";
+import { ProductType } from "../../Modal/GetProductCategories.modal";
 
 const configJSON = require("../../Constants/Products");
 
 const TodoProductCategory = () => {
-  const initialData = {
-    category_name: "",
-    product_type: [],
-    search_name: "",
-  };
+  const initialData = useMemo(() => {
+    return {
+      category_name: "",
+      product_type: "",
+      search_name: "",
+    };
+  }, []);
   let { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialData);
+  const [productTypes, setProductTypes] = useState<ProductType[]>([]);
   const [dataError, setDataError] = useState({
     errors: {
       category_name: false,
@@ -36,6 +52,103 @@ const TodoProductCategory = () => {
       product_type: "",
     },
   });
+
+  useEffect(() => {
+    dispatch({
+      type: GET_PRODUCT_TYPES,
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch({
+        type: GET_PRODUCT_CATEGORY_BY_ID,
+        payload: { id: id },
+      });
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_product_types &&
+      state.get_product_types.productTypes &&
+      state.get_product_types.productTypes.length !== 0
+    ) {
+      let tempArr: ProductType[] = [];
+      state.get_product_types.productTypes.map((productType: ProductType) =>
+        tempArr.push({
+          _id: productType._id,
+          type_name: productType.type_name,
+          search_name: productType.search_name,
+        })
+      );
+      setProductTypes(tempArr);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.add_edit_product_category &&
+      state.add_edit_product_category.productCategory &&
+      state.add_edit_product_category.productCategory !== null &&
+      !state.add_edit_product_category.isError &&
+      state.add_edit_product_category.message !== ""
+    ) {
+      successToaster(state.add_edit_product_category.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product_category" },
+      });
+      navigate("/product-categories");
+    }
+  }, [dispatch, navigate, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_product_category &&
+      !state.delete_product_category.isError &&
+      state.delete_product_category.message !== ""
+    ) {
+      successToaster(state.delete_product_category.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product_category" },
+      });
+      navigate("/product-categories");
+    } else if (
+      state &&
+      state.delete_product_category &&
+      state.delete_product_category.isError
+    ) {
+      errorToaster(state.delete_product_category.message);
+    }
+  }, [dispatch, navigate, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_product_category_by_id &&
+      state.get_product_category_by_id.productCategory &&
+      state.get_product_category_by_id.productCategory !== null
+    ) {
+      let temp: GetProductCategoryByIdResponse = initialData;
+      temp._id = state.get_product_category_by_id.productCategory._id;
+      temp.category_name =
+        state.get_product_category_by_id.productCategory.category_name;
+      temp.product_type =
+        state.get_product_category_by_id.productCategory.product_type._id;
+      temp.search_name =
+        state.get_product_category_by_id.productCategory.search_name;
+      setFormData((prev: GetProductCategoryByIdResponse) => ({
+        ...prev,
+        ...temp,
+      }));
+    }
+  }, [initialData, state]);
+
   useEffect(() => {
     const route = location.pathname.split("/");
     if (route && route.length > 0) {
@@ -55,6 +168,13 @@ const TodoProductCategory = () => {
   };
   const modalHandleClose = () => {
     setModalOpen(false);
+  };
+
+  const onDeleteConfirmHandle = () => {
+    dispatch({
+      type: DELETE_PRODUCT_CATEGORY,
+      payload: { id: id },
+    });
   };
 
   const inputChangeHandle = (fieldName: string, event: any) => {
@@ -87,7 +207,7 @@ const TodoProductCategory = () => {
     const isValid = dropDownValidate(fieldName, values);
     setFormData((prev) => ({
       ...prev,
-      [keyName]: values,
+      [keyName]: values[0]._id,
     }));
     setDataError((prev) => ({
       ...prev,
@@ -121,25 +241,18 @@ const TodoProductCategory = () => {
       }));
     } else {
       if (isEdit) {
-        // TODO UPDATE PRODUCT CATEGORY API CALL
-        navigate("/product-categories");
+        dispatch({
+          type: EDIT_PRODUCT_CATEGORY,
+          payload: { id: id, values: formData },
+        });
       } else {
-        // TODO CREATE PRODUCT CATEGORY API CALL
-        navigate("/product-categories");
+        dispatch({
+          type: ADD_PRODUCT_CATEGORY,
+          payload: formData,
+        });
       }
     }
   };
-
-  const onDeleteConfirmHandle = () => {
-    navigate("/product-categories");
-    //TODO DELETE PRODUCT CATEGORY API CALL
-  };
-
-  const items = [
-    { label: "Last 7 Days", value: 7 },
-    { label: "Last 28 Days", value: 28 },
-    { label: "Last 90 Days", value: 90 },
-  ];
   return (
     <Box>
       <Dashboard>
@@ -178,7 +291,9 @@ const TodoProductCategory = () => {
                 disabled={false}
                 clearable={false}
                 required={false}
-                data={items}
+                data={productTypes}
+                labelField={"type_name"}
+                valueField={"_id"}
                 values={formData.product_type}
                 placeholder="Please select product type"
                 error={dataError.errors.product_type}

@@ -13,8 +13,26 @@ import {
   editShopCategorySaga,
 } from "./AddEditShopCategory.saga";
 import getCommissionTypesSaga from "./GetCommissionTypes.saga";
+import getCommissionTypeByIdSaga from "./GetCommissionTypeById.saga";
+import deleteCommissionTypeSaga from "./DeleteCommissionType.saga";
+import {
+  addCommissionTypeSaga,
+  editCommissionTypeSaga,
+} from "./AddEditCommissionType.saga";
 import getProductTypesSaga from "./GetProductTypes.saga";
+import getProductTypeByIdSaga from "./GetProductTypeById.saga";
+import {
+  addProductTypeSaga,
+  editProductTypeSaga,
+} from "./AddEditProductType.saga";
+import deleteProductTypeSaga from "./DeleteProductType.saga";
 import getProductCategoriesSaga from "./GetProductCategories.saga";
+import getProductCategoryByIdSaga from "./GetProductCategoryById.saga";
+import {
+  addProductCategorySaga,
+  editProductCategorySaga,
+} from "./AddEditProductCategory.saga";
+import deleteProductCategorySaga from "./DeleteProductCategory.saga";
 import getProductSubCategoriesSaga from "./GetProductSubCategories.saga";
 import getProductBrandsSaga from "./GetProductBrands.saga";
 import getShopsSaga from "./GetShops.saga";
@@ -23,6 +41,7 @@ import getCommissionsSaga from "./GetCommissions.saga";
 import getProductInventoriesSaga from "./GetProductInventories.saga";
 import getProductRatingsSaga from "./GetProductRatings.saga";
 import resetStateSaga from "./ResetState.saga";
+
 export default function* rootSaga() {
   yield all([
     fork(userLoginSaga),
@@ -45,9 +64,30 @@ export default function* rootSaga() {
     fork(deleteShopCategorySaga),
     //Shop Category Saga Start
 
+    //Commission Type Saga Start
     fork(getCommissionTypesSaga),
+    fork(getCommissionTypeByIdSaga),
+    fork(addCommissionTypeSaga),
+    fork(editCommissionTypeSaga),
+    fork(deleteCommissionTypeSaga),
+    //Commission Type Saga Start
+
+    //Product Type Saga Start
     fork(getProductTypesSaga),
+    fork(getProductTypeByIdSaga),
+    fork(addProductTypeSaga),
+    fork(editProductTypeSaga),
+    fork(deleteProductTypeSaga),
+    //Product Type Saga Start
+
+    //Product Category Saga Start
     fork(getProductCategoriesSaga),
+    fork(getProductCategoryByIdSaga),
+    fork(addProductCategorySaga),
+    fork(editProductCategorySaga),
+    fork(deleteProductCategorySaga),
+    //Product Category Saga End
+
     fork(getProductSubCategoriesSaga),
     fork(getProductBrandsSaga),
     fork(getShopsSaga),

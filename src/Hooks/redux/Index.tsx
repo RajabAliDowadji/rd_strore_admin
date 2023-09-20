@@ -10,8 +10,17 @@ import getShoCategoryByIdReducer from "./GetShopCategoryById.redux";
 import deleteShopCategoryReducer from "./DeleteShopCategory.redux";
 import addEditShopCategoryReducer from "./AddEditShopCategory.redux";
 import getCommissionTypesReducer from "./GetCommissionTypes.redux";
+import getCommissionTypeByIdReducer from "./GetCommissionTypeById.redux";
+import deleteCommissionTypeReducer from "./DeleteCommissionType.redux";
+import addEditCommissionTypeReducer from "./AddEditCommissionType.redux";
 import getProductTypesReducer from "./GetProductTypes.redux";
+import getProductTypeByIdReducer from "./GetProductTypeById.redux";
+import deleteProductTypeReducer from "./DeleteProductType.redux";
+import addEditProductTypeReducer from "./AddEditProductType.redux";
 import getProductCategoriesReducer from "./GetProductCategories.redux";
+import getProductCategoryByIdReducer from "./GetProductCategoryById.redux";
+import deleteProductCategoryReducer from "./DeleteProductCategory.redux";
+import addEditProductCategoryReducer from "./AddEditProductCategory.redux";
 import getProductSubCategoriesReducer from "./GetProductSubCategories.redux";
 import getProductBrandsReducer from "./GetProductBrands.redux";
 import getShopsReducer from "./GetShops.redux";
@@ -38,9 +47,27 @@ const rootReducers = combineReducers({
   add_edit_shop_category: addEditShopCategoryReducer,
   //Shop Category Reducer End
 
+  //Commission Type Reducer Start
   get_commission_types: getCommissionTypesReducer,
+  get_commission_type_by_id: getCommissionTypeByIdReducer,
+  delete_commission_type: deleteCommissionTypeReducer,
+  add_edit_commission_type: addEditCommissionTypeReducer,
+  //Commission Type Reducer End
+
+  //Product Type Reducer Start
   get_product_types: getProductTypesReducer,
+  get_product_type_by_id: getProductTypeByIdReducer,
+  delete_product_type: deleteProductTypeReducer,
+  add_edit_product_type: addEditProductTypeReducer,
+  //Product Type Reducer End
+
+  //Product Category Reducer Start
   get_product_categories: getProductCategoriesReducer,
+  get_product_category_by_id: getProductCategoryByIdReducer,
+  delete_product_category: deleteProductCategoryReducer,
+  add_edit_product_category: addEditProductCategoryReducer,
+  //Product Category Reducer End
+
   get_product_sub_categories: getProductSubCategoriesReducer,
   get_product_brands: getProductBrandsReducer,
   get_shops: getShopsReducer,
