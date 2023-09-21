@@ -50,7 +50,7 @@ const ViewProductType = () => {
       successToaster(state.delete_product_type.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "product_type" },
+        payload: { state: "product-types" },
       });
     } else if (
       state &&
@@ -80,6 +80,10 @@ const ViewProductType = () => {
   }, [initialData, state]);
 
   const addProductTypeHandle = () => {
+    dispatch({
+      type: RESET_STATE,
+      payload: { state: "product-types" },
+    });
     navigate("/product-types/create");
   };
   const editProductTypeHandle = () => {

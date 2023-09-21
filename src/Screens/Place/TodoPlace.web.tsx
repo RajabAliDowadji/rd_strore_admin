@@ -62,7 +62,7 @@ const TodoPlace = () => {
       successToaster(state.add_edit_place.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "place" },
+        payload: { state: "places" },
       });
       navigate("/places");
     }
@@ -142,7 +142,7 @@ const TodoPlace = () => {
       successToaster(state.delete_place.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "place" },
+        payload: { state: "places" },
       });
     } else if (state && state.delete_place && state.get_place.isError) {
       errorToaster(state.get_place.message);

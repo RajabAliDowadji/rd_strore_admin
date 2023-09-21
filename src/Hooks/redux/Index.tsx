@@ -22,7 +22,14 @@ import getProductCategoryByIdReducer from "./GetProductCategoryById.redux";
 import deleteProductCategoryReducer from "./DeleteProductCategory.redux";
 import addEditProductCategoryReducer from "./AddEditProductCategory.redux";
 import getProductSubCategoriesReducer from "./GetProductSubCategories.redux";
+import getProductSubCategoryByIdReducer from "./GetProductSubCategoryById.redux";
+import deleteProductSubCategoryReducer from "./DeleteProductSubCategory.redux";
+import addEditProductSubCategoryReducer from "./AddEditProductSubCategory.redux";
 import getProductBrandsReducer from "./GetProductBrands.redux";
+import getProductBrandByIdReducer from "./GetProductBrandById.redux";
+import addEditProductBrandReducer from "./AddEditProductBrand.reddux";
+import deleteProductBrandReducer from "./DeleteProductBrand.redux";
+
 import getShopsReducer from "./GetShops.redux";
 import getProductsReducer from "./GetProducts.redux";
 import getCommissionsReducer from "./GetCommissions.redux";
@@ -68,8 +75,20 @@ const rootReducers = combineReducers({
   add_edit_product_category: addEditProductCategoryReducer,
   //Product Category Reducer End
 
+  //Product Sub-Category Reducer Start
   get_product_sub_categories: getProductSubCategoriesReducer,
+  get_product_sub_category_by_id: getProductSubCategoryByIdReducer,
+  delete_product_sub_category: deleteProductSubCategoryReducer,
+  add_edit_product_sub_category: addEditProductSubCategoryReducer,
+  //Product Sub-Category Reducer End
+
+  //Product Brand Reducer Start
   get_product_brands: getProductBrandsReducer,
+  get_product_brand_by_id: getProductBrandByIdReducer,
+  add_edit_product_brand: addEditProductBrandReducer,
+  delete_product_brand: deleteProductBrandReducer,
+  //Product Brand Reducer End
+
   get_shops: getShopsReducer,
   get_products: getProductsReducer,
   get_commissions: getCommissionsReducer,

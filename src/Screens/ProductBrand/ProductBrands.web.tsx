@@ -10,9 +10,14 @@ import {
   ProductBrand,
   ProductBrandColumns,
 } from "../../Modal/GetProductBrands.modal";
-import { GET_PRODUCT_BRANDS } from "../../Hooks/Saga/Constant";
+import {
+  DELETE_PRODUCT_BRAND,
+  GET_PRODUCT_BRANDS,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./ProductBrands.web.css";
+import { errorToaster, successToaster } from "../../Utils/common";
 
 const configJSON = require("../../Constants/Products");
 
@@ -20,6 +25,7 @@ const ProductBrands = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
+  const [id, setId] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [productBrands, setProductBrands] = useState<ProductBrandColumns[]>([]);
   useEffect(() => {
@@ -27,6 +33,7 @@ const ProductBrands = () => {
       type: GET_PRODUCT_BRANDS,
     });
   }, [dispatch]);
+
   useEffect(() => {
     if (
       state &&
@@ -42,28 +49,66 @@ const ProductBrands = () => {
         })
       );
       setProductBrands(tempArr);
+    } else if (
+      state &&
+      state.get_product_brands &&
+      state.get_product_brands.productBrands &&
+      state.get_product_brands.productBrands.length === 0
+    ) {
+      setProductBrands([]);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_product_brand &&
+      !state.delete_product_brand.isError &&
+      state.delete_product_brand.message !== ""
+    ) {
+      successToaster(state.delete_product_brand.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product-brands" },
+      });
+    } else if (
+      state &&
+      state.delete_product_brand &&
+      state.delete_product_brand.isError
+    ) {
+      errorToaster(state.delete_product_brand.message);
+    }
+  }, [dispatch, navigate, state]);
+
   const addProductBrandHandle = () => {
     navigate("/product-brands/create");
   };
+
   const editProductBrandHandle = (id: string) => {
     navigate(`/product-brands/edit/${id}`);
   };
+
   const viewProductBrandClickHandle = (id: string) => {
     navigate(`/product-brands/view/${id}`);
   };
-  const deleteBtnClickHandle = () => {
+
+  const deleteBtnClickHandle = (id: string) => {
+    setId(id);
     setModalOpen(true);
   };
+
   const modalHandleClose = () => {
     setModalOpen(false);
   };
+
   const onDeleteConfirmHandle = () => {
-    navigate("/product-brands");
+    dispatch({
+      type: DELETE_PRODUCT_BRAND,
+      payload: { id: id },
+    });
     setModalOpen(false);
-    //TODO DELETE PRODUCT TYPE API CALL
   };
+
   return (
     <Box>
       <Dashboard>

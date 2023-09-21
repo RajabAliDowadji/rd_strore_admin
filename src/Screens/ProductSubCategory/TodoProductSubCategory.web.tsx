@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import Dashboard from "../Dashboard/Dashboard.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
@@ -7,25 +7,43 @@ import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
-import { isEmpty } from "../../Utils/common";
+import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
 import { dropDownValidate } from "../../Validations/dropDownValidate.web";
 import DropDown from "../../Ui/DropDown/DropDown.web";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_PRODUCT_SUB_CATEGORY,
+  DELETE_PRODUCT_SUB_CATEGORY,
+  EDIT_PRODUCT_SUB_CATEGORY,
+  GET_PRODUCT_CATEGORIES,
+  GET_PRODUCT_SUB_CATEGORY_BY_ID,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
+import { ProductCategory } from "../../Modal/GetProductCategories.modal";
 import "./ProductSubCategories.web.css";
+import { GetProductSubCategoryByIdResponse } from "../../Modal/GetProductSubCategoryById.modal";
 
 const configJSON = require("../../Constants/Products");
 
 const TodoProductSubCategory = () => {
-  const initialData = {
-    sub_category_name: "",
-    product_category: [],
-    search_name: "",
-  };
+  const initialData = useMemo(() => {
+    return {
+      sub_category_name: "",
+      product_category: "",
+      search_name: "",
+    };
+  }, []);
   let { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialData);
+  const [productCategories, setProductCategories] = useState<ProductCategory[]>(
+    []
+  );
   const [dataError, setDataError] = useState({
     errors: {
       sub_category_name: false,
@@ -36,6 +54,105 @@ const TodoProductSubCategory = () => {
       product_category: "",
     },
   });
+
+  useEffect(() => {
+    dispatch({
+      type: GET_PRODUCT_CATEGORIES,
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch({
+        type: GET_PRODUCT_SUB_CATEGORY_BY_ID,
+        payload: { id: id },
+      });
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_product_sub_category_by_id &&
+      state.get_product_sub_category_by_id.productSubCategory &&
+      state.get_product_sub_category_by_id.productSubCategory !== null
+    ) {
+      let temp: GetProductSubCategoryByIdResponse = initialData;
+      temp._id = state.get_product_sub_category_by_id.productSubCategory._id;
+      temp.sub_category_name =
+        state.get_product_sub_category_by_id.productSubCategory.sub_category_name;
+      temp.product_category =
+        state.get_product_sub_category_by_id.productSubCategory.product_category._id;
+      temp.search_name =
+        state.get_product_sub_category_by_id.productSubCategory.search_name;
+      setFormData((prev: GetProductSubCategoryByIdResponse) => ({
+        ...prev,
+        ...temp,
+      }));
+    }
+  }, [initialData, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.add_edit_product_sub_category &&
+      state.add_edit_product_sub_category.productSubCategory &&
+      state.add_edit_product_sub_category.productSubCategory !== null &&
+      !state.add_edit_product_sub_category.isError &&
+      state.add_edit_product_sub_category.message !== ""
+    ) {
+      successToaster(state.add_edit_product_sub_category.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product-sub-categories" },
+      });
+      navigate("/product-sub-categories");
+    }
+  }, [dispatch, navigate, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_product_categories &&
+      state.get_product_categories.productCategories &&
+      state.get_product_categories.productCategories.length !== 0
+    ) {
+      let tempArr: ProductCategory[] = [];
+      state.get_product_categories.productCategories.map(
+        (productCategory: ProductCategory) =>
+          tempArr.push({
+            _id: productCategory._id,
+            category_name: productCategory.category_name,
+            product_type: productCategory.product_type,
+            search_name: productCategory.search_name,
+          })
+      );
+      setProductCategories(tempArr);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_product_sub_category &&
+      !state.delete_product_sub_category.isError &&
+      state.delete_product_sub_category.message !== ""
+    ) {
+      successToaster(state.delete_product_sub_category.message);
+      navigate("/product-sub-categories");
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product-sub-categories" },
+      });
+    } else if (
+      state &&
+      state.delete_product_sub_category &&
+      state.delete_product_sub_category.isError
+    ) {
+      errorToaster(state.delete_product_sub_category.message);
+    }
+  }, [dispatch, navigate, state]);
+
   useEffect(() => {
     const route = location.pathname.split("/");
     if (route && route.length > 0) {
@@ -87,7 +204,7 @@ const TodoProductSubCategory = () => {
     const isValid = dropDownValidate(fieldName, values);
     setFormData((prev) => ({
       ...prev,
-      [keyName]: values,
+      [keyName]: values[0]._id,
     }));
     setDataError((prev) => ({
       ...prev,
@@ -124,25 +241,26 @@ const TodoProductSubCategory = () => {
       }));
     } else {
       if (isEdit) {
-        // TODO UPDATE PRODUCT SUB-CATEGORY API CALL
-        navigate("/product-sub-categories");
+        dispatch({
+          type: EDIT_PRODUCT_SUB_CATEGORY,
+          payload: { id: id, values: formData },
+        });
       } else {
-        // TODO CREATE PRODUCT SUB-CATEGORY API CALL
-        navigate("/product-sub-categories");
+        dispatch({
+          type: ADD_PRODUCT_SUB_CATEGORY,
+          payload: formData,
+        });
       }
     }
   };
 
   const onDeleteConfirmHandle = () => {
-    navigate("/product-sub-categories");
-    //TODO DELETE PRODUCT SUB-CATEGORY API CALL
+    dispatch({
+      type: DELETE_PRODUCT_SUB_CATEGORY,
+      payload: { id: id },
+    });
   };
 
-  const items = [
-    { label: "Last 7 Days", value: 7 },
-    { label: "Last 28 Days", value: 28 },
-    { label: "Last 90 Days", value: 90 },
-  ];
   return (
     <Box>
       <Dashboard>
@@ -181,8 +299,10 @@ const TodoProductSubCategory = () => {
                 disabled={false}
                 clearable={false}
                 required={false}
-                data={items}
+                data={productCategories}
                 values={formData.product_category}
+                labelField={"category_name"}
+                valueField={"_id"}
                 placeholder="Please select product category"
                 error={dataError.errors.product_category}
                 errorText={dataError.errorMsg.product_category}

@@ -73,7 +73,7 @@ const ViewProductCategory = () => {
       successToaster(state.delete_product_category.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "product_category" },
+        payload: { state: "product-categories" },
       });
       navigate("/product-categories");
     } else if (
@@ -86,6 +86,10 @@ const ViewProductCategory = () => {
   }, [dispatch, navigate, state]);
 
   const addProductTypeHandle = () => {
+    dispatch({
+      type: RESET_STATE,
+      payload: { state: "product-categories" },
+    });
     navigate("/product-categories/create");
   };
   const editProductTypeHandle = () => {

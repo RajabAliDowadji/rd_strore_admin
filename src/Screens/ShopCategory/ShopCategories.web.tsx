@@ -68,7 +68,7 @@ const ShopCategories = () => {
       successToaster(state.delete_shop_category.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "shop_category" },
+        payload: { state: "shop-categories" },
       });
     } else if (
       state &&

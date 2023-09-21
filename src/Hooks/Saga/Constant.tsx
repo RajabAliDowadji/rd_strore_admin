@@ -41,8 +41,24 @@ export const EDIT_PRODUCT_CATEGORY: string = "EDIT_PRODUCT_CATEGORY";
 export const DELETE_PRODUCT_CATEGORY: string = "DELETE_PRODUCT_CATEGORY";
 // Product Category API Type Start
 
+// Product Sub-Category API Type Start
 export const GET_PRODUCT_SUB_CATEGORIES: string = "GET_PRODUCT_SUB_CATEGORIES";
+export const GET_PRODUCT_SUB_CATEGORY_BY_ID: string =
+  "GET_PRODUCT_SUB_CATEGORY_BY_ID";
+export const ADD_PRODUCT_SUB_CATEGORY: string = "ADD_PRODUCT_SUB_CATEGORY";
+export const EDIT_PRODUCT_SUB_CATEGORY: string = "EDIT_PRODUCT_SUB_CATEGORY";
+export const DELETE_PRODUCT_SUB_CATEGORY: string =
+  "DELETE_PRODUCT_SUB_CATEGORY";
+// Product Sub-Category API Type End
+
+// Product Brand API Type Start
 export const GET_PRODUCT_BRANDS: string = "GET_PRODUCT_BRANDS";
+export const GET_PRODUCT_BRAND_BY_ID: string = "GET_PRODUCT_BRAND_BY_ID";
+export const ADD_PRODUCT_BRAND: string = "ADD_PRODUCT_BRAND";
+export const EDIT_PRODUCT_BRAND: string = "EDIT_PRODUCT_BRAND";
+export const DELETE_PRODUCT_BRAND: string = "DELETE_PRODUCT_BRAND";
+// Product Brand API Type Start
+
 export const GET_SHOPS: string = "GET_SHOPS";
 export const GET_PRODUCTS: string = "GET_PRODUCTS";
 export const GET_COMMISSIONS: string = "GET_COMMISSIONS";

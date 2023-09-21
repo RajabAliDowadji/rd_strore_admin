@@ -99,7 +99,7 @@ const TodoProductCategory = () => {
       successToaster(state.add_edit_product_category.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "product_category" },
+        payload: { state: "product-categories" },
       });
       navigate("/product-categories");
     }
@@ -115,7 +115,7 @@ const TodoProductCategory = () => {
       successToaster(state.delete_product_category.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "product_category" },
+        payload: { state: "product-categories" },
       });
       navigate("/product-categories");
     } else if (

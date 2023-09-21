@@ -67,7 +67,7 @@ const CommissionTypes = () => {
       successToaster(state.delete_commission_type.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "commission_type" },
+        payload: { state: "commission-types" },
       });
     } else if (
       state &&

@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetProductSubCategoriesState } from "../../Modal/GetProductSubCategories.modal";
+import {
+  GetProductSubCategoriesState,
+  ProductSubCategory,
+} from "../../Modal/GetProductSubCategories.modal";
 
 const initialState = {
   isLoading: false,
@@ -26,6 +29,12 @@ const getProductSubCategoriesSlice = createSlice({
       state.message = action.payload.error.message;
       state.isLoading = false;
     },
+    removeProductSubCategoryById(state, action) {
+      state.productSubCategories = state.productSubCategories.filter(
+        (productSubCategory: ProductSubCategory) =>
+          productSubCategory._id !== action.payload.id
+      );
+    },
     internalServerFailure(state) {
       state.isError = true;
       state.isLoading = false;
@@ -37,6 +46,7 @@ export const {
   getProductSubCategories,
   getProductSubCategoriesSuccess,
   getProductSubCategoriesFailure,
+  removeProductSubCategoryById,
   internalServerFailure,
 } = getProductSubCategoriesSlice.actions;
 

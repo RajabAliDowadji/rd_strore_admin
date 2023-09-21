@@ -74,7 +74,7 @@ const ProductCategories = () => {
       successToaster(state.delete_product_category.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "product_category" },
+        payload: { state: "product-categories" },
       });
     } else if (
       state &&

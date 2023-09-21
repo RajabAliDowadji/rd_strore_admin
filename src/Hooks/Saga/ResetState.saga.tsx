@@ -16,6 +16,12 @@ import { deleteProductTypeResetState } from "../redux/DeleteProductType.redux";
 import { addEditProductCategoryResetState } from "../redux/AddEditProductCategory.redux";
 import { getProductCategoryByIdResetState } from "../redux/GetProductCategoryById.redux";
 import { deleteProductCategoryResetState } from "../redux/DeleteProductCategory.redux";
+import { addEditProductSubCategoryResetState } from "../redux/AddEditProductSubCategory.redux";
+import { getProductSubCategoryByIdResetState } from "../redux/GetProductSubCategoryById.redux";
+import { deleteProductSubCategoryResetState } from "../redux/DeleteProductSubCategory.redux";
+import { addEditProductBrandResetState } from "../redux/AddEditProductBrand.reddux";
+import { getProductBrandByIdResetState } from "../redux/GetProductBrandById.redux";
+import { deleteProductBrandResetState } from "../redux/DeleteProductBrand.redux";
 
 export function* resetStateAPISaga({
   payload,
@@ -23,27 +29,35 @@ export function* resetStateAPISaga({
   type: string;
   payload: any;
 }) {
-  if (payload.state === "place") {
+  if (payload.state === "places") {
     yield put(addEditPlaceResetState());
     yield put(getPlaceByIdResetState());
     yield put(getPlaceResetState());
     yield put(deletePlaceResetState());
-  } else if (payload.state === "shop_category") {
+  } else if (payload.state === "shop-categories") {
     yield put(addEditShopCategoryResetState());
     yield put(getShopCategoryByIdResetState());
     yield put(deleteShopCategoryResetState());
-  } else if (payload.state === "commission_type") {
+  } else if (payload.state === "commission-types") {
     yield put(addEditCommissionTypeResetState());
     yield put(getCommissionTypeByIdResetState());
     yield put(deleteCommissionTypeResetState());
-  } else if (payload.state === "product_type") {
+  } else if (payload.state === "product-types") {
     yield put(addEditProductTypeResetState());
     yield put(getProductTypeByIdResetState());
     yield put(deleteProductTypeResetState());
-  } else if (payload.state === "product_category") {
+  } else if (payload.state === "product-categories") {
     yield put(addEditProductCategoryResetState());
     yield put(getProductCategoryByIdResetState());
     yield put(deleteProductCategoryResetState());
+  } else if (payload.state === "product-sub-categories") {
+    yield put(addEditProductSubCategoryResetState());
+    yield put(getProductSubCategoryByIdResetState());
+    yield put(deleteProductSubCategoryResetState());
+  } else if (payload.state === "product-brands") {
+    yield put(addEditProductBrandResetState());
+    yield put(getProductBrandByIdResetState());
+    yield put(deleteProductBrandResetState());
   }
 }
 

@@ -76,13 +76,17 @@ const ViewPlace = () => {
       successToaster(state.delete_place.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "place" },
+        payload: { state: "places" },
       });
     } else if (state && state.delete_place && state.delete_place.isError) {
       errorToaster(state.delete_place.message);
     }
   }, [dispatch, navigate, state]);
   const addPlaceHandle = () => {
+    dispatch({
+      type: RESET_STATE,
+      payload: { state: "places" },
+    });
     navigate("/places/create");
   };
 

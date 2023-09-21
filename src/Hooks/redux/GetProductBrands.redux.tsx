@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetProductBrandsState } from "../../Modal/GetProductBrands.modal";
+import {
+  GetProductBrandsState,
+  ProductBrand,
+} from "../../Modal/GetProductBrands.modal";
 
 const initialState = {
   isLoading: false,
@@ -26,6 +29,11 @@ const getProductBrandsSlice = createSlice({
       state.message = action.payload.error.message;
       state.isLoading = false;
     },
+    removeProductBrandById(state, action) {
+      state.productBrands = state.productBrands.filter(
+        (productBrand: ProductBrand) => productBrand._id !== action.payload.id
+      );
+    },
     internalServerFailure(state) {
       state.isError = true;
       state.isLoading = false;
@@ -37,6 +45,7 @@ export const {
   getProductBrands,
   getProductBrandsSuccess,
   getProductBrandsFailure,
+  removeProductBrandById,
   internalServerFailure,
 } = getProductBrandsSlice.actions;
 

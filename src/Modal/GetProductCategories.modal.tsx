@@ -30,6 +30,7 @@ export interface ProductType {
 export interface GetProductCategoriesColumns {
   _id: string;
   category_name: string;
-  type_name: string;
+  type_name?: string;
   search_name: string;
+  product_type?: string;
 }

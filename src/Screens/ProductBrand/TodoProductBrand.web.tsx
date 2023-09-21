@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import Dashboard from "../Dashboard/Dashboard.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
@@ -9,25 +9,41 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { dropDownValidate } from "../../Validations/dropDownValidate.web";
 import DropDown from "../../Ui/DropDown/DropDown.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
-import { isEmpty } from "../../Utils/common";
+import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
+import { GetProductSubCategoriesColumns } from "../../Modal/GetProductSubCategories.modal";
+import {
+  ADD_PRODUCT_BRAND,
+  DELETE_PRODUCT_BRAND,
+  EDIT_PRODUCT_BRAND,
+  GET_PRODUCT_BRAND_BY_ID,
+  GET_PRODUCT_SUB_CATEGORIES,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
+import { useDispatch, useSelector } from "react-redux";
 import "./ProductBrands.web.css";
 
 const configJSON = require("../../Constants/Products");
 
 const TodoProductBrand = () => {
-  const initialData = {
-    brand_name: "",
-    sub_category_ids: {
-      sub_category: [],
-    },
-    search_name: "",
-  };
+  const initialData = useMemo(() => {
+    return {
+      brand_name: "",
+      sub_category_ids: {
+        sub_category: [],
+      },
+    };
+  }, []);
   let { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialData);
+  const [productSubCategories, setProductSubCategories] = useState<
+    GetProductSubCategoriesColumns[]
+  >([]);
   const [dataError, setDataError] = useState({
     errors: {
       brand_name: false,
@@ -38,6 +54,83 @@ const TodoProductBrand = () => {
       sub_category_ids: "",
     },
   });
+
+  useEffect(() => {
+    dispatch({
+      type: GET_PRODUCT_SUB_CATEGORIES,
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch({
+        type: GET_PRODUCT_BRAND_BY_ID,
+        payload: { id: id },
+      });
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_product_sub_categories &&
+      state.get_product_sub_categories.productSubCategories &&
+      state.get_product_sub_categories.productSubCategories.length !== 0
+    ) {
+      let tempArr: any[] = [];
+      state.get_product_sub_categories.productSubCategories.map(
+        (productCategory: any) =>
+          tempArr.push({
+            _id: productCategory._id,
+            sub_category_name: productCategory.sub_category_name,
+            category_name: productCategory.product_category.category_name,
+          })
+      );
+      setProductSubCategories(tempArr);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.add_edit_product_brand &&
+      state.add_edit_product_brand.productBrand &&
+      state.add_edit_product_brand.productBrand !== null &&
+      !state.add_edit_product_brand.isError &&
+      state.add_edit_product_brand.message !== ""
+    ) {
+      successToaster(state.add_edit_product_brand.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product-brands" },
+      });
+      navigate("/product-brands");
+    }
+  }, [dispatch, navigate, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_product_brand_by_id &&
+      state.get_product_brand_by_id.productBrand &&
+      state.get_product_brand_by_id.productBrand !== null
+    ) {
+      let temp: any = initialData;
+      temp._id = state.get_product_brand_by_id.productBrand._id;
+      temp.brand_name = state.get_product_brand_by_id.productBrand.brand_name;
+      temp.sub_category_ids = {
+        sub_category:
+          state.get_product_brand_by_id.productBrand.sub_category_ids.sub_category.map(
+            (value: any) => value._id
+          ),
+      };
+      setFormData((prev: any) => ({
+        ...prev,
+        ...temp,
+      }));
+    }
+  }, [initialData, state]);
+
   useEffect(() => {
     const route = location.pathname.split("/");
     if (route && route.length > 0) {
@@ -49,6 +142,28 @@ const TodoProductBrand = () => {
     }
   }, [location]);
 
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_product_brand &&
+      !state.delete_product_brand.isError &&
+      state.delete_product_brand.message !== ""
+    ) {
+      successToaster(state.delete_product_brand.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product-brands" },
+      });
+      navigate("/product-brands");
+    } else if (
+      state &&
+      state.delete_product_brand &&
+      state.delete_product_brand.isError
+    ) {
+      errorToaster(state.delete_product_brand.message);
+    }
+  }, [dispatch, navigate, state]);
+
   const cancelProdBrandHandle = () => {
     navigate("/product-brands");
   };
@@ -57,6 +172,13 @@ const TodoProductBrand = () => {
   };
   const modalHandleClose = () => {
     setModalOpen(false);
+  };
+
+  const onDeleteConfirmHandle = () => {
+    dispatch({
+      type: DELETE_PRODUCT_BRAND,
+      payload: { id: id },
+    });
   };
 
   const inputChangeHandle = (fieldName: string, event: any) => {
@@ -75,24 +197,16 @@ const TodoProductBrand = () => {
     }));
   };
 
-  const optionalInputChangeHandle = (event: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }));
-  };
   const dropDownOnChangeHandle = (
     fieldName: string,
     keyName: string,
     values: any
   ) => {
     const isValid = dropDownValidate(fieldName, values);
-    const data = {
-      sub_category: values,
-    };
+    const tempArr = values.map((value: any) => value._id);
     setFormData((prev) => ({
       ...prev,
-      [keyName]: data,
+      [keyName]: { sub_category: tempArr },
     }));
     setDataError((prev) => ({
       ...prev,
@@ -126,25 +240,18 @@ const TodoProductBrand = () => {
       }));
     } else {
       if (isEdit) {
-        // TODO UPDATE PRODUCT BRAND API CALL
-        navigate("/product-brands");
+        dispatch({
+          type: EDIT_PRODUCT_BRAND,
+          payload: { id: id, values: formData },
+        });
       } else {
-        // TODO CREATE PRODUCT BRAND API CALL
-        navigate("/product-brands");
+        dispatch({
+          type: ADD_PRODUCT_BRAND,
+          payload: formData,
+        });
       }
     }
   };
-
-  const onDeleteConfirmHandle = () => {
-    navigate("/product-brands");
-    //TODO DELETE PRODUCT BRAND API CALL
-  };
-
-  const items = [
-    { label: "Last 7 Days", value: 7 },
-    { label: "Last 28 Days", value: 28 },
-    { label: "Last 90 Days", value: 90 },
-  ];
   return (
     <Box>
       <Dashboard>
@@ -183,7 +290,9 @@ const TodoProductBrand = () => {
                 disabled={false}
                 clearable={false}
                 required={false}
-                data={items}
+                labelField={"sub_category_name"}
+                valueField={"_id"}
+                data={productSubCategories}
                 values={formData.sub_category_ids.sub_category}
                 placeholder="Please select product sub-categories"
                 error={dataError.errors.sub_category_ids}
@@ -193,16 +302,6 @@ const TodoProductBrand = () => {
                   "Product sub-categories",
                   "sub_category_ids"
                 )}
-              />
-            </Box>
-            <Box className="prodBrand_textFieldContainer">
-              <CustomTextField
-                id="search_name"
-                type="text"
-                label="Search name"
-                name="search_name"
-                value={formData.search_name}
-                onChange={optionalInputChangeHandle}
               />
             </Box>
             <Box className="prodBrand_buttonSubContainer">

@@ -96,7 +96,7 @@ const TodoShopCategory = () => {
       successToaster(state.delete_shop_category.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "shop_category" },
+        payload: { state: "shop-categories" },
       });
     } else if (
       state &&
@@ -119,7 +119,7 @@ const TodoShopCategory = () => {
       successToaster(state.add_edit_shop_category.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "shop_category" },
+        payload: { state: "shop-categories" },
       });
       navigate("/shop-categories");
     }

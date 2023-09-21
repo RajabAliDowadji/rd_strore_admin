@@ -34,7 +34,20 @@ import {
 } from "./AddEditProductCategory.saga";
 import deleteProductCategorySaga from "./DeleteProductCategory.saga";
 import getProductSubCategoriesSaga from "./GetProductSubCategories.saga";
+import getProductSubCategoryByIdSaga from "./GetProductSubCategoryById.saga";
+import {
+  addProductSubCategorySaga,
+  editProductSubCategorySaga,
+} from "./AddEditProductSubCategory.saga";
+import deleteProductSubCategorySaga from "./DeleteProductSubCategory.saga";
 import getProductBrandsSaga from "./GetProductBrands.saga";
+import getProductBrandByIdSaga from "./GetProductBrandById.saga";
+import {
+  addProductBrandSaga,
+  editProductBrandSaga,
+} from "./AddEditProductBrand.saga";
+import deleteProductBrandSaga from "./DeleteProductBrand.saga";
+
 import getShopsSaga from "./GetShops.saga";
 import getProductsSaga from "./GetProducts.saga";
 import getCommissionsSaga from "./GetCommissions.saga";
@@ -88,8 +101,22 @@ export default function* rootSaga() {
     fork(deleteProductCategorySaga),
     //Product Category Saga End
 
+    //Product Sub-Category Saga Start
     fork(getProductSubCategoriesSaga),
+    fork(getProductSubCategoryByIdSaga),
+    fork(addProductSubCategorySaga),
+    fork(editProductSubCategorySaga),
+    fork(deleteProductSubCategorySaga),
+    //Product Sub-Category Saga End
+
+    //Product Brand Saga Start
     fork(getProductBrandsSaga),
+    fork(getProductBrandByIdSaga),
+    fork(addProductBrandSaga),
+    fork(editProductBrandSaga),
+    fork(deleteProductBrandSaga),
+    //Product Brand Saga End
+
     fork(getShopsSaga),
     fork(getProductsSaga),
     fork(getCommissionsSaga),

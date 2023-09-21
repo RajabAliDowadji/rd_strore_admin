@@ -70,7 +70,6 @@ export const addProductTypeEndPoint =
 // Product Type End Point End
 
 // Product Category End Point Start
-
 export const Get_Product_Categories_END_POINT = "categories";
 export const Add_Product_Category_END_POINT = "category/create";
 export const Get_Product_Category_By_Id_END_POINT = "category/";
@@ -85,8 +84,34 @@ export const addProductCategoryEndPoint =
   BASE_URL + Product_END_POINT + Add_Product_Category_END_POINT;
 // Product Category End Point End
 
+// Product Sub-Category End Point Start
 export const Get_Product_Sub_Categories_END_POINT = "sub_categories";
+export const Add_Product_Sub_Category_END_POINT = "sub_category/create";
+export const Get_Product_Sub_Category_By_Id_END_POINT = "sub_category/";
+export const getProductSubCategoriesEndPoint =
+  BASE_URL + Product_END_POINT + Get_Product_Sub_Categories_END_POINT;
+export const productSubCategoryByIdEndPoint = (id: string) => {
+  return (
+    BASE_URL + Product_END_POINT + Get_Product_Sub_Category_By_Id_END_POINT + id
+  );
+};
+export const addProductSubCategoryEndPoint =
+  BASE_URL + Product_END_POINT + Add_Product_Sub_Category_END_POINT;
+// Product Sub-Category End Point Start
+
+// Product Brand End Point End
 export const Get_Product_Brands_END_POINT = "brands";
+export const Add_Product_Brand_END_POINT = "brand/create";
+export const Get_Product_Brand_By_Id_END_POINT = "brand/";
+export const getProductBrandsEndPoint =
+  BASE_URL + Product_END_POINT + Get_Product_Brands_END_POINT;
+export const productBrandByIdEndPoint = (id: string) => {
+  return BASE_URL + Product_END_POINT + Get_Product_Brand_By_Id_END_POINT + id;
+};
+export const addProductBrandEndPoint =
+  BASE_URL + Product_END_POINT + Add_Product_Brand_END_POINT;
+// Product Brand End Point End
+
 export const Get_Shops_END_POINT = "rd_admin/shops";
 export const Get_Commissions_END_POINT = "rd_admin/commissions";
 export const Get_Product_END_POINT = "admin/product/";
@@ -94,12 +119,6 @@ export const Get_Product_Rating_END_POINT = "product/ratings";
 export const Get_Product_Inventories_END_POINT = "inventories";
 
 export const userLoginEndPoint = BASE_URL + Login_END_POINT;
-
-export const getProductSubCategoriesEndPoint =
-  BASE_URL + Product_END_POINT + Get_Product_Sub_Categories_END_POINT;
-
-export const getProductBrandsEndPoint =
-  BASE_URL + Product_END_POINT + Get_Product_Brands_END_POINT;
 
 export const getShopsEndPoint = BASE_URL + Get_Shops_END_POINT;
 export const getProductsEndPoint = BASE_URL + Get_Product_END_POINT;

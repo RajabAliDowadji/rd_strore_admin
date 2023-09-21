@@ -66,7 +66,7 @@ const ProductTypes = () => {
       successToaster(state.delete_product_type.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "product_type" },
+        payload: { state: "product-types" },
       });
     } else if (
       state &&

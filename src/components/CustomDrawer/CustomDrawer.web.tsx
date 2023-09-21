@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@material-ui/core";
-import "./CustomDrawer.web.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import { RESET_STATE } from "../../Hooks/Saga/Constant";
+import { useDispatch } from "react-redux";
+import "./CustomDrawer.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
 
@@ -15,6 +17,7 @@ const CustomDrawer = (props: any) => {
   const [pathRoute, setPathRoute] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const route = location.pathname.split("/");
@@ -22,6 +25,10 @@ const CustomDrawer = (props: any) => {
   }, [location]);
 
   const tabHandleClick = (route: string) => {
+    dispatch({
+      type: RESET_STATE,
+      payload: { state: route },
+    });
     navigate(`/${route}`);
   };
   return (
