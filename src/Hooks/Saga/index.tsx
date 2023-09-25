@@ -6,7 +6,7 @@ import getPlaceByIdSaga from "./GetPlaceById.saga";
 import deletePlaceSaga from "./DeletePlace.saga";
 import { addPlaceSaga, editPlaceSaga } from "./AddEditPlace.saga";
 import getShopCategoriesSaga from "./GetShopCategories.saga";
-import getShopCategeoryByIdSaga from "./GetShopCategoryById.saga";
+import getShopCategoryByIdSaga from "./GetShopCategoryById.saga";
 import deleteShopCategorySaga from "./DeleteShopCategory.saga";
 import {
   addShopCategorySaga,
@@ -47,13 +47,18 @@ import {
   editProductBrandSaga,
 } from "./AddEditProductBrand.saga";
 import deleteProductBrandSaga from "./DeleteProductBrand.saga";
-
 import getShopsSaga from "./GetShops.saga";
+import getShopByIdSaga from "./GetShopById.saga";
+import { addShopSaga, editShopSaga } from "./AddEditShop.saga";
+import deleteShopSaga from "./DeleteShop.saga";
+
 import getProductsSaga from "./GetProducts.saga";
 import getCommissionsSaga from "./GetCommissions.saga";
 import getProductInventoriesSaga from "./GetProductInventories.saga";
 import getProductRatingsSaga from "./GetProductRatings.saga";
 import resetStateSaga from "./ResetState.saga";
+import { addFileSaga } from "./AddEditFile.saga";
+import deleteFileSaga from "./DeleteFile.saga";
 
 export default function* rootSaga() {
   yield all([
@@ -71,11 +76,19 @@ export default function* rootSaga() {
 
     //Shop Category Saga Start
     fork(getShopCategoriesSaga),
-    fork(getShopCategeoryByIdSaga),
+    fork(getShopCategoryByIdSaga),
     fork(addShopCategorySaga),
     fork(editShopCategorySaga),
     fork(deleteShopCategorySaga),
     //Shop Category Saga Start
+
+    //Shop Saga Start
+    fork(getShopsSaga),
+    fork(getShopByIdSaga),
+    fork(addShopSaga),
+    fork(editShopSaga),
+    fork(deleteShopSaga),
+    //Shop Saga Start
 
     //Commission Type Saga Start
     fork(getCommissionTypesSaga),
@@ -117,7 +130,11 @@ export default function* rootSaga() {
     fork(deleteProductBrandSaga),
     //Product Brand Saga End
 
-    fork(getShopsSaga),
+    //File Saga Start
+    fork(addFileSaga),
+    fork(deleteFileSaga),
+    //File Saga End
+
     fork(getProductsSaga),
     fork(getCommissionsSaga),
     fork(getProductInventoriesSaga),

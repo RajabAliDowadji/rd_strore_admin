@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetShopsState } from "../../Modal/GetShops.modal";
+import { GetShopsState, Shop } from "../../Modal/GetShops.modal";
 
 const initialState = {
   isLoading: false,
@@ -26,6 +26,11 @@ const getShopsSlice = createSlice({
       state.message = action.payload.error.message;
       state.isLoading = false;
     },
+    removeShopById(state, action) {
+      state.shops = state.shops.filter(
+        (shop: Shop) => shop._id !== action.payload.id
+      );
+    },
     internalServerFailure(state) {
       state.isError = true;
       state.isLoading = false;
@@ -37,6 +42,7 @@ export const {
   getShops,
   getShopsSuccess,
   getShopsFailure,
+  removeShopById,
   internalServerFailure,
 } = getShopsSlice.actions;
 

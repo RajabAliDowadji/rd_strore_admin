@@ -22,6 +22,11 @@ import { deleteProductSubCategoryResetState } from "../redux/DeleteProductSubCat
 import { addEditProductBrandResetState } from "../redux/AddEditProductBrand.reddux";
 import { getProductBrandByIdResetState } from "../redux/GetProductBrandById.redux";
 import { deleteProductBrandResetState } from "../redux/DeleteProductBrand.redux";
+import { addEditFileResetState } from "../redux/AddEditFile.redux";
+import { deleteFileResetState } from "../redux/DeleteFile.redux";
+import { getShopByIdResetState } from "../redux/GetShopById.redux";
+import { deleteShopResetState } from "../redux/DeleteShop.redux";
+import { addEditShopResetState } from "../redux/AddEditShop.redux";
 
 export function* resetStateAPISaga({
   payload,
@@ -38,6 +43,10 @@ export function* resetStateAPISaga({
     yield put(addEditShopCategoryResetState());
     yield put(getShopCategoryByIdResetState());
     yield put(deleteShopCategoryResetState());
+  } else if (payload.state === "shops") {
+    yield put(addEditShopResetState());
+    yield put(getShopByIdResetState());
+    yield put(deleteShopResetState());
   } else if (payload.state === "commission-types") {
     yield put(addEditCommissionTypeResetState());
     yield put(getCommissionTypeByIdResetState());
@@ -58,6 +67,9 @@ export function* resetStateAPISaga({
     yield put(addEditProductBrandResetState());
     yield put(getProductBrandByIdResetState());
     yield put(deleteProductBrandResetState());
+  } else if (payload.state === "file") {
+    yield put(addEditFileResetState());
+    yield put(deleteFileResetState());
   }
 }
 

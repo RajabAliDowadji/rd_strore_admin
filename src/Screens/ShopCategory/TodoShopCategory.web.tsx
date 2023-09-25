@@ -39,10 +39,10 @@ const TodoShopCategory = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialData);
-  const state = useSelector((state: any) => state);
   const [dataError, setDataError] = useState({
     errors: {
       category_name: false,

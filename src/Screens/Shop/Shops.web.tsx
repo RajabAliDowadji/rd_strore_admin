@@ -6,9 +6,10 @@ import Dashboard from "../Dashboard/Dashboard.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import { GET_SHOPS } from "../../Hooks/Saga/Constant";
+import { DELETE_SHOP, GET_SHOPS, RESET_STATE } from "../../Hooks/Saga/Constant";
 import { GetShopColumns, Shop } from "../../Modal/GetShops.modal";
 import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import { errorToaster, successToaster } from "../../Utils/common";
 import "./Shops.web.css";
 
 const configJSON = require("../../Constants/Shop");
@@ -17,6 +18,7 @@ const Shops = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
+  const [id, setId] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [shops, setShops] = useState<GetShopColumns[]>([]);
 
@@ -46,8 +48,33 @@ const Shops = () => {
         })
       );
       setShops(tempArr);
+    } else if (
+      state &&
+      state.get_shops &&
+      state.get_shops.shops &&
+      state.get_shops.shops.length === 0
+    ) {
+      setShops([]);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_shop &&
+      !state.delete_shop.isError &&
+      state.delete_shop.message !== ""
+    ) {
+      successToaster(state.delete_shop.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "shops" },
+      });
+      navigate("/shops");
+    } else if (state && state.delete_shop && state.delete_shop.isError) {
+      errorToaster(state.delete_shop.message);
+    }
+  }, [dispatch, navigate, id, state]);
 
   const addShopHandle = () => {
     navigate("/shops/create");
@@ -58,16 +85,19 @@ const Shops = () => {
   const viewShopHandle = (id: string) => {
     navigate(`/shops/view/${id}`);
   };
-  const deleteBtnClickHandle = () => {
+  const deleteBtnClickHandle = (id: string) => {
+    setId(id);
     setModalOpen(true);
   };
   const modalHandleClose = () => {
     setModalOpen(false);
   };
   const onDeleteConfirmHandle = () => {
-    navigate("/shops");
+    dispatch({
+      type: DELETE_SHOP,
+      payload: { id: id },
+    });
     setModalOpen(false);
-    //TODO DELETE SHOP CATEGORY API CALL
   };
   return (
     <Box>

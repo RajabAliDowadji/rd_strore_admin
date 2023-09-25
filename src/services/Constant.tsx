@@ -13,7 +13,12 @@ export const authHeader = (token: string) => {
     token: token,
   };
 };
-
+export const fileHeader = (token: string) => {
+  return {
+    "Content-Type": "multipart/form-data",
+    token: token,
+  };
+};
 export const Login_END_POINT = "user/login";
 
 // Place End Point Start
@@ -39,8 +44,18 @@ export const shopCategoryByIdEndPoint = (id: string) => {
   return BASE_URL + Get_Shop_Category_By_Id_END_POINT + id;
 };
 export const addShopCategoryEndPoint = BASE_URL + Add_Shop_Category_END_POINT;
-
 // Shop Category End Point End
+
+// Shop End Point Start
+export const Get_Shops_END_POINT = "rd_admin/shops";
+export const Get_Shop_By_Id_END_POINT = "rd_admin/shop/";
+export const Add_Shop_END_POINT = "rd_admin/shop/create";
+export const getShopsEndPoint = BASE_URL + Get_Shops_END_POINT;
+export const shopByIdEndPoint = (id: string) => {
+  return BASE_URL + Get_Shop_By_Id_END_POINT + id;
+};
+export const addShopEndPoint = BASE_URL + Add_Shop_END_POINT;
+// Shop End Point End
 
 // Commission Type End Point Start
 export const Get_Commission_Types_END_POINT = "rd_admin/commissiontypes";
@@ -112,15 +127,22 @@ export const addProductBrandEndPoint =
   BASE_URL + Product_END_POINT + Add_Product_Brand_END_POINT;
 // Product Brand End Point End
 
-export const Get_Shops_END_POINT = "rd_admin/shops";
+// File End Point StartEnd
+export const Get_File_END_POINT = "file/";
+export const Add_File_END_POINT = "upload";
+export const addFileENDPOINT =
+  BASE_URL + Get_File_END_POINT + Add_File_END_POINT;
+export const deleteFileEndPoint = (id: string) => {
+  return BASE_URL + Get_File_END_POINT + id;
+};
+// File End Point End
+
 export const Get_Commissions_END_POINT = "rd_admin/commissions";
 export const Get_Product_END_POINT = "admin/product/";
 export const Get_Product_Rating_END_POINT = "product/ratings";
 export const Get_Product_Inventories_END_POINT = "inventories";
 
 export const userLoginEndPoint = BASE_URL + Login_END_POINT;
-
-export const getShopsEndPoint = BASE_URL + Get_Shops_END_POINT;
 export const getProductsEndPoint = BASE_URL + Get_Product_END_POINT;
 export const getCommissionsEndPoint = BASE_URL + Get_Commissions_END_POINT;
 export const getProductInventoriesEndPoint =

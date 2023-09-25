@@ -12,7 +12,7 @@ import {
   SuccessResponseState,
 } from "../../Modal/GetShopCategoryById.modal";
 
-export function* getShopCategeoryByIdAPISaga({
+export function* getShopCategoryByIdAPISaga({
   payload,
 }: {
   type: string;
@@ -32,6 +32,6 @@ export function* getShopCategeoryByIdAPISaga({
   }
 }
 
-export default function* getShopCategeoryByIdSaga() {
-  yield takeEvery(GET_SHOP_CATEGORY_BY_ID, getShopCategeoryByIdAPISaga);
+export default function* getShopCategoryByIdSaga() {
+  yield takeEvery(GET_SHOP_CATEGORY_BY_ID, getShopCategoryByIdAPISaga);
 }

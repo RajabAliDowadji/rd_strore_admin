@@ -17,6 +17,14 @@ export const ADD_SHOP_CATEGORY: string = "ADD_SHOP_CATEGORY";
 export const EDIT_SHOP_CATEGORY: string = "EDIT_SHOP_CATEGORY";
 // Shop Category API Type Start
 
+// Shop API Type Start
+export const GET_SHOPS: string = "GET_SHOPS";
+export const GET_SHOP_BY_ID: string = "GET_SHOP_BY_ID";
+export const DELETE_SHOP: string = "DELETE_SHOP";
+export const ADD_SHOP: string = "ADD_SHOP";
+export const EDIT_SHOP: string = "EDIT_SHOP";
+// Shop API Type End
+
 // Commission Type API Type Start
 export const GET_COMMISSION_TYPES: string = "GET_COMMISSION_TYPES";
 export const GET_COMMISSION_TYPE_BY_ID: string = "GET_COMMISSION_TYPE_BY_ID";
@@ -57,9 +65,13 @@ export const GET_PRODUCT_BRAND_BY_ID: string = "GET_PRODUCT_BRAND_BY_ID";
 export const ADD_PRODUCT_BRAND: string = "ADD_PRODUCT_BRAND";
 export const EDIT_PRODUCT_BRAND: string = "EDIT_PRODUCT_BRAND";
 export const DELETE_PRODUCT_BRAND: string = "DELETE_PRODUCT_BRAND";
-// Product Brand API Type Start
+// Product Brand API Type End
 
-export const GET_SHOPS: string = "GET_SHOPS";
+// File API Type Start
+export const ADD_FILE: string = "ADD_FILE";
+export const DELETE_FILE: string = "DELETE_FILE";
+// File API Type End
+
 export const GET_PRODUCTS: string = "GET_PRODUCTS";
 export const GET_COMMISSIONS: string = "GET_COMMISSIONS";
 export const GET_PRODUCT_INVENTORIES: string = "GET_PRODUCT_INVENTORIES";

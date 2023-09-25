@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Divider, Grid, Typography } from "@material-ui/core";
 import Dashboard from "../Dashboard/Dashboard.web";
@@ -12,14 +12,115 @@ import {
   shop_placeHolder,
   card_placeHolder,
 } from "./assets";
+import {
+  DELETE_SHOP,
+  GET_SHOP_BY_ID,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
+import { useDispatch, useSelector } from "react-redux";
+import { errorToaster, successToaster } from "../../Utils/common";
+import { GetShopByIdResponse } from "../../Modal/GetShopById.modal";
 import "./Shops.web.css";
 
 const configJSON = require("../../Constants/Shop");
 
 const ViewShop = () => {
   let { id } = useParams();
+  const initialData = useMemo(() => {
+    return {
+      _id: "",
+      shop_name: "",
+      owner_name: "",
+      email: "",
+      phone_number: "",
+      optional_number: "",
+      aadhar_number: "",
+      second_owner_name: "",
+      second_owner_number: "",
+      owner_image: "",
+      owner_aadhar_card: "",
+      shop_image: "",
+      address: "",
+      place: "",
+      shop_category: "",
+    };
+  }, []);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [formData, setFormData] = useState<any>(initialData);
+
+  useEffect(() => {
+    dispatch({
+      type: GET_SHOP_BY_ID,
+      payload: { id: id },
+    });
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_shop &&
+      !state.delete_shop.isError &&
+      state.delete_shop.message !== ""
+    ) {
+      successToaster(state.delete_shop.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "shops" },
+      });
+      navigate("/shops");
+    } else if (state && state.delete_shop && state.delete_shop.isError) {
+      errorToaster(state.delete_shop.message);
+    }
+  }, [dispatch, navigate, id, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_shop_by_id &&
+      state.get_shop_by_id.shop &&
+      state.get_shop_by_id.shop !== null
+    ) {
+      let temp: GetShopByIdResponse = initialData;
+      temp.shop_name = state.get_shop_by_id.shop.shop_name;
+      temp.owner_name = state.get_shop_by_id.shop.owner_name;
+      temp.email = state.get_shop_by_id.shop.email;
+      temp.phone_number = state.get_shop_by_id.shop.phone_number;
+      temp.optional_number = state.get_shop_by_id.shop.optional_number;
+      temp.aadhar_number = state.get_shop_by_id.shop.aadhar_number;
+      temp.second_owner_name = state.get_shop_by_id.shop.second_owner_name;
+      temp.second_owner_number = state.get_shop_by_id.shop.second_owner_number;
+      temp.owner_image =
+        state.get_shop_by_id.shop.owner_image &&
+        state.get_shop_by_id.shop.owner_image !== null &&
+        state.get_shop_by_id.shop.owner_image.file_url
+          ? state.get_shop_by_id.shop.owner_image.file_url
+          : "";
+      temp.owner_aadhar_card =
+        state.get_shop_by_id.shop.owner_aadhar_card &&
+        state.get_shop_by_id.shop.owner_aadhar_card !== null &&
+        state.get_shop_by_id.shop.owner_aadhar_card.file_url
+          ? state.get_shop_by_id.shop.owner_aadhar_card.file_url
+          : "";
+      temp.shop_image =
+        state.get_shop_by_id.shop.shop_image &&
+        state.get_shop_by_id.shop.shop_image !== null &&
+        state.get_shop_by_id.shop.shop_image.file_url
+          ? state.get_shop_by_id.shop.shop_image.file_url
+          : "";
+      temp.address = state.get_shop_by_id.shop.address;
+      temp.place = state.get_shop_by_id.shop.place.pincode;
+      temp.shop_category = state.get_shop_by_id.shop.place.category_name;
+
+      setFormData((prev: GetShopByIdResponse) => ({
+        ...prev,
+        ...temp,
+      }));
+    }
+  }, [initialData, state]);
+
   const addShopCategoryHandle = () => {
     navigate("/shops/create");
   };
@@ -33,9 +134,12 @@ const ViewShop = () => {
     setModalOpen(false);
   };
   const onDeleteConfirmHandle = () => {
-    navigate("/shops");
-    //TODO DELETE SHOP CATEGORY API CALL
+    dispatch({
+      type: DELETE_SHOP,
+      payload: { id: id },
+    });
   };
+
   return (
     <Box>
       <Dashboard>
@@ -63,7 +167,7 @@ const ViewShop = () => {
                       type="text"
                       label="Shop name"
                       name="shop_name"
-                      value="RDStore"
+                      value={formData.shop_name}
                       disabled={true}
                     />
                   </Box>
@@ -75,7 +179,7 @@ const ViewShop = () => {
                       type="text"
                       label="Owner name"
                       name="owner_name"
-                      value="officewala Abbas Bhai"
+                      value={formData.owner_name}
                       disabled={true}
                     />
                   </Box>
@@ -87,7 +191,7 @@ const ViewShop = () => {
                       type="text"
                       label="Email"
                       name="email"
-                      value="abbasvora04@gmail.com"
+                      value={formData.email}
                       disabled={true}
                     />
                   </Box>
@@ -100,7 +204,7 @@ const ViewShop = () => {
                       label="Phone number"
                       name="phone_number"
                       disabled={true}
-                      value="+919979144079"
+                      value={formData.phone_number}
                     />
                   </Box>
                 </Grid>
@@ -112,7 +216,7 @@ const ViewShop = () => {
                       label="Optional number"
                       name="optional_number"
                       disabled={true}
-                      value="+917777010688"
+                      value={formData.optional_number}
                     />
                   </Box>
                 </Grid>
@@ -123,7 +227,7 @@ const ViewShop = () => {
                       type="text"
                       label="Aadhar number"
                       name="aadhar_number"
-                      value="401417737623"
+                      value={formData.aadhar_number}
                       disabled={true}
                     />
                   </Box>
@@ -136,7 +240,7 @@ const ViewShop = () => {
                       label="Second owner name"
                       name="second_owner_name"
                       disabled={true}
-                      value="Femidaben Abbas Bhai"
+                      value={formData.second_owner_name}
                     />
                   </Box>
                 </Grid>
@@ -148,7 +252,7 @@ const ViewShop = () => {
                       label="Second owner number"
                       name="second_owner_number"
                       disabled={true}
-                      value="+919727366046"
+                      value={formData.second_owner_number}
                     />
                   </Box>
                 </Grid>
@@ -160,7 +264,7 @@ const ViewShop = () => {
                       label="Shop category"
                       name="shop_category"
                       disabled={true}
-                      value="Bronze"
+                      value={formData.shop_category}
                     />
                   </Box>
                 </Grid>
@@ -175,7 +279,7 @@ const ViewShop = () => {
                       multiline={false}
                       minRows={1}
                       disabled={true}
-                      value="Lakshmi Naryana chowk,Voravad,Halvad"
+                      value={formData.address}
                     />
                   </Box>
                 </Grid>
@@ -187,7 +291,7 @@ const ViewShop = () => {
                       label="Place"
                       name="place"
                       disabled={true}
-                      value="Halvad"
+                      value={formData.place}
                     />
                   </Box>
                 </Grid>
@@ -205,8 +309,8 @@ const ViewShop = () => {
                       description={
                         "The owner image should see perfectly and image size should be less than 5 Mb."
                       }
-                      imageUrl={""}
-                      onFileChange={undefined}
+                      imageUrl={formData.owner_image}
+                      name={"owner_image"}
                     />
                   </Box>
                 </Grid>
@@ -218,8 +322,8 @@ const ViewShop = () => {
                       description={
                         "The shop image should see perfectly and image size should be less than 5 Mb."
                       }
-                      imageUrl={""}
-                      onFileChange={undefined}
+                      imageUrl={formData.shop_image}
+                      name={"shop_image"}
                     />
                   </Box>
                 </Grid>
@@ -231,8 +335,8 @@ const ViewShop = () => {
                       description={
                         "The Owner aadhar card should see perfectly and image size should be less than 5 Mb."
                       }
-                      imageUrl={""}
-                      onFileChange={undefined}
+                      imageUrl={formData.owner_aadhar_card}
+                      name={"owner_aadhar_card"}
                     />
                   </Box>
                 </Grid>

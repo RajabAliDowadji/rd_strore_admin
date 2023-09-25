@@ -11,6 +11,7 @@
   border-radius: 4px;
   padding: 5px;
   border: 1px dashed var(--gray);
+  cursor: pointer;
 }
 .imageTitleTxt {
   font-size: 24px !important;

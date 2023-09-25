@@ -8,7 +8,9 @@ interface ImageUploadProps {
   description: string;
   imageUrl: string;
   errorText?: string;
-  onFileChange: any;
+  onFileChange?: any;
+  onClick?: any;
+  name: string;
 }
 const ImageUpload = ({
   profile_placeHolder,
@@ -17,14 +19,25 @@ const ImageUpload = ({
   errorText,
   imageUrl,
   onFileChange,
+  onClick,
+  name,
 }: ImageUploadProps) => {
+  const onBtnClick = () => {
+    onClick(name);
+  };
   return (
     <Box className="imageContainer">
-      <img
-        src={imageUrl ? imageUrl : profile_placeHolder}
-        alt="Profile Place Holder"
-        className="profileplaceHolder"
-      />
+      <label htmlFor={name}>
+        <img
+          src={
+            imageUrl && imageUrl !== null && imageUrl !== ""
+              ? imageUrl
+              : profile_placeHolder
+          }
+          alt="Profile Place Holder"
+          className="profileplaceHolder"
+        />
+      </label>
       <Box>
         <Typography className="imageTitleTxt">{title}</Typography>
         <Typography className="imageDescTxt">{description}</Typography>
@@ -34,19 +47,19 @@ const ImageUpload = ({
         <input
           accept="image/png, image/gif, image/jpeg"
           className="imageInput"
-          id="contained-button-file"
+          id={name}
           type="file"
+          name={name}
           onChange={onFileChange}
         />
-        <label htmlFor="contained-button-file">
-          <Button
-            variant="contained"
-            component="span"
-            className="imageUploadBtn"
-          >
-            Upload
-          </Button>
-        </label>
+        <Button
+          variant="contained"
+          component="span"
+          className="imageUploadBtn"
+          onClick={onBtnClick}
+        >
+          Upload
+        </Button>
       </Box>
     </Box>
   );

@@ -73,6 +73,7 @@ const ViewShopCategory = () => {
         type: RESET_STATE,
         payload: { state: "shop-categories" },
       });
+      navigate("/shop-categories");
     } else if (
       state &&
       state.delete_shop_category &&
@@ -104,7 +105,6 @@ const ViewShopCategory = () => {
       payload: { id: id },
     });
     setModalOpen(false);
-    navigate("/shop-categories");
   };
   return (
     <Box>
