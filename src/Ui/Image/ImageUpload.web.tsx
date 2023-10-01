@@ -10,6 +10,7 @@ interface ImageUploadProps {
   errorText?: string;
   onFileChange?: any;
   onClick?: any;
+  view?: boolean;
   name: string;
 }
 const ImageUpload = ({
@@ -21,6 +22,7 @@ const ImageUpload = ({
   onFileChange,
   onClick,
   name,
+  view,
 }: ImageUploadProps) => {
   const onBtnClick = () => {
     onClick(name);
@@ -44,6 +46,7 @@ const ImageUpload = ({
         {errorText && (
           <Typography className="imageDescTxt errorTxt">{errorText}</Typography>
         )}
+
         <input
           accept="image/png, image/gif, image/jpeg"
           className="imageInput"
@@ -52,14 +55,18 @@ const ImageUpload = ({
           name={name}
           onChange={onFileChange}
         />
-        <Button
-          variant="contained"
-          component="span"
-          className="imageUploadBtn"
-          onClick={onBtnClick}
-        >
-          Upload
-        </Button>
+        {view ? (
+          <></>
+        ) : (
+          <Button
+            variant="contained"
+            component="span"
+            className="imageUploadBtn"
+            onClick={onBtnClick}
+          >
+            Upload
+          </Button>
+        )}
       </Box>
     </Box>
   );

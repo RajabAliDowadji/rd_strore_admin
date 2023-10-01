@@ -114,7 +114,7 @@ export const addProductSubCategoryEndPoint =
   BASE_URL + Product_END_POINT + Add_Product_Sub_Category_END_POINT;
 // Product Sub-Category End Point Start
 
-// Product Brand End Point End
+// Product Brand End Point Start
 export const Get_Product_Brands_END_POINT = "brands";
 export const Add_Product_Brand_END_POINT = "brand/create";
 export const Get_Product_Brand_By_Id_END_POINT = "brand/";
@@ -127,23 +127,34 @@ export const addProductBrandEndPoint =
   BASE_URL + Product_END_POINT + Add_Product_Brand_END_POINT;
 // Product Brand End Point End
 
-// File End Point StartEnd
+// File End Point Start
 export const Get_File_END_POINT = "file/";
 export const Add_File_END_POINT = "upload";
+export const Add_Files_END_POINT = "files/upload";
 export const addFileENDPOINT =
   BASE_URL + Get_File_END_POINT + Add_File_END_POINT;
+export const addFilesENDPOINT = BASE_URL + Add_Files_END_POINT;
 export const deleteFileEndPoint = (id: string) => {
   return BASE_URL + Get_File_END_POINT + id;
 };
 // File End Point End
 
-export const Get_Commissions_END_POINT = "rd_admin/commissions";
+// Product End Point Start
 export const Get_Product_END_POINT = "admin/product/";
+export const Add_Product_END_POINT = "create";
+export const getProductsEndPoint = BASE_URL + Get_Product_END_POINT;
+export const productByIdEndPoint = (id: string) => {
+  return BASE_URL + Get_Product_END_POINT + id;
+};
+export const addProductEndPoint =
+  BASE_URL + Get_Product_END_POINT + Add_Product_END_POINT;
+// Product End Point End
+
+export const Get_Commissions_END_POINT = "rd_admin/commissions";
 export const Get_Product_Rating_END_POINT = "product/ratings";
 export const Get_Product_Inventories_END_POINT = "inventories";
 
 export const userLoginEndPoint = BASE_URL + Login_END_POINT;
-export const getProductsEndPoint = BASE_URL + Get_Product_END_POINT;
 export const getCommissionsEndPoint = BASE_URL + Get_Commissions_END_POINT;
 export const getProductInventoriesEndPoint =
   BASE_URL + Get_Product_END_POINT + Get_Product_Inventories_END_POINT;

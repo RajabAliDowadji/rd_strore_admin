@@ -21,7 +21,7 @@ const ViewMultiImages = ({
             {selectedImage.map((image: any) => (
               <Grid item xs={2}>
                 <img
-                  src={image.imageURL ? image.imageURL : noimage_placeHolder}
+                  src={image.file_url ? image.file_url : noimage_placeHolder}
                   className="multipleImage_noimage"
                   alt="NoImage Place Holder"
                 />

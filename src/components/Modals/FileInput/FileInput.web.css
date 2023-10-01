@@ -1,0 +1,151 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  height: 50%;
+  width: 50%;
+}
+
+.fileInput_modalSubContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--white);
+  border-radius: 29px;
+  padding: 32px;
+  justify-content: center;
+  outline: none !important;
+  width: 100%;
+  height: 100%;
+}
+
+.fileInput_uploadContainer {
+  border: 1px dashed var(--primary500);
+  border-radius: 6px;
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fileInput_imageContainer {
+  width: 100%;
+  height: 85%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.fileInput_titleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.fileInput_title {
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  color: var(--primary500) !important;
+  font-family: var(--fontFamily) !important;
+}
+
+.fileInput_imageMainSubContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--primary500);
+  border-radius: 6px;
+  padding: 10px;
+  margin: 5px 0px;
+}
+
+.fileInput_imageSubContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.fileInput_imageRemoveContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 20px;
+}
+
+.fileInput_imageTextContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 20px;
+}
+
+.fileInput_titleTxt {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: var(--gray900) !important;
+  font-family: var(--fontFamily) !important;
+}
+
+.fileInput_deleteIcon {
+  color: var(--primary500);
+  cursor: pointer;
+  font-size: 32px;
+}
+
+.fileInput_imageNameText {
+  font-size: 16px !important;
+  font-family: var(--fontFamily) !important;
+  color: var(--black) !important;
+  margin: 5px 0px;
+}
+
+.fileInput_image {
+  object-fit: fill;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.fileInput_uploadBtnContainer {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fileInput_uploadImg {
+  object-fit: fill;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+}
+
+.fileInput_modaldescriptionText {
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  margin: 20px 0px !important;
+}
+
+.fileInput_modalformatText {
+  font-size: 18px !important;
+  text-align: center !important;
+  color: var(--primary500);
+}
+.fileInput_activeButton {
+  font-family: var(--fontFamily) !important;
+  background-color: var(--primary500) !important;
+  border-radius: 4px !important;
+  padding: 17px 10px !important;
+  color: var(--white) !important;
+  text-transform: capitalize !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+}

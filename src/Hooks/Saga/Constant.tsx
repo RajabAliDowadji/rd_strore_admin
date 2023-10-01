@@ -69,10 +69,18 @@ export const DELETE_PRODUCT_BRAND: string = "DELETE_PRODUCT_BRAND";
 
 // File API Type Start
 export const ADD_FILE: string = "ADD_FILE";
+export const ADD_FILES: string = "ADD_FILES";
 export const DELETE_FILE: string = "DELETE_FILE";
 // File API Type End
 
+// Product Brand API Type Start
 export const GET_PRODUCTS: string = "GET_PRODUCTS";
+export const GET_PRODUCT_BY_ID: string = "GET_PRODUCT_BY_ID";
+export const ADD_PRODUCT: string = "ADD_PRODUCT";
+export const EDIT_PRODUCT: string = "EDIT_PRODUCT";
+export const DELETE_PRODUCT: string = "DELETE_PRODUCT";
+// Product Brand API Type End
+
 export const GET_COMMISSIONS: string = "GET_COMMISSIONS";
 export const GET_PRODUCT_INVENTORIES: string = "GET_PRODUCT_INVENTORIES";
 export const GET_PRODUCT_RATINGS: string = "GET_PRODUCT_RATINGS";

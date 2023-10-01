@@ -112,7 +112,8 @@ const ViewShop = () => {
           : "";
       temp.address = state.get_shop_by_id.shop.address;
       temp.place = state.get_shop_by_id.shop.place.pincode;
-      temp.shop_category = state.get_shop_by_id.shop.place.category_name;
+      temp.shop_category =
+        state.get_shop_by_id.shop.shop_category.category_name;
 
       setFormData((prev: GetShopByIdResponse) => ({
         ...prev,
@@ -123,6 +124,10 @@ const ViewShop = () => {
 
   const addShopCategoryHandle = () => {
     navigate("/shops/create");
+    dispatch({
+      type: RESET_STATE,
+      payload: { state: "shops" },
+    });
   };
   const editShopCategoryHandle = () => {
     navigate(`/shops/edit/${id}`);
@@ -311,6 +316,7 @@ const ViewShop = () => {
                       }
                       imageUrl={formData.owner_image}
                       name={"owner_image"}
+                      view={true}
                     />
                   </Box>
                 </Grid>
@@ -324,6 +330,7 @@ const ViewShop = () => {
                       }
                       imageUrl={formData.shop_image}
                       name={"shop_image"}
+                      view={true}
                     />
                   </Box>
                 </Grid>
@@ -337,6 +344,7 @@ const ViewShop = () => {
                       }
                       imageUrl={formData.owner_aadhar_card}
                       name={"owner_aadhar_card"}
+                      view={true}
                     />
                   </Box>
                 </Grid>

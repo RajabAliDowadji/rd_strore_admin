@@ -7,8 +7,13 @@ import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
 import { GetProductColumns, Product } from "../../Modal/GetProducts.modal";
-import { GET_PRODUCTS } from "../../Hooks/Saga/Constant";
+import {
+  DELETE_PRODUCT,
+  GET_PRODUCTS,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import { errorToaster, successToaster } from "../../Utils/common";
 import "./Products.web.css";
 
 const configJSON = require("../../Constants/Products");
@@ -18,6 +23,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [id, setId] = useState<string>("");
   const [products, setProducts] = useState<GetProductColumns[]>([]);
 
   useEffect(() => {
@@ -43,34 +49,67 @@ const Products = () => {
           product_price: product.product_price,
           sub_category_name: product.product_sub_category.sub_category_name,
           brand_name: product.product_brand.brand_name,
-          is_published: product.is_published,
           is_vegetarian: product.is_vegetarian,
+          is_published: product.is_published,
         })
       );
       setProducts(tempArr);
+    } else if (
+      state &&
+      state.get_products &&
+      state.get_products.products &&
+      state.get_products.products.length === 0
+    ) {
+      setProducts([]);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_product &&
+      !state.delete_product.isError &&
+      state.delete_product.message !== ""
+    ) {
+      successToaster(state.delete_product.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "products" },
+      });
+    } else if (state && state.delete_product && state.delete_product.isError) {
+      errorToaster(state.get_product.message);
+    }
+  }, [dispatch, navigate, state]);
 
   const addProductHandle = () => {
     navigate("/products/create");
   };
+
   const editProductHandle = (id: string) => {
     navigate(`/products/edit/${id}`);
   };
+
   const viewProductHandle = (id: string) => {
     navigate(`/products/view/${id}`);
   };
-  const deleteBtnClickHandle = () => {
+
+  const deleteBtnClickHandle = (id: string) => {
+    setId(id);
     setModalOpen(true);
   };
+
   const modalHandleClose = () => {
     setModalOpen(false);
   };
+
   const onDeleteConfirmHandle = () => {
-    navigate("/products");
+    dispatch({
+      type: DELETE_PRODUCT,
+      payload: { id: id },
+    });
     setModalOpen(false);
-    //TODO DELETE PRODUCT API CALL
   };
+
   return (
     <Box>
       <Dashboard>

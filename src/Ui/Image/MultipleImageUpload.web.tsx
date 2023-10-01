@@ -9,7 +9,7 @@ interface MultipleImageUploadProps {
   selectedImage: any;
   error: boolean;
   errorText: string;
-  onFileChange: any;
+  onClick: any;
 }
 const MultipleImageUpload = ({
   uploadimg_placeHolder,
@@ -18,32 +18,24 @@ const MultipleImageUpload = ({
   error,
   errorText,
   selectedImage,
-  onFileChange,
+  onClick,
 }: MultipleImageUploadProps) => {
   return (
     <Box className="multipleImageContainer">
       <fieldset className="multipleImageContainer_fieldset">
         <legend className="multipleImageContainer_title">{title}</legend>
         <Box className="multipleImage_subContainer">
-          <input
-            accept="image/png, image/gif, image/jpeg"
-            className="imageInput"
-            id="contained-button-file"
-            type="file"
-            onChange={onFileChange}
+          <img
+            src={uploadimg_placeHolder}
+            className="multipleImage_placeHolder"
+            alt="Profile Place Holder"
+            onClick={onClick}
           />
-          <label htmlFor="contained-button-file">
-            <img
-              src={uploadimg_placeHolder}
-              className="multipleImage_placeHolder"
-              alt="Profile Place Holder"
-            />
-          </label>
           <Grid container spacing={2}>
             {selectedImage.map((image: any) => (
               <Grid item xs={2}>
                 <img
-                  src={image.imageURL ? image.imageURL : noimage_placeHolder}
+                  src={image.file_url ? image.file_url : noimage_placeHolder}
                   className="multipleImage_noimage"
                   alt="NoImage Place Holder"
                 />

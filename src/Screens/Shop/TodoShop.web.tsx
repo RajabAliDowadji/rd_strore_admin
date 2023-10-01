@@ -8,7 +8,12 @@ import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
-import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
+import {
+  errorToaster,
+  isEmpty,
+  isImageUpload,
+  successToaster,
+} from "../../Utils/common";
 import { emailValidate } from "../../Validations/emailValidate.web";
 import DropDown from "../../Ui/DropDown/DropDown.web";
 import { dropDownValidate } from "../../Validations/dropDownValidate.web";
@@ -331,6 +336,7 @@ const TodoShop = () => {
         type: RESET_STATE,
         payload: { state: "shops" },
       });
+      navigate("/shops");
     } else if (state && state.delete_shop && state.delete_shop.isError) {
       errorToaster(state.delete_shop.message);
     }
@@ -488,12 +494,12 @@ const TodoShop = () => {
       "Aadhar number",
       formData.aadhar_number
     );
-    const isOwnerImgValid = isEmpty("Owner Image", formData.owner_image);
-    const isOwnerAadharValid = isEmpty(
+    const isOwnerImgValid = isImageUpload("Owner Image", formData.owner_image);
+    const isOwnerAadharValid = isImageUpload(
       "Owner aadhar image",
       formData.owner_aadhar_card
     );
-    const isShopImageValid = isEmpty("Shop image", formData.shop_image);
+    const isShopImageValid = isImageUpload("Shop image", formData.shop_image);
     const isAddressValid = isEmpty("Address", formData.address);
     const isPlaceValid = dropDownValidate("Place", formData.place);
     const isShopCatValid = dropDownValidate(

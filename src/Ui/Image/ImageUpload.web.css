@@ -57,7 +57,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
-  padding: 0.2em 0.8em;
 }
 .multipleImage_placeHolder {
   width: 170px;

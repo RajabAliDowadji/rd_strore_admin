@@ -1,7 +1,7 @@
 import { capatalizeString } from "../Utils/common";
 
 export const multiImageUploadValidate = (fieldName: string, values: any) => {
-  if (values.map((value: any) => value.imageURL !== "")) {
+  if (values.length === 0) {
     return {
       status: true,
       message: `Please select ${capatalizeString(fieldName)}.`,

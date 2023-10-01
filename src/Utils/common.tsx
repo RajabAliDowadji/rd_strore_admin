@@ -27,14 +27,24 @@ export const isNumEmpty = (fieldName: string, val: number) => {
     return { status: false, message: "" };
   }
 };
-export const isImageUpload = (fieldName: string, val: string) => {
-  if (val.trim().length === 0 && val.trim() === "") {
+export const isImageUpload = (fieldName: string, val: string | []) => {
+  if (typeof val === "string") {
+    if (val && val.trim() === "") {
+      return {
+        status: true,
+        message: `Please upload ${capatalizeString(fieldName)}.`,
+      };
+    } else {
+      return {
+        status: false,
+        message: "",
+      };
+    }
+  } else {
     return {
       status: true,
-      message: `Please upload ${capatalizeString(fieldName)}.`,
+      message: `Please click on upload.`,
     };
-  } else {
-    return { status: false, message: "" };
   }
 };
 

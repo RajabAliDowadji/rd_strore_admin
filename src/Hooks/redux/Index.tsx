@@ -34,9 +34,13 @@ import getShopByIdReducer from "./GetShopById.redux";
 import deleteShopReducer from "./DeleteShop.redux";
 import addEditShopReducer from "./AddEditShop.redux";
 import addEditFileReducer from "./AddEditFile.redux";
+import addEditFilesReducer from "./AddEditFiles.redux";
 import deleteFileReducer from "./DeleteFile.redux";
-
 import getProductsReducer from "./GetProducts.redux";
+import addEditProductReducer from "./AddEditProduct.redux";
+import getProductByIdReducer from "./GetProductById.redux";
+import deleteProductReducer from "./DeleteProduct.redux";
+
 import getCommissionsReducer from "./GetCommissions.redux";
 import getProductInventoriesReducer from "./GetProductInventories.redux";
 import getProductRatingsReducer from "./GetProductRatings.redux";
@@ -103,10 +107,17 @@ const rootReducers = combineReducers({
 
   //File Reducer Start
   add_edit_file: addEditFileReducer,
+  add_edit_files: addEditFilesReducer,
   delete_file: deleteFileReducer,
   //File Reducer End
 
+  //Product Reducer Start
   get_products: getProductsReducer,
+  add_edit_product: addEditProductReducer,
+  get_product_by_id: getProductByIdReducer,
+  delete_product: deleteProductReducer,
+  //Product Reducer Start
+
   get_commissions: getCommissionsReducer,
   get_product_inventories: getProductInventoriesReducer,
   get_product_ratings: getProductRatingsReducer,

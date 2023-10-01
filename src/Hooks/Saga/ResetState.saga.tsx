@@ -27,6 +27,10 @@ import { deleteFileResetState } from "../redux/DeleteFile.redux";
 import { getShopByIdResetState } from "../redux/GetShopById.redux";
 import { deleteShopResetState } from "../redux/DeleteShop.redux";
 import { addEditShopResetState } from "../redux/AddEditShop.redux";
+import { addEditProductResetState } from "../redux/AddEditProduct.redux";
+import { getProductByIdResetState } from "../redux/GetProductById.redux";
+import { deleteProductResetState } from "../redux/DeleteProduct.redux";
+import { addEditFilesResetState } from "../redux/AddEditFiles.redux";
 
 export function* resetStateAPISaga({
   payload,
@@ -69,7 +73,12 @@ export function* resetStateAPISaga({
     yield put(deleteProductBrandResetState());
   } else if (payload.state === "file") {
     yield put(addEditFileResetState());
+    yield put(addEditFilesResetState());
     yield put(deleteFileResetState());
+  } else if (payload.state === "products") {
+    yield put(addEditProductResetState());
+    yield put(getProductByIdResetState());
+    yield put(deleteProductResetState());
   }
 }
 
