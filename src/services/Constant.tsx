@@ -189,10 +189,20 @@ export const addProductInventoryEndPoint =
   BASE_URL + Get_Product_END_POINT + Add_Product_Inventory_END_POINT;
 // Product Inventory End Point End
 
+// Commission Type End Point Start
 export const Get_Commissions_END_POINT = "rd_admin/commissions";
+export const Commission_By_Id_END_POINT = "rd_admin/commission/";
+export const Get_Commission_By_Id_END_POINT = "admin/commission/";
+export const Add_Commission_END_POINT = "rd_admin/commission/create";
+export const getCommissionsEndPoint = BASE_URL + Get_Commissions_END_POINT;
+export const commissionByIdEndPoint = (id: string) => {
+  return BASE_URL + Commission_By_Id_END_POINT + id;
+};
+export const addCommissionEndPoint = BASE_URL + Add_Commission_END_POINT;
+// Commission Type End Point Start
+
 export const Get_Product_Rating_END_POINT = "product/ratings";
 
 export const userLoginEndPoint = BASE_URL + Login_END_POINT;
-export const getCommissionsEndPoint = BASE_URL + Get_Commissions_END_POINT;
 export const getProductRatingsEndPoint =
   BASE_URL + Get_Product_Rating_END_POINT;

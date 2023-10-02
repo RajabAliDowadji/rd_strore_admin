@@ -34,6 +34,9 @@ import { addEditFilesResetState } from "../redux/AddEditFiles.redux";
 import { addEditProductInventoryResetState } from "../redux/AddEditProductInventory.redux";
 import { getProductInventoryByIdResetState } from "../redux/GetProductInventoryById.redux";
 import { deleteProductInventoryResetState } from "../redux/DeleteProductInventory.redux";
+import { addEditCommissionResetState } from "../redux/AddEditCommission.redux";
+import { getCommissionByIdResetState } from "../redux/GetCommissionById.redux";
+import { deleteCommissionResetState } from "../redux/DeleteCommission.redux";
 
 export function* resetStateAPISaga({
   payload,
@@ -86,6 +89,10 @@ export function* resetStateAPISaga({
     yield put(addEditProductInventoryResetState());
     yield put(getProductInventoryByIdResetState());
     yield put(deleteProductInventoryResetState());
+  } else if (payload.state === "commissions") {
+    yield put(addEditCommissionResetState());
+    yield put(getCommissionByIdResetState());
+    yield put(deleteCommissionResetState());
   }
 }
 

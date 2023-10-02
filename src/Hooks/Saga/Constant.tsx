@@ -90,5 +90,12 @@ export const EDIT_PRODUCT_INVENTORY: string = "EDIT_PRODUCT_INVENTORY";
 export const DELETE_PRODUCT_INVENTORY: string = "DELETE_PRODUCT_INVENTORY";
 // Product Inventory API Type End
 
+// Commission API Type Start
 export const GET_COMMISSIONS: string = "GET_COMMISSIONS";
+export const GET_COMMISSION_BY_ID: string = "GET_COMMISSION_BY_ID";
+export const ADD_COMMISSION: string = "ADD_COMMISSION";
+export const EDIT_COMMISSION: string = "EDIT_COMMISSION";
+export const DELETE_COMMISSION: string = "DELETE_COMMISSION";
+// Commission API Type End
+
 export const GET_PRODUCT_RATINGS: string = "GET_PRODUCT_RATINGS";

@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetCommissionsState } from "../../Modal/GetCommissions.modal";
+import {
+  Commission,
+  GetCommissionsState,
+} from "../../Modal/GetCommissions.modal";
 
 const initialState = {
   isLoading: false,
@@ -26,6 +29,11 @@ const getCommissionsSlice = createSlice({
       state.message = action.payload.error.message;
       state.isLoading = false;
     },
+    removeCommissionById(state, action) {
+      state.commissions = state.commissions.filter(
+        (commission: Commission) => commission._id !== action.payload.id
+      );
+    },
     internalServerFailure(state) {
       state.isError = true;
       state.isLoading = false;
@@ -37,6 +45,7 @@ export const {
   getCommissions,
   getCommissionsSuccess,
   getCommissionsFailure,
+  removeCommissionById,
   internalServerFailure,
 } = getCommissionsSlice.actions;
 

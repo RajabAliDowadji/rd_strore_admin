@@ -62,8 +62,14 @@ import {
   editProductInventorySaga,
 } from "./AddEditProductInventory.saga";
 import deleteProductInventorySaga from "./DeleteProductInventory.saga";
-
 import getCommissionsSaga from "./GetCommissions.saga";
+import {
+  addCommissionSaga,
+  editCommissionSaga,
+} from "./AddEditCommission.saga";
+import deleteCommissionSaga from "./DeleteCommission.saga";
+import getCommissionByIdSaga from "./GetCommissionById.saga";
+
 import getProductRatingsSaga from "./GetProductRatings.saga";
 import resetStateSaga from "./ResetState.saga";
 import { addFilesSaga } from "./AddEditFiles.saga";
@@ -162,7 +168,14 @@ export default function* rootSaga() {
     fork(deleteProductInventorySaga),
     //Product Inventory Saga End
 
+    //Commission Type Saga Start
     fork(getCommissionsSaga),
+    fork(getCommissionByIdSaga),
+    fork(addCommissionSaga),
+    fork(editCommissionSaga),
+    fork(deleteCommissionSaga),
+    //Commission Type Saga Start
+
     fork(getProductRatingsSaga),
   ]);
 }

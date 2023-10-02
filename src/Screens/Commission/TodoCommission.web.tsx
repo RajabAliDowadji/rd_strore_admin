@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import Dashboard from "../Dashboard/Dashboard.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
@@ -7,26 +7,44 @@ import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
-import { isEmpty } from "../../Utils/common";
-
-import "./Commissions.web.css";
+import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
 import { dropDownValidate } from "../../Validations/dropDownValidate.web";
 import DropDown from "../../Ui/DropDown/DropDown.web";
+import "./Commissions.web.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_COMMISSION,
+  DELETE_COMMISSION,
+  EDIT_COMMISSION,
+  GET_COMMISSION_BY_ID,
+  GET_COMMISSION_TYPES,
+  GET_PRODUCTS,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
+import { CommissionType } from "../../Modal/GetCommissionTypes.modal";
+import { GetProductColumns, Product } from "../../Modal/GetProducts.modal";
+import { GetCommissionByIdResponse } from "../../Modal/GetCommissionById.modal";
 
 const configJSON = require("../../Constants/Commission");
 
 const TodoCommission = () => {
-  const initialData = {
-    commission: "",
-    commission_type: [],
-    product: [],
-  };
+  const initialData = useMemo(() => {
+    return {
+      commission: "",
+      commission_type: "",
+      product: "",
+    };
+  }, []);
+  let { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  let { id } = useParams();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialData);
+  const [commissionTypes, setCommissionTypes] = useState<CommissionType[]>([]);
+  const [products, setProducts] = useState<GetProductColumns[]>([]);
   const [dataError, setDataError] = useState({
     errors: {
       commission: false,
@@ -39,6 +57,150 @@ const TodoCommission = () => {
       product: "",
     },
   });
+
+  useEffect(() => {
+    if (id) {
+      dispatch({
+        type: GET_COMMISSION_BY_ID,
+        payload: { id: id },
+      });
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    dispatch({
+      type: GET_COMMISSION_TYPES,
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch({
+      type: GET_PRODUCTS,
+      payload: { brand_name: "", sub_category_name: "" },
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_products &&
+      state.get_products.products &&
+      state.get_products.products.length !== 0
+    ) {
+      let tempArr: GetProductColumns[] = [];
+      state.get_products.products.map((product: Product) =>
+        tempArr.push({
+          _id: product._id,
+          product_title: product.product_title,
+          product_size: product.product_size,
+          product_MRP_price: product.product_MRP_price,
+          product_price: product.product_price,
+          sub_category_name: product.product_sub_category.sub_category_name,
+          brand_name: product.product_brand.brand_name,
+          is_vegetarian: product.is_vegetarian,
+          is_published: product.is_published,
+        })
+      );
+      setProducts(tempArr);
+    } else if (
+      state &&
+      state.get_products &&
+      state.get_products.products &&
+      state.get_products.products.length === 0
+    ) {
+      setProducts([]);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_commission_types &&
+      state.get_commission_types.commissionTypes &&
+      state.get_commission_types.commissionTypes.length !== 0
+    ) {
+      let tempArr: CommissionType[] = [];
+      state.get_commission_types.commissionTypes.map(
+        (commissionType: CommissionType) =>
+          tempArr.push({
+            _id: commissionType._id,
+            commission_name: commissionType.commission_name,
+            commission_sign: commissionType.commission_sign,
+          })
+      );
+      setCommissionTypes(tempArr);
+    } else if (
+      state &&
+      state.get_commission_types &&
+      state.get_commission_types.commissionTypes &&
+      state.get_commission_types.commissionTypes.length === 0
+    ) {
+      setCommissionTypes([]);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_commission &&
+      !state.delete_commission.isError &&
+      state.delete_commission.message !== ""
+    ) {
+      successToaster(state.delete_commission.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "commissions" },
+      });
+      navigate("/commissions");
+    } else if (
+      state &&
+      state.delete_commission &&
+      state.delete_commission.isError
+    ) {
+      errorToaster(state.delete_commission.message);
+    }
+  }, [dispatch, navigate, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.add_edit_commission &&
+      state.add_edit_commission.commission &&
+      state.add_edit_commission.commission !== null &&
+      !state.add_edit_commission.isError &&
+      state.add_edit_commission.message !== ""
+    ) {
+      successToaster(state.add_edit_commission.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "commissions" },
+      });
+      navigate("/commissions");
+    }
+  }, [dispatch, navigate, state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_commission_by_id &&
+      state.get_commission_by_id.commission &&
+      state.get_commission_by_id.commission !== null
+    ) {
+      let temp: GetCommissionByIdResponse = initialData;
+      temp.commission = state.get_commission_by_id.commission.commission;
+      temp.commission_type =
+        state.get_commission_by_id.commission.commission_type._id;
+      temp.product = state.get_commission_by_id.commission.product._id;
+      console.log("temp", temp);
+      setFormData((prev: GetCommissionByIdResponse) => ({
+        ...prev,
+        ...temp,
+      }));
+    } else if (state.get_commission_type_by_id.isError) {
+      errorToaster(state.get_commission_type_by_id.message);
+    }
+  }, [initialData, state]);
+
   useEffect(() => {
     const route = location.pathname.split("/");
     if (route && route.length > 0) {
@@ -63,8 +225,10 @@ const TodoCommission = () => {
   };
 
   const onDeleteConfirmHandle = () => {
-    navigate("/commissions");
-    //TODO DELETE COMMISSIONS API CALL
+    dispatch({
+      type: DELETE_COMMISSION,
+      payload: { id: id },
+    });
   };
 
   const inputChangeHandle = (fieldName: string, event: any) => {
@@ -113,11 +277,15 @@ const TodoCommission = () => {
       }));
     } else {
       if (isEdit) {
-        // TODO UPDATE COMMISSION API CALL
-        navigate("/commissions");
+        dispatch({
+          type: EDIT_COMMISSION,
+          payload: { id: id, values: formData },
+        });
       } else {
-        // TODO CREATE COMMISSION API CALL
-        navigate("/commissions");
+        dispatch({
+          type: ADD_COMMISSION,
+          payload: formData,
+        });
       }
     }
   };
@@ -129,7 +297,7 @@ const TodoCommission = () => {
     const isValid = dropDownValidate(fieldName, values);
     setFormData((prev) => ({
       ...prev,
-      [keyName]: values,
+      [keyName]: values[0]._id,
     }));
     setDataError((prev) => ({
       ...prev,
@@ -140,11 +308,7 @@ const TodoCommission = () => {
       },
     }));
   };
-  const items = [
-    { label: "Last 7 Days", value: 7 },
-    { label: "Last 28 Days", value: 28 },
-    { label: "Last 90 Days", value: 90 },
-  ];
+
   return (
     <Box>
       <Dashboard>
@@ -171,7 +335,9 @@ const TodoCommission = () => {
                 disabled={false}
                 clearable={false}
                 required={false}
-                data={items}
+                labelField={"commission_name"}
+                valueField={"_id"}
+                data={commissionTypes}
                 values={formData.commission_type}
                 placeholder="Please commission type"
                 error={dataError.errors.commission_type}
@@ -204,7 +370,9 @@ const TodoCommission = () => {
                 disabled={false}
                 clearable={false}
                 required={false}
-                data={items}
+                labelField={"product_title"}
+                valueField={"_id"}
+                data={products}
                 values={formData.product}
                 placeholder="Please select product"
                 error={dataError.errors.product}

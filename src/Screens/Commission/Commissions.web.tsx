@@ -6,9 +6,14 @@ import Dashboard from "../Dashboard/Dashboard.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import { GET_COMMISSIONS } from "../../Hooks/Saga/Constant";
+import {
+  DELETE_COMMISSION,
+  GET_COMMISSIONS,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import { Commission, GetCommission } from "../../Modal/GetCommissions.modal";
 import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import { errorToaster, successToaster } from "../../Utils/common";
 import "./Commissions.web.css";
 
 const configJSON = require("../../Constants/Commission");
@@ -16,14 +21,39 @@ const configJSON = require("../../Constants/Commission");
 const Commissions = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [id, setId] = useState<string>("");
   const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [commissions, setCommissions] = useState<GetCommission[]>([]);
+
   useEffect(() => {
     dispatch({
       type: GET_COMMISSIONS,
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_commission &&
+      !state.delete_commission.isError &&
+      state.delete_commission.message !== ""
+    ) {
+      successToaster(state.delete_commission.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "commissions" },
+      });
+      navigate("/commissions");
+    } else if (
+      state &&
+      state.delete_commission &&
+      state.delete_commission.isError
+    ) {
+      errorToaster(state.delete_commission.message);
+    }
+  }, [dispatch, navigate, state]);
+
   useEffect(() => {
     if (
       state &&
@@ -55,16 +85,19 @@ const Commissions = () => {
   const viewCommissionTypeHandle = (id: string) => {
     navigate(`/commissions/view/${id}`);
   };
-  const deleteBtnClickHandle = () => {
+  const deleteBtnClickHandle = (id: string) => {
+    setId(id);
     setModalOpen(true);
   };
   const modalHandleClose = () => {
     setModalOpen(false);
   };
   const onDeleteConfirmHandle = () => {
-    navigate("/commissions");
+    dispatch({
+      type: DELETE_COMMISSION,
+      payload: { id: id },
+    });
     setModalOpen(false);
-    //TODO DELETE COMMISSION TYPE API CALL
   };
   return (
     <Box>

@@ -46,6 +46,7 @@ const TodoCommissionType = () => {
       commission_sign: "",
     },
   });
+
   useEffect(() => {
     if (
       state &&
@@ -63,6 +64,7 @@ const TodoCommissionType = () => {
       navigate("/commission-types");
     }
   }, [dispatch, navigate, state]);
+
   useEffect(() => {
     if (id) {
       dispatch({
@@ -143,7 +145,6 @@ const TodoCommissionType = () => {
       payload: { id: id },
     });
     navigate("/commission-types");
-    //TODO DELETE SHOP CATEGORY API CALL
   };
 
   const inputChangeHandle = (fieldName: string, event: any) => {

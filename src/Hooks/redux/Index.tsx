@@ -44,8 +44,11 @@ import getProductInventoriesReducer from "./GetProductInventories.redux";
 import addEditProductInventoryReducer from "./AddEditProductInventory.redux";
 import deleteProductInventoryReducer from "./DeleteProductSubCategory.redux";
 import getProductInventoryByIdReducer from "./GetProductInventoryById.redux";
-
 import getCommissionsReducer from "./GetCommissions.redux";
+import getCommissionByIdReducer from "./GetCommissionById.redux";
+import addEditCommissionReducer from "./AddEditCommission.redux";
+import deleteCommissionReducer from "./DeleteCommission.redux";
+
 import getProductRatingsReducer from "./GetProductRatings.redux";
 
 const rootReducers = combineReducers({
@@ -128,7 +131,13 @@ const rootReducers = combineReducers({
   delete_product_inventory: deleteProductInventoryReducer,
   //Product Inventory Reducer End
 
+  //Commission Reducer Start
   get_commissions: getCommissionsReducer,
+  get_commission_by_id: getCommissionByIdReducer,
+  delete_commission: deleteCommissionReducer,
+  add_edit_commission: addEditCommissionReducer,
+  //Commission Reducer End
+
   get_product_ratings: getProductRatingsReducer,
 });
 
