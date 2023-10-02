@@ -31,6 +31,9 @@ import { addEditProductResetState } from "../redux/AddEditProduct.redux";
 import { getProductByIdResetState } from "../redux/GetProductById.redux";
 import { deleteProductResetState } from "../redux/DeleteProduct.redux";
 import { addEditFilesResetState } from "../redux/AddEditFiles.redux";
+import { addEditProductInventoryResetState } from "../redux/AddEditProductInventory.redux";
+import { getProductInventoryByIdResetState } from "../redux/GetProductInventoryById.redux";
+import { deleteProductInventoryResetState } from "../redux/DeleteProductInventory.redux";
 
 export function* resetStateAPISaga({
   payload,
@@ -79,6 +82,10 @@ export function* resetStateAPISaga({
     yield put(addEditProductResetState());
     yield put(getProductByIdResetState());
     yield put(deleteProductResetState());
+  } else if (payload.state === "product-inventories") {
+    yield put(addEditProductInventoryResetState());
+    yield put(getProductInventoryByIdResetState());
+    yield put(deleteProductInventoryResetState());
   }
 }
 

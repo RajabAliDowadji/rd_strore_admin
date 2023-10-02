@@ -10,15 +10,21 @@ import {
   GetProductInventoriesColumns,
   ProductInventory,
 } from "../../Modal/GetProductInventories.modal";
-import { GET_PRODUCT_INVENTORIES } from "../../Hooks/Saga/Constant";
+import {
+  DELETE_PRODUCT_INVENTORY,
+  GET_PRODUCT_INVENTORIES,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import NoDataFound from "../../Ui/Data/NoDataFound.web";
 import "./ProductInventories.web.css";
+import { errorToaster, successToaster } from "../../Utils/common";
 
 const configJSON = require("../../Constants/Products");
 
 const ProductInventories = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [id, setId] = useState<string>("");
   const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [productInventories, setProductInventories] = useState<
@@ -54,8 +60,37 @@ const ProductInventories = () => {
           })
       );
       setProductInventories(tempArr);
+    } else if (
+      state &&
+      state.get_product_inventories &&
+      state.get_product_inventories.productInventories &&
+      state.get_product_inventories.productInventories.length === 0
+    ) {
+      setProductInventories([]);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.delete_product_inventory &&
+      !state.delete_product_inventory.isError &&
+      state.delete_product_inventory.message !== ""
+    ) {
+      successToaster(state.delete_product_inventory.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "product-inventories" },
+      });
+      navigate("/product-inventories");
+    } else if (
+      state &&
+      state.delete_product_inventory &&
+      state.delete_product_inventory.isError
+    ) {
+      errorToaster(state.delete_product_inventory.message);
+    }
+  }, [dispatch, navigate, state]);
 
   const addProductiInvHandle = () => {
     navigate("/product-inventories/create");
@@ -66,16 +101,19 @@ const ProductInventories = () => {
   const viewProductInvHandle = (id: string) => {
     navigate(`/product-inventories/view/${id}`);
   };
-  const deleteBtnClickHandle = () => {
+  const deleteBtnClickHandle = (id: string) => {
+    setId(id);
     setModalOpen(true);
   };
   const modalHandleClose = () => {
     setModalOpen(false);
   };
   const onDeleteConfirmHandle = () => {
-    navigate("/product-inventories");
+    dispatch({
+      type: DELETE_PRODUCT_INVENTORY,
+      payload: { id: id },
+    });
     setModalOpen(false);
-    //TODO DELETE PRODUCT INVENTORY API CALL
   };
   return (
     <Box>

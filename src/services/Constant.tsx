@@ -142,7 +142,28 @@ export const deleteFileEndPoint = (id: string) => {
 // Product End Point Start
 export const Get_Product_END_POINT = "admin/product/";
 export const Add_Product_END_POINT = "create";
-export const getProductsEndPoint = BASE_URL + Get_Product_END_POINT;
+export const getProductsEndPoint = (
+  brand_name: string,
+  sub_category_name: string
+) => {
+  if (brand_name !== "" && sub_category_name !== "") {
+    return (
+      BASE_URL +
+      Get_Product_END_POINT +
+      `?brand_name=${brand_name}&sub_category_name=${sub_category_name}`
+    );
+  } else if (brand_name !== "") {
+    return BASE_URL + Get_Product_END_POINT + `?brand_name=${brand_name}`;
+  } else if (sub_category_name !== "") {
+    return (
+      BASE_URL +
+      Get_Product_END_POINT +
+      `?sub_category_name=${sub_category_name}`
+    );
+  } else {
+    return BASE_URL + Get_Product_END_POINT;
+  }
+};
 export const productByIdEndPoint = (id: string) => {
   return BASE_URL + Get_Product_END_POINT + id;
 };
@@ -150,13 +171,28 @@ export const addProductEndPoint =
   BASE_URL + Get_Product_END_POINT + Add_Product_END_POINT;
 // Product End Point End
 
+// Product Inventory End Point Start
+export const Get_Product_Inventories_END_POINT = "inventories";
+export const Add_Product_Inventory_END_POINT = "inventory/create";
+export const Get_Product_Inventory_By_Id_END_POINT = "inventory/";
+export const getProductInventoriesEndPoint =
+  BASE_URL + Get_Product_END_POINT + Get_Product_Inventories_END_POINT;
+export const productInventoryByIdEndPoint = (id: string) => {
+  return (
+    BASE_URL +
+    Get_Product_END_POINT +
+    Get_Product_Inventory_By_Id_END_POINT +
+    id
+  );
+};
+export const addProductInventoryEndPoint =
+  BASE_URL + Get_Product_END_POINT + Add_Product_Inventory_END_POINT;
+// Product Inventory End Point End
+
 export const Get_Commissions_END_POINT = "rd_admin/commissions";
 export const Get_Product_Rating_END_POINT = "product/ratings";
-export const Get_Product_Inventories_END_POINT = "inventories";
 
 export const userLoginEndPoint = BASE_URL + Login_END_POINT;
 export const getCommissionsEndPoint = BASE_URL + Get_Commissions_END_POINT;
-export const getProductInventoriesEndPoint =
-  BASE_URL + Get_Product_END_POINT + Get_Product_Inventories_END_POINT;
 export const getProductRatingsEndPoint =
   BASE_URL + Get_Product_Rating_END_POINT;

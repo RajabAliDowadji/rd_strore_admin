@@ -55,9 +55,15 @@ import getProductsSaga from "./GetProducts.saga";
 import deleteProductSaga from "./DeleteProduct.saga";
 import { addProductSaga, editProductSaga } from "./AddEditProduct.saga";
 import getProductByIdSaga from "./GetProductById.saga";
+import getProductInventoriesSaga from "./GetProductInventories.saga";
+import getProductInventoryByIdSaga from "./GetProductInventory.saga";
+import {
+  addProductInventorySaga,
+  editProductInventorySaga,
+} from "./AddEditProductInventory.saga";
+import deleteProductInventorySaga from "./DeleteProductInventory.saga";
 
 import getCommissionsSaga from "./GetCommissions.saga";
-import getProductInventoriesSaga from "./GetProductInventories.saga";
 import getProductRatingsSaga from "./GetProductRatings.saga";
 import resetStateSaga from "./ResetState.saga";
 import { addFilesSaga } from "./AddEditFiles.saga";
@@ -148,8 +154,15 @@ export default function* rootSaga() {
     fork(deleteProductSaga),
     //Product Saga End
 
-    fork(getCommissionsSaga),
+    //Product Inventory Saga Start
     fork(getProductInventoriesSaga),
+    fork(getProductInventoryByIdSaga),
+    fork(addProductInventorySaga),
+    fork(editProductInventorySaga),
+    fork(deleteProductInventorySaga),
+    //Product Inventory Saga End
+
+    fork(getCommissionsSaga),
     fork(getProductRatingsSaga),
   ]);
 }

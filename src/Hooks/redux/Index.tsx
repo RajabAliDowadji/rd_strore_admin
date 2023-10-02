@@ -40,9 +40,12 @@ import getProductsReducer from "./GetProducts.redux";
 import addEditProductReducer from "./AddEditProduct.redux";
 import getProductByIdReducer from "./GetProductById.redux";
 import deleteProductReducer from "./DeleteProduct.redux";
+import getProductInventoriesReducer from "./GetProductInventories.redux";
+import addEditProductInventoryReducer from "./AddEditProductInventory.redux";
+import deleteProductInventoryReducer from "./DeleteProductSubCategory.redux";
+import getProductInventoryByIdReducer from "./GetProductInventoryById.redux";
 
 import getCommissionsReducer from "./GetCommissions.redux";
-import getProductInventoriesReducer from "./GetProductInventories.redux";
 import getProductRatingsReducer from "./GetProductRatings.redux";
 
 const rootReducers = combineReducers({
@@ -118,8 +121,14 @@ const rootReducers = combineReducers({
   delete_product: deleteProductReducer,
   //Product Reducer Start
 
-  get_commissions: getCommissionsReducer,
+  //Product Inventory Reducer Start
   get_product_inventories: getProductInventoriesReducer,
+  get_product_inventory_by_id: getProductInventoryByIdReducer,
+  add_edit_product_inventory: addEditProductInventoryReducer,
+  delete_product_inventory: deleteProductInventoryReducer,
+  //Product Inventory Reducer End
+
+  get_commissions: getCommissionsReducer,
   get_product_ratings: getProductRatingsReducer,
 });
 

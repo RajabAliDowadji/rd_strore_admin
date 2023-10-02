@@ -29,6 +29,7 @@ const Products = () => {
   useEffect(() => {
     dispatch({
       type: GET_PRODUCTS,
+      payload: { brand_name: "", sub_category_name: "" },
     });
   }, [dispatch]);
 

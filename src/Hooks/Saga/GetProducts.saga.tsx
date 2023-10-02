@@ -7,13 +7,21 @@ import {
   getProductsFailure,
   internalServerFailure,
 } from "../redux/GetProducts.redux";
-import { SuccessResponseState } from "../../Modal/GetProducts.modal";
+import {
+  GetProductQueryPayloads,
+  SuccessResponseState,
+} from "../../Modal/GetProducts.modal";
 
-export function* getProductsAPISaga() {
+export function* getProductsAPISaga({
+  payload,
+}: {
+  type: string;
+  payload: GetProductQueryPayloads;
+}) {
   yield put(getProducts());
   let result: SuccessResponseState;
   try {
-    result = yield getProductsAPI();
+    result = yield getProductsAPI(payload);
     if (result.status === 200) {
       yield put(getProductsSuccess(result));
     } else {

@@ -1,20 +1,23 @@
 import axios, { AxiosResponse } from "axios";
-import { getProductsEndPoint, GET, authHeader, publicHeader } from "./Constant";
-import { GetProductQueryPayloads } from "../Modal/GetProducts.modal";
+import {
+  productInventoryByIdEndPoint,
+  GET,
+  authHeader,
+  publicHeader,
+} from "./Constant";
+import { GetProductInventoryByIdPayload } from "../Modal/GetProductInventoryById.modal";
 
-export const getProductsAPI = (payload: GetProductQueryPayloads) => {
+export const getProductInventoryByIdAPI = (
+  payload: GetProductInventoryByIdPayload
+) => {
   const token = localStorage.getItem("token");
-  const URL = getProductsEndPoint(
-    payload.brand_name,
-    payload.sub_category_name
-  );
+  const URL = productInventoryByIdEndPoint(payload.id);
   let header;
   if (token) {
     header = authHeader(token);
   } else {
     header = publicHeader;
   }
-
   return axios({
     method: GET,
     url: URL,

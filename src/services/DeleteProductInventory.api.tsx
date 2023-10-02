@@ -1,24 +1,28 @@
 import axios, { AxiosResponse } from "axios";
-import { getProductsEndPoint, GET, authHeader, publicHeader } from "./Constant";
-import { GetProductQueryPayloads } from "../Modal/GetProducts.modal";
+import {
+  productInventoryByIdEndPoint,
+  DELETE,
+  authHeader,
+  publicHeader,
+} from "./Constant";
+import { deleteProductInventoryByIdPayload } from "../Modal/DeleteProductInventory.modal";
 
-export const getProductsAPI = (payload: GetProductQueryPayloads) => {
+export const deleteProductInventoryAPI = (
+  payload: deleteProductInventoryByIdPayload
+) => {
   const token = localStorage.getItem("token");
-  const URL = getProductsEndPoint(
-    payload.brand_name,
-    payload.sub_category_name
-  );
+  const URL = productInventoryByIdEndPoint(payload.id);
   let header;
   if (token) {
     header = authHeader(token);
   } else {
     header = publicHeader;
   }
-
   return axios({
-    method: GET,
+    method: DELETE,
     url: URL,
     headers: header,
+    data: JSON.stringify(payload),
   })
     .then((response: AxiosResponse) => {
       return response.data;

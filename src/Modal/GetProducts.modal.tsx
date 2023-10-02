@@ -42,3 +42,8 @@ export interface GetProductColumns {
   is_published: boolean;
   is_vegetarian: boolean;
 }
+
+export interface GetProductQueryPayloads {
+  brand_name: string;
+  sub_category_name: string;
+}

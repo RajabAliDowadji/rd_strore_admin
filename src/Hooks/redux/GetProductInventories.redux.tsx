@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetProductInventoriesState } from "../../Modal/GetProductInventories.modal";
+import {
+  GetProductInventoriesState,
+  ProductInventory,
+} from "../../Modal/GetProductInventories.modal";
 
 const initialState = {
   isLoading: false,
@@ -26,6 +29,12 @@ const getProductInventoriesSlice = createSlice({
       state.message = action.payload.error.message;
       state.isLoading = false;
     },
+    removeProductInventoryById(state, action) {
+      state.productInventories = state.productInventories.filter(
+        (productInventory: ProductInventory) =>
+          productInventory._id !== action.payload.id
+      );
+    },
     internalServerFailure(state) {
       state.isError = true;
       state.isLoading = false;
@@ -37,6 +46,7 @@ export const {
   getProductInventories,
   getProductInventoriesSuccess,
   getProductInventoriesFailure,
+  removeProductInventoryById,
   internalServerFailure,
 } = getProductInventoriesSlice.actions;
 
