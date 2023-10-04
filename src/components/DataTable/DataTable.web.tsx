@@ -52,6 +52,7 @@ const DataTable = ({
       </>
     );
   };
+
   return (
     <TableContainer component={Paper} className="table">
       <Table size="medium" aria-label="a dense table">
@@ -67,48 +68,21 @@ const DataTable = ({
         </TableHead>
         <TableBody>
           {rows.map((row: any) => {
-            const rowValues = Object.keys(row).map((key) => [row[key]]);
+            const rowValues = Object.keys(row).map((key) => {
+              return [row[key]];
+            });
             return (
               <TableRow key={row._id}>
                 {rowValues.map((rowValue: any, index: number) => {
-                  const objectValues =
-                    typeof rowValue[0] === "object"
-                      ? Object.keys(rowValue[0]).map((key) => [
-                          rowValue[0][key],
-                        ])
-                      : [];
                   return (
                     <>
                       {typeof rowValue[0] === "boolean" ? (
                         <>{booleanValueCell(rowValue[0])}</>
                       ) : (
                         <>
-                          {typeof rowValue[0] === "object" ? (
-                            <>
-                              {objectValues.map((value) => (
-                                <>
-                                  {typeof value[0] === "boolean" ? (
-                                    <> {booleanValueCell(value)}</>
-                                  ) : (
-                                    <>
-                                      <TableCell
-                                        className="tableCell"
-                                        key={rowValue}
-                                      >
-                                        {value}
-                                      </TableCell>
-                                    </>
-                                  )}
-                                </>
-                              ))}
-                            </>
-                          ) : (
-                            <>
-                              <TableCell className="tableCell" key={rowValue}>
-                                {rowValue}
-                              </TableCell>
-                            </>
-                          )}
+                          <TableCell className="tableCell" key={rowValue}>
+                            {rowValue}
+                          </TableCell>
                         </>
                       )}
                     </>

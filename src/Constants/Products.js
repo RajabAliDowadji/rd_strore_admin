@@ -63,12 +63,12 @@ exports.productInvColumns = [
 exports.productRatingTxt = "Product Ratings";
 exports.productRatingColumns = [
   "Id",
-  "Product rating",
   "Product title",
   "Product size",
   "Product MRP price",
   "Product price",
   "Product sub-category",
   "Product brand",
+  "Product rating",
   "Vegetarian",
 ];

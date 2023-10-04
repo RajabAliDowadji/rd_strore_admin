@@ -73,6 +73,13 @@ const Commissions = () => {
         })
       );
       setCommissions(tempArr);
+    } else if (
+      state &&
+      state.get_commissions &&
+      state.get_commissions.commissions &&
+      state.get_commissions.commissions.length === 0
+    ) {
+      setCommissions([]);
     }
   }, [state]);
 

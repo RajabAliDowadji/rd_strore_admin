@@ -37,7 +37,6 @@ const ProductRatings = () => {
         (productRating: ProductRating) =>
           tempArr.push({
             _id: productRating._id,
-            rating: productRating.rating,
             product_title: productRating.product.product_title,
             product_size: productRating.product.product_size,
             product_MRP_price: productRating.product.product_MRP_price,
@@ -45,6 +44,7 @@ const ProductRatings = () => {
             sub_category_name:
               productRating.product.product_sub_category.sub_category_name,
             brand_name: productRating.product.product_brand.brand_name,
+            rating: productRating.rating,
             is_vegetarian: productRating.product.is_vegetarian,
           })
       );
