@@ -67,9 +67,10 @@ const Commissions = () => {
           _id: commission._id,
           commission_name: commission.commission_type.commission_name,
           commission_sign: commission.commission_type.commission_sign,
+          commission: commission.commission,
           product_title: commission.product.product_title,
           product_price: commission.product.product_price,
-          commission: commission.commission,
+          commission_price: commission.commission_price,
         })
       );
       setCommissions(tempArr);

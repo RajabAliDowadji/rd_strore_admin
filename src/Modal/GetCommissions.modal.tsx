@@ -20,6 +20,7 @@ export interface Commission {
   commission: number;
   commission_type: CommissionType;
   product: Product;
+  commission_price: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -28,6 +29,7 @@ export interface GetCommission {
   commission: number;
   commission_name: string;
   commission_sign: string;
+  commission_price: string;
   product_title: string;
   product_price: number;
   createdAt?: string;

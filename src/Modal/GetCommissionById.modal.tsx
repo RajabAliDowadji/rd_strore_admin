@@ -27,7 +27,7 @@ export interface GetCommissionByIdViewResponse {
   commission_sign: string;
   commission: string;
   product_title: string;
-  product_size: string;
   product_MRP_price: string;
   product_price: string;
+  commission_price: string;
 }

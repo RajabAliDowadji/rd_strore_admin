@@ -26,9 +26,9 @@ const ViewCommission = () => {
       commission_sign: "",
       commission: "",
       product_title: "",
-      product_size: "",
       product_MRP_price: "",
       product_price: "",
+      commission_price: "",
     };
   }, []);
   let { id } = useParams();
@@ -63,12 +63,12 @@ const ViewCommission = () => {
         state.get_commission_by_id.commission.commission_type.commission_sign;
       temp.product_title =
         state.get_commission_by_id.commission.product.product_title;
-      temp.product_size =
-        state.get_commission_by_id.commission.product.product_size;
       temp.product_MRP_price =
         state.get_commission_by_id.commission.product.product_MRP_price;
       temp.product_price =
         state.get_commission_by_id.commission.product.product_price;
+      temp.commission_price =
+        state.get_commission_by_id.commission.commission_price;
       setFormData((prev: GetCommissionByIdViewResponse) => ({
         ...prev,
         ...temp,
@@ -168,6 +168,16 @@ const ViewCommission = () => {
             </Box>
             <Box className="commissions_textFieldContainer">
               <CustomTextField
+                id="commission"
+                type="text"
+                label="Commission"
+                name="commission"
+                value={formData.commission}
+                disabled={true}
+              />
+            </Box>
+            <Box className="commissions_textFieldContainer">
+              <CustomTextField
                 id="product_title"
                 type="text"
                 label="Product title"
@@ -198,21 +208,11 @@ const ViewCommission = () => {
             </Box>
             <Box className="commissions_textFieldContainer">
               <CustomTextField
-                id="product_size"
+                id="commission_price"
                 type="text"
-                label="Product size"
-                name="product_size"
-                value={formData.product_size}
-                disabled={true}
-              />
-            </Box>
-            <Box className="commissions_textFieldContainer">
-              <CustomTextField
-                id="commission"
-                type="text"
-                label="Commission"
-                name="commission"
-                value={formData.commission}
+                label="Commission price"
+                name="commission_price"
+                value={formData.commission_price.toString()}
                 disabled={true}
               />
             </Box>

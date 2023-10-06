@@ -12,7 +12,8 @@ exports.commissionColumns = [
   "Id",
   "Commission name",
   "Commission sign",
+  "Commission",
   "Product title",
   "Product price",
-  "Commission",
+  "Commission price",
 ];

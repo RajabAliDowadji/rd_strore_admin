@@ -10,7 +10,6 @@ import CancelButton from "../../Ui/Button/CancelButton.web";
 import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
 import { dropDownValidate } from "../../Validations/dropDownValidate.web";
 import DropDown from "../../Ui/DropDown/DropDown.web";
-import "./Commissions.web.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_COMMISSION,
@@ -24,6 +23,7 @@ import {
 import { CommissionType } from "../../Modal/GetCommissionTypes.modal";
 import { GetProductColumns, Product } from "../../Modal/GetProducts.modal";
 import { GetCommissionByIdResponse } from "../../Modal/GetCommissionById.modal";
+import "./Commissions.web.css";
 
 const configJSON = require("../../Constants/Commission");
 
@@ -249,7 +249,10 @@ const TodoCommission = () => {
 
   const formSubmitHandle = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const isCommissionValid = isEmpty("Commisssion", formData.commission);
+    const isCommissionValid = isEmpty(
+      "Commisssion",
+      formData.commission.toString()
+    );
     const isCommissionTypeValid = dropDownValidate(
       "Commisssion type",
       formData.commission_type
