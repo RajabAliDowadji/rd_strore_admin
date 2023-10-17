@@ -69,6 +69,7 @@ import {
 } from "./AddEditCommission.saga";
 import deleteCommissionSaga from "./DeleteCommission.saga";
 import getCommissionByIdSaga from "./GetCommissionById.saga";
+import getAdminCommissionSaga from "./GetAdminCommission.saga";
 
 import getProductRatingsSaga from "./GetProductRatings.saga";
 import resetStateSaga from "./ResetState.saga";
@@ -175,6 +176,10 @@ export default function* rootSaga() {
     fork(editCommissionSaga),
     fork(deleteCommissionSaga),
     //Commission Type Saga Start
+
+    // Admin Commission Type Saga Start
+    fork(getAdminCommissionSaga),
+    // Admin Commission Type Saga Start
 
     fork(getProductRatingsSaga),
   ]);

@@ -98,4 +98,8 @@ export const EDIT_COMMISSION: string = "EDIT_COMMISSION";
 export const DELETE_COMMISSION: string = "DELETE_COMMISSION";
 // Commission API Type End
 
+// Admin Commission API Type Start
+export const GET_ADMIN_COMMISSIONS: string = "GET_ADMIN_COMMISSIONS";
+// Admin Commission API Type End
+
 export const GET_PRODUCT_RATINGS: string = "GET_PRODUCT_RATINGS";

@@ -201,6 +201,12 @@ export const commissionByIdEndPoint = (id: string) => {
 export const addCommissionEndPoint = BASE_URL + Add_Commission_END_POINT;
 // Commission Type End Point Start
 
+// Admin Commission End Point Start
+export const Get_Admin_Commissions_END_POINT = "rd_admin/admin_commissions";
+export const getAdminCommissionEndPoint =
+  BASE_URL + Get_Admin_Commissions_END_POINT;
+// Admin Commission End Point End
+
 export const Get_Product_Rating_END_POINT = "product/ratings";
 
 export const userLoginEndPoint = BASE_URL + Login_END_POINT;

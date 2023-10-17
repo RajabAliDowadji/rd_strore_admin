@@ -31,5 +31,5 @@
 
 .customdrawer_activeTab {
   color: var(--white);
-  background-color: var(--primary500);
+  background: var(--backgroundGradient);
 }

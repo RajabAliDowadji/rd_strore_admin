@@ -7,3 +7,42 @@
   height: -webkit-calc(100% - 125px);
   height: calc(100% - 125px);
 }
+
+.dashboard_subContainer {
+  padding: 30px;
+}
+
+.dashboard_subMainContainer {
+  border: 1px solid var(--primary500);
+  padding: 15px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: var(--backgroundGradient);
+  text-align: center;
+}
+
+.dashboard_imgIcon {
+  width: 150px;
+  object-fit: cover;
+}
+.dashboard_titleContainer {
+  display: flex;
+  flex-direction: row;
+}
+.dashboard_titleTxt {
+  font-size: 22px !important;
+  font-family: var(--fontFamily) !important;
+  color: var(--white) !important;
+}
+
+.dashboard_subtitleTxt {
+  font-size: 20px !important;
+  font-family: var(--fontFamily) !important;
+  color: var(--white) !important;
+}
+
+.dashboard_dataTableContainer {
+  margin-top: 30px !important;
+}

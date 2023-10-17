@@ -17,3 +17,12 @@ exports.commissionColumns = [
   "Product price",
   "Commission price",
 ];
+
+exports.adminCommissionColumns = [
+  "Id",
+  "Shop name",
+  "Owner name",
+  "Orders count",
+  "Total sell",
+  "Total commissions",
+];

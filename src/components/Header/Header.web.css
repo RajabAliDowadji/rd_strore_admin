@@ -1,39 +1,39 @@
 .header_mainContainer {
-    width: 100%;
-    position: sticky;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 999;
-    background-color: var(--primary500);
+  width: 100%;
+  position: sticky;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+  background: var(--backgroundGradient);
 }
 
 .header_mainGrid {
-    padding: 16px 0px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  padding: 16px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .header_logo {
-    width: 100%;
-    height: 56px;
-    object-fit: contain;
-    margin: 16px 0px;
-    margin-left: 20px;
-    cursor: pointer;
+  width: 100%;
+  height: 56px;
+  object-fit: contain;
+  margin: 16px 0px;
+  margin-left: 20px;
+  cursor: pointer;
 }
 
 .header_logoutIcon {
-    font-size: 30px !important;
-    margin: 16px 0px;
-    color: #ffffff;
-    margin-right: 20px;
-    transform: rotate(180deg);
-    cursor: pointer;
+  font-size: 30px !important;
+  margin: 16px 0px;
+  color: #ffffff;
+  margin-right: 20px;
+  transform: rotate(180deg);
+  cursor: pointer;
 }
 .header_iconAlinement {
-    text-align: end;
-  }
+  text-align: end;
+}

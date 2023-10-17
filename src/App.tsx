@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Login from "./Screens/Login/Login.web";
-import Dashboard from "./Screens/Dashboard/Dashboard.web";
+import MainDashboard from "./Screens/Dashboard/MainDashboard.web";
 import Places from "./Screens/Place/Places.web";
 import ShopCategories from "./Screens/ShopCategory/ShopCategories.web";
 import Shops from "./Screens/Shop/Shops.web";
@@ -47,7 +47,7 @@ function App() {
       <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<MainDashboard />} />
         {/*  Places Routes Start */}
         <Route path="/places" element={<Places />} />
         <Route path="/places/create" element={<TodoPlace />} />
