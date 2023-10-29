@@ -191,7 +191,6 @@ const TodoCommission = () => {
       temp.commission_type =
         state.get_commission_by_id.commission.commission_type._id;
       temp.product = state.get_commission_by_id.commission.product._id;
-      console.log("temp", temp);
       setFormData((prev: GetCommissionByIdResponse) => ({
         ...prev,
         ...temp,
