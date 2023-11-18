@@ -1,0 +1,31 @@
+.login_SubContainer {
+  border: 1px solid var(--gray);
+  border-radius: 4px;
+  padding: 30px;
+}
+
+.login_titleText {
+  font-size: 40px !important;
+  font-family: var(--fontFamily) !important;
+  line-height: 1 !important;
+  font-weight: 400 !important;
+}
+
+.login_fieldContainer {
+  margin-top: 40px !important;
+}
+
+.login_BtnContainer {
+  margin-top: 50px;
+}
+.login_Btn {
+  width: 205px;
+}
+@media (max-width: 600px) {
+  .login_formContainer {
+    width: 100%;
+  }
+  .login_Btn {
+    width: 100%;
+  }
+}

@@ -19,7 +19,8 @@ export const fileHeader = (token: string) => {
     token: token,
   };
 };
-export const Login_END_POINT = "user/login";
+export const RD_ADMIN_Login_END_POINT = "rd_admin/login";
+export const rdAdminLoginEndPoint = BASE_URL + RD_ADMIN_Login_END_POINT;
 
 // Place End Point Start
 export const Get_Places_END_POINT = "rd_admin/places";
@@ -209,6 +210,5 @@ export const getAdminCommissionEndPoint =
 
 export const Get_Product_Rating_END_POINT = "product/ratings";
 
-export const userLoginEndPoint = BASE_URL + Login_END_POINT;
 export const getProductRatingsEndPoint =
   BASE_URL + Get_Product_Rating_END_POINT;

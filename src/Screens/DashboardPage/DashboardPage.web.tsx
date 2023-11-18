@@ -2,11 +2,11 @@ import React from "react";
 import { Box } from "@material-ui/core";
 import CustomDrawer from "../../components/CustomDrawer/CustomDrawer.web";
 import Header from "../../components/Header/Header.web";
-import "./Dashboard.web.css";
+import "./DashboardPage.web.css";
 
-const Dashboard = (props: any) => {
+const DashboardPage = (props: any) => {
   return (
-    <Box className="dashboard_mainContainer">
+    <Box className="dashboardPage_mainContainer">
       <Header />
       <Box>
         <CustomDrawer>{props.children}</CustomDrawer>
@@ -15,4 +15,4 @@ const Dashboard = (props: any) => {
   );
 };
 
-export default Dashboard;
+export default DashboardPage;

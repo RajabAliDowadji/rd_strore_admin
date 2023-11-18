@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import { emailValidate } from "../../Validations/emailValidate.web";
 import { passwordValidate } from "../../Validations/passwordValidate.web";
 import { isEmpty } from "../../Utils/common";
-import { front_loginImg } from "./assets";
-import "./Login.web.css";
 import { USER_LOGIN } from "../../Hooks/Saga/Constant";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import "./Login.web.css";
 
 const configJSON = require("../../Constants/Users");
 
@@ -96,65 +95,48 @@ const Login = () => {
     }
   };
   return (
-    <Box className="login_mainContainer">
-      <Grid container className="login_GridContainer">
-        <Grid item xs={12} md={6} lg={6}>
-          <Box className="login_imgContainer">
-            <Box className="login_imgSubContainer">
-              <img
-                src={front_loginImg}
-                alt="login_image"
-                className="login_img"
-              />
-            </Box>
+    <Box>
+      <Box className="login_SubContainer">
+        <form onSubmit={formSubmitHandle}>
+          <Typography className="login_titleText">
+            {configJSON.loginTxt}
+          </Typography>
+          <Box className="login_fieldContainer">
+            <CustomTextField
+              id="emailId"
+              type="text"
+              name="email"
+              label="Email"
+              placeholder="Enter your email"
+              value={formData.email}
+              error={dataError.errors.email}
+              errorText={dataError.errorMsg.email}
+              onChange={inputChangeHandle.bind(this, "Email")}
+            />
           </Box>
-        </Grid>
-        <Grid item xs={10} md={6} lg={6} className="login_subGridContainer">
-          <Box className="login_formContainer">
-            <Box className="login_SubContainer">
-              <form onSubmit={formSubmitHandle}>
-                <Typography className="login_titleText">
-                  {configJSON.loginTxt}
-                </Typography>
-                <Box className="login_fieldContainer">
-                  <CustomTextField
-                    id="emailId"
-                    type="text"
-                    name="email"
-                    label="Email"
-                    placeholder="Enter your email"
-                    value={formData.email}
-                    error={dataError.errors.email}
-                    errorText={dataError.errorMsg.email}
-                    onChange={inputChangeHandle.bind(this, "Email")}
-                  />
-                </Box>
-                <Box className="login_fieldContainer">
-                  <CustomTextField
-                    id="password"
-                    type="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    label="Password"
-                    value={formData.password}
-                    error={dataError.errors.password}
-                    errorText={dataError.errorMsg.password}
-                    onChange={inputChangeHandle.bind(this, "Password")}
-                  />
-                </Box>
-                <Box className="login_BtnContainer">
-                  <ActiveButton
-                    title="Login"
-                    type="submit"
-                    disabled={false}
-                    className="login_Btn"
-                  />
-                </Box>
-              </form>
-            </Box>
+          <Box className="login_fieldContainer">
+            <CustomTextField
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              label="Password"
+              value={formData.password}
+              error={dataError.errors.password}
+              errorText={dataError.errorMsg.password}
+              onChange={inputChangeHandle.bind(this, "Password")}
+            />
           </Box>
-        </Grid>
-      </Grid>
+          <Box className="login_BtnContainer">
+            <ActiveButton
+              title="Login"
+              type="submit"
+              disabled={false}
+              className="login_Btn"
+            />
+          </Box>
+        </form>
+      </Box>
     </Box>
   );
 };

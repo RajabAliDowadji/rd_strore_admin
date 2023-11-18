@@ -1,8 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import Login from "./Screens/Login/Login.web";
-import MainDashboard from "./Screens/Dashboard/MainDashboard.web";
+import LoginPage from "./Screens/LoginPage/LoginPage.web";
+import DashboardPage from "./Screens/DashboardPage/DashboardPage.web";
+
 import Places from "./Screens/Place/Places.web";
 import ShopCategories from "./Screens/ShopCategory/ShopCategories.web";
 import Shops from "./Screens/Shop/Shops.web";
@@ -46,8 +47,8 @@ function App() {
     <React.Fragment>
       <Toaster position="top-right" reverseOrder={false} />
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<MainDashboard />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         {/*  Places Routes Start */}
         <Route path="/places" element={<Places />} />
         <Route path="/places/create" element={<TodoPlace />} />

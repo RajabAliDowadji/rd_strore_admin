@@ -1,19 +1,10 @@
-.customdrawer_mainContainer {
-  height: 100%;
-}
-
-.customdrawer_subContainer {
-  height: 100%;
-}
-
 .customdrawer_gridConatiner {
-  border-right: 1px solid var(--gray);
-  border-top: 1px solid var(--gray);
+  margin: 10px 0px;
 }
 
 .customdrawer_innerContainer {
   border-bottom: 1px solid var(--gray);
-  padding: 20px 0px;
+  padding: 10px 0px;
   text-align: center;
   cursor: pointer;
 }
@@ -21,15 +12,73 @@
 .customdrawer_titleTxt {
   line-height: 1 !important;
   font-family: var(--fontFamily) !important;
-  font-size: 20px !important;
+  font-size: 16px !important;
 }
 
 .customdrawer_notActiveTab {
-  color: var(--black);
-  background-color: var(--white);
+  color: var(--white);
+  background-color: var(--primary500);
 }
 
 .customdrawer_activeTab {
+  color: var(--black);
+  background: var(--white);
+  font-weight: 600;
+}
+
+.customdrawer_allTextContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--gray);
+  padding: 6px 0px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.customdrawer_allTextActiveIcon {
+  color: var(--black);
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.customdrawer_allTextInActiveIcon {
   color: var(--white);
-  background: var(--backgroundGradient);
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.customdrawer_smallGridContainer {
+  display: none;
+}
+
+.customdrawer_mediumGridContainer {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .customdrawer_largeGridContainer {
+    display: none;
+  }
+  .customdrawer_smallGridContainer {
+    display: block;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .customdrawer_largeGridContainer {
+    display: none;
+  }
+  .customdrawer_mediumGridContainer {
+    display: block;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .customdrawer_largeGridContainer {
+    display: none;
+  }
+  .customdrawer_mediumGridContainer {
+    display: block;
+  }
 }

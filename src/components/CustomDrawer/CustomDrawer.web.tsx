@@ -3,6 +3,8 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RESET_STATE } from "../../Hooks/Saga/Constant";
 import { useDispatch } from "react-redux";
+import DehazeIcon from "@material-ui/icons/Dehaze";
+import CustomMenu from "../CustomMenu/CustomMenu.web";
 import "./CustomDrawer.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
@@ -14,10 +16,11 @@ interface menuProps {
   tabClick?: any;
 }
 const CustomDrawer = (props: any) => {
-  const [pathRoute, setPathRoute] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [pathRoute, setPathRoute] = useState<string>("");
+  const [isAllMenuOpen, setIsAllMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const route = location.pathname.split("/");
@@ -29,31 +32,83 @@ const CustomDrawer = (props: any) => {
       type: RESET_STATE,
       payload: { state: route },
     });
+    setIsAllMenuOpen(!isAllMenuOpen);
     navigate(`/${route}`);
   };
-  return (
-    <Box className="customdrawer_mainContainer">
-      <Grid container className="customdrawer_subContainer">
-        <Grid item xs={2} className="customdrawer_gridConatiner">
-          {configJSON.menuOptions.map((menu: menuProps) => (
-            <Box
-              className={`customdrawer_innerContainer ${
+
+  const allClickTabHandle = () => {
+    setIsAllMenuOpen(!isAllMenuOpen);
+  };
+
+  const menuOptionView = (menu: menuProps) => {
+    return (
+      <Box>
+        {menu.title === "All" ? (
+          <Box
+            className={`customdrawer_allTextContainer ${
+              pathRoute === menu.route
+                ? "customdrawer_activeTab"
+                : "customdrawer_notActiveTab"
+            }`}
+            key={menu.id}
+            onClick={allClickTabHandle}
+          >
+            <DehazeIcon
+              className={`${
                 pathRoute === menu.route
-                  ? "customdrawer_activeTab"
-                  : "customdrawer_notActiveTab"
+                  ? "customdrawer_allTextActiveIcon"
+                  : "customdrawer_allTextInActiveIcon"
               }`}
-              key={menu.id}
-              onClick={tabHandleClick.bind(this, menu.route)}
-            >
-              <Typography className="customdrawer_titleTxt">
-                {menu.title}
-              </Typography>
-            </Box>
-          ))}
-        </Grid>
-        <Grid item xs={10} className="customdrawer_subContainer">
-          {props.children}
-        </Grid>
+            />
+            <Typography className="customdrawer_titleTxt">
+              {menu.title}
+            </Typography>
+          </Box>
+        ) : (
+          <Box
+            className={`customdrawer_innerContainer ${
+              pathRoute === menu.route
+                ? "customdrawer_activeTab"
+                : "customdrawer_notActiveTab"
+            }`}
+            key={menu.id}
+            onClick={tabHandleClick.bind(this, menu.route)}
+          >
+            <Typography className="customdrawer_titleTxt">
+              {menu.title}
+            </Typography>
+          </Box>
+        )}
+      </Box>
+    );
+  };
+  return (
+    <Box>
+      <CustomMenu
+        open={isAllMenuOpen}
+        handleClose={allClickTabHandle}
+        tabChangeHandle={tabHandleClick}
+      />
+      <Grid container className="customdrawer_gridConatiner">
+        {configJSON.menuOptions.map((menu: menuProps, index: number) => (
+          <Grid item xs={6} sm={3} md={3} lg={2}>
+            {index < 6 && (
+              <Box className="customdrawer_largeGridContainer">
+                {menuOptionView(menu)}
+              </Box>
+            )}
+            {index < 4 && (
+              <Box className="customdrawer_mediumGridContainer">
+                {menuOptionView(menu)}
+              </Box>
+            )}
+            {index < 2 && (
+              <Box className="customdrawer_smallGridContainer">
+                {menuOptionView(menu)}
+              </Box>
+            )}
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

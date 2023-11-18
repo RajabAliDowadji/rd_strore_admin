@@ -1,0 +1,29 @@
+.loginPage_mainContainer {
+  margin: auto;
+}
+
+.loginPage_loginContainer {
+  margin: 100px 0px;
+}
+
+.loginPage_loginSubContainer {
+  margin: auto !important;
+}
+
+@media (max-width: 600px) {
+  .loginPage_loginContainer {
+    margin: 50px 0px;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .loginPage_loginContainer {
+    margin: 75px 0px;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .loginPage_loginContainer {
+    margin: 75px 0px;
+  }
+}

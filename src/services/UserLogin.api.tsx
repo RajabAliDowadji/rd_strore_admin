@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from "axios";
-import { userLoginEndPoint, POST, publicHeader } from "./Constant";
+import { rdAdminLoginEndPoint, POST, publicHeader } from "./Constant";
 import { UserLoginPayload } from "../Modal/UserLogin.modal";
 
 export const userLoginAPI = (payload: UserLoginPayload) => {
-  const URL = userLoginEndPoint;
+  const URL = rdAdminLoginEndPoint;
 
   return axios({
     method: POST,

@@ -3,7 +3,7 @@ exports.deleteBtnTxt = "Delete";
 exports.menuOptions = [
   {
     id: "1",
-    title: "Dashboard",
+    title: "All",
     route: "dashboard",
   },
   {
@@ -23,56 +23,47 @@ exports.menuOptions = [
   },
   {
     id: "5",
-    title: "Commission Type",
-    route: "commission-types",
-  },
-  {
-    id: "6",
-    title: "Commission",
-    route: "commissions",
-  },
-  {
-    id: "7",
-    title: "Product Type",
-    route: "product-types",
-  },
-  {
-    id: "8",
     title: "Product Category",
     route: "product-categories",
   },
   {
-    id: "9",
+    id: "6",
     title: "Product Sub-Categoy",
     route: "product-sub-categories",
   },
   {
-    id: "10",
+    id: "7",
     title: "Product Brand",
     route: "product-brands",
   },
   {
-    id: "11",
+    id: "8",
     title: "Product",
     route: "products",
   },
   {
-    id: "12",
+    id: "9",
     title: "Product Inventory",
     route: "product-inventories",
   },
   {
-    id: "13",
+    id: "10",
+    title: "Commission Type",
+    route: "commission-types",
+  },
+  {
+    id: "11",
+    title: "Commission",
+    route: "commissions",
+  },
+  {
+    id: "12",
     title: "Product Rating",
     route: "product-ratings",
   },
-  {
-    id: "14",
-    title: "User",
-    route: "users",
-  },
 ];
-
+exports.rdAdminTitleText = "RD STORE ADMIN";
+exports.shopAdminTitleText = "SHOP ADMIN";
 exports.placesCoulmns = ["Id", "Town", "District", "City", "State", "Pincode"];
 exports.createPlaceBtnTxt = "Create place";
 exports.editPlaceBtnTxt = "Edit place";

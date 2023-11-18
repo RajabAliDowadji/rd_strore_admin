@@ -1,0 +1,92 @@
+.custommenu_titleContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.custommenu_mainTitleText {
+  font-family: var(--fontFamily) !important;
+  font-size: 18px !important;
+  color: var(--white) !important;
+  font-weight: 600 !important;
+  letter-spacing: 5px !important;
+}
+
+.custommenu_ActivetitleContainer {
+  background-color: var(--white);
+}
+
+.custommenu_InActivetitleContainer {
+  background-color: var(--primary500);
+}
+
+.custommenu_optionIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  margin-right: 20px;
+}
+
+.custommenu_titleText {
+  font-family: var(--fontFamily) !important;
+  font-size: 16px !important;
+}
+
+.custommenu_ActivetitleText {
+  color: var(--primary500) !important;
+}
+
+.custommenu_InActivetitleText {
+  color: var(--white) !important;
+}
+
+.MuiDrawer-paperAnchorLeft {
+  padding: 10px 10px !important;
+  width: 15% !important;
+  background-color: var(--primary500) !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .customdrawer_largeGridContainer {
+    display: none;
+  }
+
+  .customdrawer_smallGridContainer {
+    display: block;
+  }
+
+  .MuiDrawer-paperAnchorLeft {
+    width: 70% !important;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .customdrawer_largeGridContainer {
+    display: none;
+  }
+
+  .customdrawer_mediumGridContainer {
+    display: block;
+  }
+
+  .MuiDrawer-paperAnchorLeft {
+    width: 30% !important;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .customdrawer_largeGridContainer {
+    display: none;
+  }
+
+  .customdrawer_mediumGridContainer {
+    display: block;
+  }
+
+  .MuiDrawer-paperAnchorLeft {
+    width: 30% !important;
+  }
+}
