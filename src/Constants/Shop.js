@@ -10,9 +10,9 @@ exports.shopCategoriesColumns = [
   "Upper range",
 ];
 
-exports.shopBtnTxt = "Create shop category";
-exports.createShopTitleText = "Create shop category";
-exports.editShopTitleText = "Edit shop category";
+exports.shopBtnTxt = "Create shop";
+exports.createShopTitleText = "Create shop";
+exports.editShopTitleText = "Edit shop";
 exports.shopColumns = [
   "Id",
   "Shop name",

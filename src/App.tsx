@@ -9,8 +9,8 @@ import ViewPlacePage from "./Screens/PlacePage/ViewPlacePage.web";
 import ShopCategoryPage from "./Screens/ShopCategoryPage/ShopCategoryPage.web";
 import TodoShopCategoryPage from "./Screens/ShopCategoryPage/TodoShopCategoryPage.web";
 import ViewShopCategoryPage from "./Screens/ShopCategoryPage/ViewShopCategoryPage.web";
+import ShopsPage from "./Screens/ShopPage/ShopsPage.web";
 
-import Shops from "./Screens/Shop/Shops.web";
 import CommissionTypes from "./Screens/CommissionType/CommissionTypes.web";
 import Commissions from "./Screens/Commission/Commissions.web";
 import ProductTypes from "./Screens/ProductType/ProductTypes.web";
@@ -72,7 +72,7 @@ function App() {
         {/*  Shop category Routes End */}
         {/* Done */}
         {/*  Shop Routes Start */}
-        <Route path="/shops" element={<Shops />} />
+        <Route path="/shops" element={<ShopsPage />} />
         <Route path="/shops/create" element={<TodoShop />} />
         <Route path="/shops/edit/:id" element={<TodoShop />} />
         <Route path="/shops/view/:id" element={<ViewShop />} />
