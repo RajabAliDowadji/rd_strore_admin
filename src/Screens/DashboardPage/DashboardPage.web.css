@@ -1,3 +1,7 @@
 .dashboardPage_mainContainer {
   height: 100%;
 }
+
+.dashboardPage_innerContainer {
+  padding: 30px;
+}

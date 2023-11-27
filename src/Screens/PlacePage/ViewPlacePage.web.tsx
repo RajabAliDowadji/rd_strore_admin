@@ -2,23 +2,23 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Box } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import Dashboard from "../Dashboard/Dashboard.web";
 import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import { GetPlaceResponse } from "../../Modal/GetPlace.modal";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
 import {
   DELETE_PLACE,
   GET_PLACE_BY_ID,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
 import { errorToaster, successToaster } from "../../Utils/common";
-import "./Place.web.css";
+import "./PlacePage.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
 
-const ViewPlace = () => {
+const ViewPlacePage = () => {
   let { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -112,15 +112,15 @@ const ViewPlace = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
           title="Place"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="place_mainContainer">
-          <Box className="place_buttonContainer">
+        <Box className="placepage_mainContainer">
+          <Box className="placepage_viewbuttonContainer">
             <ActiveButton
               title={configJSON.createPlaceBtnTxt}
               disabled={false}
@@ -128,7 +128,7 @@ const ViewPlace = () => {
             />
           </Box>
           <Box>
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="_id"
                 type="text"
@@ -138,7 +138,7 @@ const ViewPlace = () => {
                 disabled={true}
               />
             </Box>
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="town"
                 type="text"
@@ -148,7 +148,7 @@ const ViewPlace = () => {
                 disabled={true}
               />
             </Box>
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="district"
                 type="text"
@@ -159,7 +159,7 @@ const ViewPlace = () => {
               />
             </Box>
 
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="city"
                 type="text"
@@ -169,7 +169,7 @@ const ViewPlace = () => {
                 disabled={true}
               />
             </Box>
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="state"
                 type="text"
@@ -179,7 +179,7 @@ const ViewPlace = () => {
                 disabled={true}
               />
             </Box>
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="pincode"
                 type="number"
@@ -190,23 +190,23 @@ const ViewPlace = () => {
               />
             </Box>
           </Box>
-          <Box className="place_buttonSubContainer">
+          <Box className="placepage_buttonSubContainer">
             <ActiveButton
               title={configJSON.editBtnTxt}
               disabled={false}
               onClick={editPlaceHandle}
-              style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+              style={{ margin: "0px 15px 0px 0px" }}
             />
             <DeleteButton
               title={configJSON.deleteBtnTxt}
               disabled={false}
               onClick={deletePlaceHandle}
-              style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+              style={{ margin: "0px 0px 0px 15px" }}
             />
           </Box>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-export default ViewPlace;
+export default ViewPlacePage;

@@ -41,13 +41,13 @@ const DeleteModal = ({
             <CancelButton
               title="Cancel"
               disabled={false}
-              style={{ width: "205px", margin: "0px 10px 0px 0px" }}
+              style={{ margin: "0px 10px 0px 0px" }}
               onClick={onClose}
             />
             <ActiveButton
               title="Yes"
               disabled={false}
-              style={{ width: "205px", margin: "0px 0px 0px 10px" }}
+              style={{ margin: "0px 0px 0px 10px" }}
               onClick={onConfirmClick}
             />
           </Box>

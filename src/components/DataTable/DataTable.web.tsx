@@ -7,6 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import ButtonGroup from "../ButtonGroup/ButtonGroup.web";
+import IconGroup from "../ButtonGroup/IconGroup.web";
 import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
 import "./DataTable.web.css";
@@ -89,14 +90,24 @@ const DataTable = ({
                   );
                 })}
                 {isAction && (
-                  <TableCell className="tableCell">
-                    <ButtonGroup
-                      id={row._id}
-                      onViewClick={onTableViewClick}
-                      onEditClick={onTableEditClick}
-                      onDeleteClick={onTableDeleteClick}
-                    />
-                  </TableCell>
+                  <>
+                    <TableCell className="tablelargeCell">
+                      <ButtonGroup
+                        id={row._id}
+                        onViewClick={onTableViewClick}
+                        onEditClick={onTableEditClick}
+                        onDeleteClick={onTableDeleteClick}
+                      />
+                    </TableCell>
+                    <TableCell className="tablemediumCell">
+                      <IconGroup
+                        id={row._id}
+                        onViewClick={onTableViewClick}
+                        onEditClick={onTableEditClick}
+                        onDeleteClick={onTableDeleteClick}
+                      />
+                    </TableCell>
+                  </>
                 )}
               </TableRow>
             );

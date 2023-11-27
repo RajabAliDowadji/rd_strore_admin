@@ -10,7 +10,6 @@ import {
   GET_PLACE_BY_ID,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
-import Dashboard from "../Dashboard/Dashboard.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
@@ -19,11 +18,12 @@ import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
 import { pincodeValidate } from "../../Validations/pincodeValidate.web";
 import { errorToaster, successToaster } from "../../Utils/common";
-import "./Place.web.css";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
+import "./PlacePage.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
 
-const TodoPlace = () => {
+const TodoPlacePage = () => {
   let { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -228,23 +228,23 @@ const TodoPlace = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
           title="Place"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="place_mainContainer">
-          <Box className="place_titleContainer">
-            <Typography className="place_titleText">
+        <Box className="placepage_mainContainer">
+          <Box className="placepage_titleContainer">
+            <Typography className="placepage_titleText">
               {isEdit
                 ? configJSON.editPlaceBtnTxt
                 : configJSON.createPlaceBtnTxt}
             </Typography>
           </Box>
           <form onSubmit={formSubmitHandle}>
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="pincode"
                 type="number"
@@ -256,7 +256,7 @@ const TodoPlace = () => {
                 onChange={pincodeChangeHandle}
               />
             </Box>
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="town"
                 type="text"
@@ -266,7 +266,7 @@ const TodoPlace = () => {
                 disabled={true}
               />
             </Box>
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="district"
                 type="text"
@@ -276,7 +276,7 @@ const TodoPlace = () => {
                 disabled={true}
               />
             </Box>
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="city"
                 type="text"
@@ -286,7 +286,7 @@ const TodoPlace = () => {
                 disabled={true}
               />
             </Box>
-            <Box className="place_textFieldContainer">
+            <Box className="placepage_textFieldContainer">
               <CustomTextField
                 id="state"
                 type="text"
@@ -296,34 +296,34 @@ const TodoPlace = () => {
                 disabled={true}
               />
             </Box>
-            <Box className="place_buttonSubContainer">
+            <Box className="placepage_buttonSubContainer">
               {isEdit ? (
-                <Box className="place_BtnContainer">
+                <Box className="placepage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Update"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <DeleteButton
                     title="Delete"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+                    style={{ margin: "0px 0px 0px 15px" }}
                     onClick={deletePlaceHandle}
                   />
                 </Box>
               ) : (
-                <Box className="place_BtnContainer">
+                <Box className="placepage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Save"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <CancelButton
                     title="Cancel"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+                    style={{ margin: "0px 0px 0px 15px" }}
                     onClick={cancelPlaceHandle}
                   />
                 </Box>
@@ -331,8 +331,8 @@ const TodoPlace = () => {
             </Box>
           </form>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-export default TodoPlace;
+export default TodoPlacePage;

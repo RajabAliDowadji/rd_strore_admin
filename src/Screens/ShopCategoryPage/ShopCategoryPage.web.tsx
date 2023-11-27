@@ -1,35 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Dashboard from "../Dashboard/Dashboard.web";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import { ShopCategory } from "../../Modal/GetShopCategories.modal";
 import {
   DELETE_SHOP_CATEGORY,
   GET_SHOP_CATEGORIES,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
-import "./ShopCategories.web.css";
-import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import { errorToaster, successToaster } from "../../Utils/common";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
+import { ShopCategory } from "../../Modal/GetShopCategories.modal";
+import "./ShopCategoryPage.web.css";
 
 const configJSON = require("../../Constants/Shop");
 
-const ShopCategories = () => {
+const ShopCategoryPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [shopCategories, setShopCategories] = useState<ShopCategory[]>([]);
   const [id, setId] = useState<string>("");
+
   useEffect(() => {
     dispatch({
       type: GET_SHOP_CATEGORIES,
     });
   }, [dispatch]);
+
   useEffect(() => {
     if (
       state &&
@@ -102,39 +104,41 @@ const ShopCategories = () => {
     });
     setModalOpen(false);
   };
+
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Shop category"
+          title="Shop Category"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="shopCategory_mainContainer">
-          <Box className="shopCategory_buttonContainer">
-            <ActiveButton
-              title={configJSON.shopCategoryBtnTxt}
-              disabled={false}
-              onClick={addShopCategoryHandle}
-            />
-          </Box>
-          {shopCategories.length === 0 ? (
-            <NoDataFound />
-          ) : (
-            <DataTable
-              rows={shopCategories}
-              columns={configJSON.shopCategoriesColumns}
-              onViewClick={viewShopCategoryHandle}
-              onEditClick={editShopCategoryHandle}
-              onDeleteClick={deleteBtnClickHandle}
-              isAction={true}
-            />
-          )}
+        <Box className="shopCategoryPage_buttonContainer">
+          <Typography className="shopCategoryPage_maintitleText">
+            Shop Category
+          </Typography>
+          <ActiveButton
+            title={configJSON.shopCategoryBtnTxt}
+            disabled={false}
+            onClick={addShopCategoryHandle}
+          />
         </Box>
-      </Dashboard>
+        {shopCategories.length === 0 ? (
+          <NoDataFound />
+        ) : (
+          <DataTable
+            rows={shopCategories}
+            columns={configJSON.shopCategoriesColumns}
+            onViewClick={viewShopCategoryHandle}
+            onEditClick={editShopCategoryHandle}
+            onDeleteClick={deleteBtnClickHandle}
+            isAction={true}
+          />
+        )}
+      </DashboardPage>
     </Box>
   );
 };
 
-export default ShopCategories;
+export default ShopCategoryPage;

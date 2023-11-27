@@ -7,6 +7,7 @@
   text-transform: capitalize !important;
   font-size: 20px !important;
   line-height: 1 !important;
+  width: 205px !important;
 }
 
 .cancelButton {
@@ -19,6 +20,7 @@
   font-size: 20px !important;
   line-height: 1 !important;
   border: 1px solid var(--primary500) !important;
+  width: 205px !important;
 }
 
 .deleteButton {
@@ -31,4 +33,17 @@
   font-size: 20px !important;
   line-height: 1 !important;
   border: 1px solid var(--red) !important;
+  width: 205px !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .activeButton {
+    width: 100% !important;
+  }
+  .cancelButton {
+    width: 100% !important;
+  }
+  .deleteButton {
+    width: 100% !important;
+  }
 }

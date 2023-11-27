@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
-import Dashboard from "../Dashboard/Dashboard.web";
 import { Place } from "../../Modal/GetPlaces.modal";
 import { useDispatch, useSelector } from "react-redux";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
@@ -14,11 +13,12 @@ import {
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import { errorToaster, successToaster } from "../../Utils/common";
 import NoDataFound from "../../Ui/Data/NoDataFound.web";
-import "./Place.web.css";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
+import "./PlacePage.web.css";
 
 const configJSON = require("../../Constants/Dashboard");
 
-const Places = () => {
+const PlacesPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
@@ -108,37 +108,36 @@ const Places = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
           title="Place"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="place_mainContainer">
-          <Box className="place_buttonContainer">
-            <ActiveButton
-              title={configJSON.createPlaceBtnTxt}
-              disabled={false}
-              onClick={addPlaceHandle}
-            />
-          </Box>
-          {places.length === 0 ? (
-            <NoDataFound />
-          ) : (
-            <DataTable
-              rows={places}
-              columns={configJSON.placesCoulmns}
-              onViewClick={viewPlaceClickHandle}
-              onEditClick={editPlaceHandle}
-              onDeleteClick={deleteBtnClickHandle}
-              isAction={true}
-            />
-          )}
+        <Box className="placepage_buttonContainer">
+          <Typography className="placepage_maintitleText">Places</Typography>
+          <ActiveButton
+            title={configJSON.createPlaceBtnTxt}
+            disabled={false}
+            onClick={addPlaceHandle}
+          />
         </Box>
-      </Dashboard>
+        {places.length === 0 ? (
+          <NoDataFound />
+        ) : (
+          <DataTable
+            rows={places}
+            columns={configJSON.placesCoulmns}
+            onViewClick={viewPlaceClickHandle}
+            onEditClick={editPlaceHandle}
+            onDeleteClick={deleteBtnClickHandle}
+            isAction={true}
+          />
+        )}
+      </DashboardPage>
     </Box>
   );
 };
 
-export default Places;
+export default PlacesPage;

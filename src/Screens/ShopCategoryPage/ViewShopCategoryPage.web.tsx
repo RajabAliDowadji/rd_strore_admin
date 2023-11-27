@@ -1,24 +1,24 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { Box } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
-import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
 import {
   DELETE_SHOP_CATEGORY,
   GET_SHOP_CATEGORY_BY_ID,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
-import { useDispatch, useSelector } from "react-redux";
-import { successToaster, errorToaster } from "../../Utils/common";
+import { errorToaster, successToaster } from "../../Utils/common";
 import { GetShopCategoryByIdResponse } from "../../Modal/GetShopCategoryById.modal";
-import "./ShopCategories.web.css";
+import "./ShopCategoryPage.web.css";
 
 const configJSON = require("../../Constants/Shop");
 
-const ViewShopCategory = () => {
+const ViewShopCategoryPage = () => {
   let { id } = useParams();
   const initialData = useMemo(() => {
     return {
@@ -108,15 +108,15 @@ const ViewShopCategory = () => {
   };
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Place"
+          title="Shop Category"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="place_mainContainer">
-          <Box className="place_buttonContainer">
+        <Box className="shopCategoryPage_mainContainer">
+          <Box className="shopCategoryPage_viewbuttonContainer">
             <ActiveButton
               title={configJSON.shopCategoryBtnTxt}
               disabled={false}
@@ -124,7 +124,7 @@ const ViewShopCategory = () => {
             />
           </Box>
           <Box>
-            <Box className="place_textFieldContainer">
+            <Box className="shopCategoryPage_textFieldContainer">
               <CustomTextField
                 id="_id"
                 type="text"
@@ -134,7 +134,7 @@ const ViewShopCategory = () => {
                 disabled={true}
               />
             </Box>
-            <Box className="place_textFieldContainer">
+            <Box className="shopCategoryPage_textFieldContainer">
               <CustomTextField
                 id="shop_category_name"
                 type="text"
@@ -144,7 +144,7 @@ const ViewShopCategory = () => {
                 disabled={true}
               />
             </Box>
-            <Box className="place_textFieldContainer">
+            <Box className="shopCategoryPage_textFieldContainer">
               <CustomTextField
                 id="lower_range"
                 type="number"
@@ -154,8 +154,7 @@ const ViewShopCategory = () => {
                 disabled={true}
               />
             </Box>
-
-            <Box className="place_textFieldContainer">
+            <Box className="shopCategoryPage_textFieldContainer">
               <CustomTextField
                 id="upper_range"
                 type="number"
@@ -166,24 +165,23 @@ const ViewShopCategory = () => {
               />
             </Box>
           </Box>
-          <Box className="place_buttonSubContainer">
+          <Box className="shopCategoryPage_buttonSubContainer">
             <ActiveButton
               title={configJSON.editBtnTxt}
               disabled={false}
               onClick={editShopCategoryHandle}
-              style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+              style={{ margin: "0px 15px 0px 0px" }}
             />
             <DeleteButton
               title={configJSON.deleteBtnTxt}
               disabled={false}
               onClick={deleteBtnClickHandle}
-              style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+              style={{ margin: "0px 0px 0px 15px" }}
             />
           </Box>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-
-export default ViewShopCategory;
+export default ViewShopCategoryPage;

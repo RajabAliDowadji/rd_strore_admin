@@ -1,0 +1,72 @@
+.placepage_maintitleText {
+  font-size: 30px !important;
+  color: var(--primary500) !important;
+  font-weight: 600 !important;
+  font-family: var(--fontFamily) !important;
+  margin-right: 30px !important;
+}
+
+.placepage_buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.placepage_viewbuttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.placepage_mainContainer {
+  background: var(--background);
+  padding: 30px;
+  border-radius: 6px;
+}
+
+.placepage_textFieldContainer {
+  margin-bottom: 30px !important;
+}
+
+.placepage_buttonSubContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.placepage_titleText {
+  font-size: 24px !important;
+  font-weight: 300 !important;
+  color: var(--black) !important;
+  font-family: var(--fontFamily) !important;
+}
+
+.placepage_titleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.placepage_BtnContainer {
+  margin-top: 30px !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .placepage_BtnContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px !important;
+    width: 100%;
+  }
+}

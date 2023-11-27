@@ -8,9 +8,8 @@ const DashboardPage = (props: any) => {
   return (
     <Box className="dashboardPage_mainContainer">
       <Header />
-      <Box>
-        <CustomDrawer>{props.children}</CustomDrawer>
-      </Box>
+      <CustomDrawer />
+      <Box className="dashboardPage_innerContainer">{props.children}</Box>
     </Box>
   );
 };

@@ -3,9 +3,13 @@ import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "./Screens/LoginPage/LoginPage.web";
 import DashboardPage from "./Screens/DashboardPage/DashboardPage.web";
+import PlacesPage from "./Screens/PlacePage/PlacesPage.web";
+import TodoPlacePage from "./Screens/PlacePage/TodoPlacePage.web";
+import ViewPlacePage from "./Screens/PlacePage/ViewPlacePage.web";
+import ShopCategoryPage from "./Screens/ShopCategoryPage/ShopCategoryPage.web";
+import TodoShopCategoryPage from "./Screens/ShopCategoryPage/TodoShopCategoryPage.web";
+import ViewShopCategoryPage from "./Screens/ShopCategoryPage/ViewShopCategoryPage.web";
 
-import Places from "./Screens/Place/Places.web";
-import ShopCategories from "./Screens/ShopCategory/ShopCategories.web";
 import Shops from "./Screens/Shop/Shops.web";
 import CommissionTypes from "./Screens/CommissionType/CommissionTypes.web";
 import Commissions from "./Screens/Commission/Commissions.web";
@@ -17,10 +21,6 @@ import Products from "./Screens/Product/Products.web";
 import ProductInventories from "./Screens/ProductInventory/ProductInventories.web";
 import ProductRatings from "./Screens/ProductRating/ProductRatings.web";
 import Users from "./Screens/User/Users.web";
-import ViewPlace from "./Screens/Place/ViewPlace.web";
-import TodoPlace from "./Screens/Place/TodoPlace.web";
-import ViewShopCategory from "./Screens/ShopCategory/ViewShopCategory.web";
-import TodoShopCategory from "./Screens/ShopCategory/TodoShopCategory.web";
 import TodoShop from "./Screens/Shop/TodoShop.web";
 import ViewShop from "./Screens/Shop/ViewShop.web";
 import ViewCommissionType from "./Screens/CommissionType/ViewCommissionType.web";
@@ -50,23 +50,27 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         {/*  Places Routes Start */}
-        <Route path="/places" element={<Places />} />
-        <Route path="/places/create" element={<TodoPlace />} />
-        <Route path="/places/edit/:id" element={<TodoPlace />} />
-        <Route path="/places/view/:id" element={<ViewPlace />} />
+        <Route path="/places" element={<PlacesPage />} />
+        <Route path="/places/create" element={<TodoPlacePage />} />
+        <Route path="/places/edit/:id" element={<TodoPlacePage />} />
+        <Route path="/places/view/:id" element={<ViewPlacePage />} />
         {/*  Places Routes End */}
         {/*  Shop category Routes Start */}
-        <Route path="/shop-categories" element={<ShopCategories />} />
-        <Route path="/shop-categories/create" element={<TodoShopCategory />} />
+        <Route path="/shop-categories" element={<ShopCategoryPage />} />
+        <Route
+          path="/shop-categories/create"
+          element={<TodoShopCategoryPage />}
+        />
         <Route
           path="/shop-categories/edit/:id"
-          element={<TodoShopCategory />}
+          element={<TodoShopCategoryPage />}
         />
         <Route
           path="/shop-categories/view/:id"
-          element={<ViewShopCategory />}
+          element={<ViewShopCategoryPage />}
         />
         {/*  Shop category Routes End */}
+        {/* Done */}
         {/*  Shop Routes Start */}
         <Route path="/shops" element={<Shops />} />
         <Route path="/shops/create" element={<TodoShop />} />

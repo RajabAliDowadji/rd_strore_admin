@@ -1,6 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_SHOP_CATEGORY,
+  DELETE_SHOP_CATEGORY,
+  EDIT_SHOP_CATEGORY,
+  GET_SHOP_CATEGORY_BY_ID,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
@@ -13,21 +20,14 @@ import {
   isNumEmpty,
   successToaster,
 } from "../../Utils/common";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
 import { rangeValidate } from "../../Validations/rangeValidate.web";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  DELETE_SHOP_CATEGORY,
-  GET_SHOP_CATEGORY_BY_ID,
-  RESET_STATE,
-  ADD_SHOP_CATEGORY,
-  EDIT_SHOP_CATEGORY,
-} from "../../Hooks/Saga/Constant";
 import { GetShopCategoryByIdResponse } from "../../Modal/GetShopCategoryById.modal";
-import "./ShopCategories.web.css";
+import "./ShopCategoryPage.web.css";
 
 const configJSON = require("../../Constants/Shop");
 
-const TodoShopCategory = () => {
+const TodoShopCategoryPage = () => {
   let { id } = useParams();
   const initialData = useMemo(() => {
     return {
@@ -217,23 +217,23 @@ const TodoShopCategory = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Shop category"
+          title="Shop Category"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="shopCategory_mainContainer">
-          <Box className="shopCategory_titleContainer">
-            <Typography className="shopCategory_titleText">
+        <Box className="shopCategoryPage_mainContainer">
+          <Box className="shopCategoryPage_titleContainer">
+            <Typography className="shopCategoryPage_titleText">
               {isEdit
                 ? configJSON.editShopCategoryTitleText
                 : configJSON.createShopCategoryTitleText}
             </Typography>
           </Box>
           <form onSubmit={formSubmitHandle}>
-            <Box className="shopCategory_textFieldContainer">
+            <Box className="shopCategoryPage_textFieldContainer">
               <CustomTextField
                 id="category_name"
                 type="text"
@@ -245,7 +245,7 @@ const TodoShopCategory = () => {
                 onChange={inputChangeHandle.bind(this, "Category name")}
               />
             </Box>
-            <Box className="shopCategory_textFieldContainer">
+            <Box className="shopCategoryPage_textFieldContainer">
               <CustomTextField
                 id="lower_range"
                 type="number"
@@ -257,7 +257,7 @@ const TodoShopCategory = () => {
                 onChange={inputChangeHandle.bind(this, "Lower range")}
               />
             </Box>
-            <Box className="shopCategory_textFieldContainer">
+            <Box className="shopCategoryPage_textFieldContainer">
               <CustomTextField
                 id="upper_range"
                 type="number"
@@ -269,34 +269,34 @@ const TodoShopCategory = () => {
                 onChange={inputChangeHandle.bind(this, "Upper range")}
               />
             </Box>
-            <Box className="shopCategory_buttonSubContainer">
+            <Box className="shopCategoryPage_buttonSubContainer">
               {isEdit ? (
-                <Box className="shopCategory_BtnContainer">
+                <Box className="shopCategoryPage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Update"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <DeleteButton
                     title="Delete"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+                    style={{ margin: "0px 0px 0px 15px" }}
                     onClick={deleteshopCategoryHandle}
                   />
                 </Box>
               ) : (
-                <Box className="shopCategory_BtnContainer">
+                <Box className="shopCategoryPage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Save"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <CancelButton
                     title="Cancel"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+                    style={{ margin: "0px 0px 0px 15px" }}
                     onClick={cancelshopCategoryHandle}
                   />
                 </Box>
@@ -304,8 +304,8 @@ const TodoShopCategory = () => {
             </Box>
           </form>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-export default TodoShopCategory;
+export default TodoShopCategoryPage;
