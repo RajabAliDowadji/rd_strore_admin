@@ -10,33 +10,30 @@ import ShopCategoryPage from "./Screens/ShopCategoryPage/ShopCategoryPage.web";
 import TodoShopCategoryPage from "./Screens/ShopCategoryPage/TodoShopCategoryPage.web";
 import ViewShopCategoryPage from "./Screens/ShopCategoryPage/ViewShopCategoryPage.web";
 import ShopsPage from "./Screens/ShopPage/ShopsPage.web";
+import ViewShopPage from "./Screens/ShopPage/ViewShopPage.web";
+import TodoShopPage from "./Screens/ShopPage/TodoShopPage.web";
+import ProductCategoryPage from "./Screens/ProductCategoryPage/ProductCategoryPage.web";
+import ViewProductCategoryPage from "./Screens/ProductCategoryPage/ViewProductCategoryPage.web";
+import TodoProductCategoryPage from "./Screens/ProductCategoryPage/TodoProductCategoryPage.web";
+import ProductSubCategotyPage from "./Screens/ProductSubCategoryPage/ProductSubCategoryPage.web";
+import ViewProductSubCategoryPage from "./Screens/ProductSubCategoryPage/ViewProductSubCategoryPage.web";
+import TodoProductSubCategoryPage from "./Screens/ProductSubCategoryPage/TodoProductSubCategoryPage.web";
+import ProductBrandPage from "./Screens/ProductBrandPage/ProductBrandPage.web";
+import ViewProductBrandPage from "./Screens/ProductBrandPage/ViewProductBrandPage.web";
+import TodoProductBrandPage from "./Screens/ProductBrandPage/TodoProductBrandPage.web";
+import ProductPage from "./Screens/ProductPage/ProductPage.web";
+import ViewProductPage from "./Screens/ProductPage/ViewProductPage.web";
+import TodoProductPage from "./Screens/ProductPage/TodoProductPage.web";
+import CommissionCategoryPage from "./Screens/CommissionCategoryPage/CommissionCategoryPage.web";
+import ViewCommissionCategoryPage from "./Screens/CommissionCategoryPage/ViewCommissionCategoryPage.web";
 
-import CommissionTypes from "./Screens/CommissionType/CommissionTypes.web";
 import Commissions from "./Screens/Commission/Commissions.web";
-import ProductTypes from "./Screens/ProductType/ProductTypes.web";
-import ProductCategories from "./Screens/ProductCategory/ProductCategories.web";
-import ProductSubCategories from "./Screens/ProductSubCategory/ProductSubCategories.web";
-import ProductBrands from "./Screens/ProductBrand/ProductBrands.web";
-import Products from "./Screens/Product/Products.web";
 import ProductInventories from "./Screens/ProductInventory/ProductInventories.web";
 import ProductRatings from "./Screens/ProductRating/ProductRatings.web";
 import Users from "./Screens/User/Users.web";
-import TodoShop from "./Screens/Shop/TodoShop.web";
-import ViewShop from "./Screens/Shop/ViewShop.web";
-import ViewCommissionType from "./Screens/CommissionType/ViewCommissionType.web";
 import TodoCommissionType from "./Screens/CommissionType/TodoCommissionType.web";
 import ViewCommission from "./Screens/Commission/ViewCommission.web";
 import TodoCommission from "./Screens/Commission/TodoCommission.web";
-import ViewProductType from "./Screens/ProductType/ViewProductType.web";
-import TodoProductType from "./Screens/ProductType/TodoProductType.web";
-import ViewProductCategory from "./Screens/ProductCategory/ViewProductCategory.web";
-import TodoProductCategory from "./Screens/ProductCategory/TodoProductCategory.web";
-import ViewProductSubCategory from "./Screens/ProductSubCategory/ViewProducSubCategory.web";
-import TodoProductSubCategory from "./Screens/ProductSubCategory/TodoProductSubCategory.web";
-import ViewProductBrand from "./Screens/ProductBrand/ViewProductBrand.web";
-import TodoProductBrand from "./Screens/ProductBrand/TodoProductBrand.web";
-import TodoProduct from "./Screens/Product/TodoProduct.web";
-import ViewProduct from "./Screens/Product/ViewProduct.web";
 import ViewProductInventory from "./Screens/ProductInventory/ViewProductInventory.web";
 import TodoProductInventory from "./Screens/ProductInventory/TodoProductInventory.web";
 import TodoShopAdmin from "./Screens/User/TodoShopAdmin.web";
@@ -70,85 +67,91 @@ function App() {
           element={<ViewShopCategoryPage />}
         />
         {/*  Shop category Routes End */}
-        {/* Done */}
         {/*  Shop Routes Start */}
         <Route path="/shops" element={<ShopsPage />} />
-        <Route path="/shops/create" element={<TodoShop />} />
-        <Route path="/shops/edit/:id" element={<TodoShop />} />
-        <Route path="/shops/view/:id" element={<ViewShop />} />
+        <Route path="/shops/view/:id" element={<ViewShopPage />} />
+        <Route path="/shops/create" element={<TodoShopPage />} />
+        <Route path="/shops/edit/:id" element={<TodoShopPage />} />
         {/*  Shop  Routes End */}
-        {/*  Commission type Routes Start */}
-        <Route path="/commission-types" element={<CommissionTypes />} />
+        {/*  Product Category Routes Start */}
+        <Route path="/product-categories" element={<ProductCategoryPage />} />
         <Route
-          path="/commission-types/create"
+          path="/product-categories/view/:id"
+          element={<ViewProductCategoryPage />}
+        />
+        <Route
+          path="/product-categories/edit/:id"
+          element={<TodoProductCategoryPage />}
+        />{" "}
+        <Route
+          path="/product-categories/create"
+          element={<TodoProductCategoryPage />}
+        />
+        {/*  Product Category Routes End */}
+        {/*  Product Sub-Category Routes Start */}
+        <Route
+          path="/product-sub-categories"
+          element={<ProductSubCategotyPage />}
+        />
+        <Route
+          path="/product-sub-categories/view/:id"
+          element={<ViewProductSubCategoryPage />}
+        />
+        <Route
+          path="/product-sub-categories/edit/:id"
+          element={<TodoProductSubCategoryPage />}
+        />
+        <Route
+          path="/product-sub-categories/create"
+          element={<TodoProductSubCategoryPage />}
+        />
+        {/*  Product Sub-Category Routes End */}
+        {/*  Product Brand Routes Start */}
+        <Route path="/product-brands" element={<ProductBrandPage />} />
+        <Route
+          path="/product-brands/view/:id"
+          element={<ViewProductBrandPage />}
+        />
+        <Route
+          path="/product-brands/edit/:id"
+          element={<TodoProductBrandPage />}
+        />
+        <Route
+          path="/product-brands/create"
+          element={<TodoProductBrandPage />}
+        />
+        {/*  Product Brand Routes End */}
+        {/*  Product Routes Start */}
+        <Route path="/products" element={<ProductPage />} />
+        <Route path="/products/view/:id" element={<ViewProductPage />} />
+        <Route path="/products/create" element={<TodoProductPage />} />
+        <Route path="/products/edit/:id" element={<TodoProductPage />} />
+        {/*  Product Routes End */}
+        {/*  Commission Category Routes Start */}
+        <Route
+          path="/commission-categories"
+          element={<CommissionCategoryPage />}
+        />
+        <Route
+          path="/commission-categories/view/:id"
+          element={<ViewCommissionCategoryPage />}
+        />
+        {/* Done */}
+        <Route
+          path="/commission-categories/create"
           element={<TodoCommissionType />}
         />
         <Route
-          path="/commission-types/edit/:id"
+          path="/commission-categories/edit/:id"
           element={<TodoCommissionType />}
         />
-        <Route
-          path="/commission-types/view/:id"
-          element={<ViewCommissionType />}
-        />
-        {/*  Commission type Routes End */}
+        {/*  Commission Category Routes End */}
         {/*  Commissions Routes Start */}
         <Route path="/commissions" element={<Commissions />} />
         <Route path="/commissions/create" element={<TodoCommission />} />
         <Route path="/commissions/view/:id" element={<ViewCommission />} />
         <Route path="/commissions/edit/:id" element={<TodoCommission />} />
         {/*  Commissions Routes End */}
-        {/*  Product type Routes Start */}
-        <Route path="/product-types" element={<ProductTypes />} />
-        <Route path="/product-types/create" element={<TodoProductType />} />
-        <Route path="/product-types/view/:id" element={<ViewProductType />} />
-        <Route path="/product-types/edit/:id" element={<TodoProductType />} />
-        {/*  Product type Routes End */}
-        {/*  Product Category Routes Start */}
-        <Route path="/product-categories" element={<ProductCategories />} />
-        <Route
-          path="/product-categories/view/:id"
-          element={<ViewProductCategory />}
-        />
-        <Route
-          path="/product-categories/edit/:id"
-          element={<TodoProductCategory />}
-        />{" "}
-        <Route
-          path="/product-categories/create"
-          element={<TodoProductCategory />}
-        />
-        {/*  Product Category Routes End */}
-        {/*  Product Sub-Category Routes Start */}
-        <Route
-          path="/product-sub-categories"
-          element={<ProductSubCategories />}
-        />
-        <Route
-          path="/product-sub-categories/view/:id"
-          element={<ViewProductSubCategory />}
-        />
-        <Route
-          path="/product-sub-categories/edit/:id"
-          element={<TodoProductSubCategory />}
-        />
-        <Route
-          path="/product-sub-categories/create"
-          element={<TodoProductSubCategory />}
-        />
-        {/*  Product Sub-Category Routes End */}
-        {/*  Product Brand Routes Start */}
-        <Route path="/product-brands" element={<ProductBrands />} />
-        <Route path="/product-brands/view/:id" element={<ViewProductBrand />} />
-        <Route path="/product-brands/edit/:id" element={<TodoProductBrand />} />
-        <Route path="/product-brands/create" element={<TodoProductBrand />} />
-        {/*  Product Brand Routes End */}
-        {/*  Product Routes Start */}
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/create" element={<TodoProduct />} />
-        <Route path="/products/view/:id" element={<ViewProduct />} />
-        <Route path="/products/edit/:id" element={<TodoProduct />} />
-        {/*  Product Routes End */}
         {/*  Product Inventory Routes Start */}
         <Route path="/product-inventories" element={<ProductInventories />} />
         <Route

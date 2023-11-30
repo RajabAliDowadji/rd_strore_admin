@@ -1,36 +1,29 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
-import ActiveButton from "../../Ui/Button/ActiveButton.web";
-import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
-import DeleteButton from "../../Ui/Button/DeleteButton.web";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { dropDownValidate } from "../../Validations/dropDownValidate.web";
-import DropDown from "../../Ui/DropDown/DropDown.web";
-import CancelButton from "../../Ui/Button/CancelButton.web";
-import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
-import { GetProductSubCategoriesColumns } from "../../Modal/GetProductSubCategories.modal";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_PRODUCT_BRAND,
   DELETE_PRODUCT_BRAND,
   EDIT_PRODUCT_BRAND,
   GET_PRODUCT_BRAND_BY_ID,
-  GET_PRODUCT_SUB_CATEGORIES,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
-import { useDispatch, useSelector } from "react-redux";
-import "./ProductBrands.web.css";
+import ActiveButton from "../../Ui/Button/ActiveButton.web";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
+import DeleteButton from "../../Ui/Button/DeleteButton.web";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import CancelButton from "../../Ui/Button/CancelButton.web";
+import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
+import "./ProductBrandPage.web.css";
 
 const configJSON = require("../../Constants/Products");
 
-const TodoProductBrand = () => {
+const TodoProductBrandPage = () => {
   const initialData = useMemo(() => {
     return {
       brand_name: "",
-      sub_category_ids: {
-        sub_category: [],
-      },
     };
   }, []);
   let { id } = useParams();
@@ -41,25 +34,14 @@ const TodoProductBrand = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialData);
-  const [productSubCategories, setProductSubCategories] = useState<
-    GetProductSubCategoriesColumns[]
-  >([]);
   const [dataError, setDataError] = useState({
     errors: {
       brand_name: false,
-      sub_category_ids: false,
     },
     errorMsg: {
       brand_name: "",
-      sub_category_ids: "",
     },
   });
-
-  useEffect(() => {
-    dispatch({
-      type: GET_PRODUCT_SUB_CATEGORIES,
-    });
-  }, [dispatch]);
 
   useEffect(() => {
     if (id) {
@@ -69,26 +51,6 @@ const TodoProductBrand = () => {
       });
     }
   }, [dispatch, id]);
-
-  useEffect(() => {
-    if (
-      state &&
-      state.get_product_sub_categories &&
-      state.get_product_sub_categories.productSubCategories &&
-      state.get_product_sub_categories.productSubCategories.length !== 0
-    ) {
-      let tempArr: any[] = [];
-      state.get_product_sub_categories.productSubCategories.map(
-        (productCategory: any) =>
-          tempArr.push({
-            _id: productCategory._id,
-            sub_category_name: productCategory.sub_category_name,
-            category_name: productCategory.product_category.category_name,
-          })
-      );
-      setProductSubCategories(tempArr);
-    }
-  }, [state]);
 
   useEffect(() => {
     if (
@@ -118,12 +80,7 @@ const TodoProductBrand = () => {
       let temp: any = initialData;
       temp._id = state.get_product_brand_by_id.productBrand._id;
       temp.brand_name = state.get_product_brand_by_id.productBrand.brand_name;
-      temp.sub_category_ids = {
-        sub_category:
-          state.get_product_brand_by_id.productBrand.sub_category_ids.sub_category.map(
-            (value: any) => value._id
-          ),
-      };
+
       setFormData((prev: any) => ({
         ...prev,
         ...temp,
@@ -197,45 +154,19 @@ const TodoProductBrand = () => {
     }));
   };
 
-  const dropDownOnChangeHandle = (
-    fieldName: string,
-    keyName: string,
-    values: any
-  ) => {
-    const isValid = dropDownValidate(fieldName, values);
-    const tempArr = values.map((value: any) => value._id);
-    setFormData((prev) => ({
-      ...prev,
-      [keyName]: { sub_category: tempArr },
-    }));
-    setDataError((prev) => ({
-      ...prev,
-      errors: { ...dataError.errors, [keyName]: isValid.status },
-      errorMsg: {
-        ...dataError.errorMsg,
-        [keyName]: isValid.message,
-      },
-    }));
-  };
   const formSubmitHandle = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const isProdBrandValid = isEmpty("Brand name", formData.brand_name);
-    const isProdSubCatValid = dropDownValidate(
-      "Product sub-categories",
-      formData.sub_category_ids.sub_category
-    );
-    if (isProdBrandValid.status || isProdSubCatValid.status) {
+    if (isProdBrandValid.status) {
       setDataError((prev) => ({
         ...prev,
         errors: {
           ...dataError.errors,
           brand_name: isProdBrandValid.status,
-          sub_category_ids: isProdSubCatValid.status,
         },
         errorMsg: {
           ...dataError.errorMsg,
           brand_name: isProdBrandValid.message,
-          sub_category_ids: isProdSubCatValid.message,
         },
       }));
     } else {
@@ -254,23 +185,23 @@ const TodoProductBrand = () => {
   };
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Product brand"
+          title="Product Brand"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="prodBrand_mainContainer">
-          <Box className="prodBrand_titleContainer">
-            <Typography className="prodBrand_titleText">
+        <Box className="prodbrandpage_mainContainer">
+          <Box className="prodbrandpage_titleContainer">
+            <Typography className="prodbrandpage_titleText">
               {isEdit
                 ? configJSON.editProductBrandTitleText
                 : configJSON.createProductBrandTitleText}
             </Typography>
           </Box>
           <form onSubmit={formSubmitHandle}>
-            <Box className="prodBrand_textFieldContainer">
+            <Box className="prodbrandpage_textFieldContainer">
               <CustomTextField
                 id="brand_name"
                 type="text"
@@ -282,56 +213,34 @@ const TodoProductBrand = () => {
                 onChange={inputChangeHandle.bind(this, "Brand name")}
               />
             </Box>
-            <Box className="prodBrand_textFieldContainer">
-              <DropDown
-                label="Product sub-categories"
-                name="sub_category_ids"
-                multi={true}
-                disabled={false}
-                clearable={false}
-                required={false}
-                labelField={"sub_category_name"}
-                valueField={"_id"}
-                data={productSubCategories}
-                values={formData.sub_category_ids.sub_category}
-                placeholder="Please select product sub-categories"
-                error={dataError.errors.sub_category_ids}
-                errorText={dataError.errorMsg.sub_category_ids}
-                onChange={dropDownOnChangeHandle.bind(
-                  this,
-                  "Product sub-categories",
-                  "sub_category_ids"
-                )}
-              />
-            </Box>
-            <Box className="prodBrand_buttonSubContainer">
+            <Box className="prodbrandpage_buttonSubContainer">
               {isEdit ? (
-                <Box className="prodBrand_BtnContainer">
+                <Box className="prodbrandpage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Update"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <DeleteButton
                     title="Delete"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+                    style={{ margin: "0px 0px 0px 15px" }}
                     onClick={deleteProdBrandHandle}
                   />
                 </Box>
               ) : (
-                <Box className="prodBrand_BtnContainer">
+                <Box className="prodbrandpage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Save"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <CancelButton
                     title="Cancel"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+                    style={{ margin: "0px 0px 0px 15px" }}
                     onClick={cancelProdBrandHandle}
                   />
                 </Box>
@@ -339,8 +248,8 @@ const TodoProductBrand = () => {
             </Box>
           </form>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-export default TodoProductBrand;
+export default TodoProductBrandPage;

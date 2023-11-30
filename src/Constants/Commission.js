@@ -1,9 +1,9 @@
 exports.editBtnTxt = "Edit";
 exports.deleteBtnTxt = "Delete";
-exports.commissionTypeBtnTxt = "Create commission type";
-exports.createCommissionTypeTitleText = "Create commission type";
-exports.editCommissionTypeTitleText = "Edit commission type";
-exports.commissionTypeColumns = ["Id", "Commission name", "Commission sign"];
+exports.commissionCatBtnTxt = "Create commission category";
+exports.createCommissionCatTitleText = "Create commission category";
+exports.editCommissionCatTitleText = "Edit commission category";
+exports.commissionCatColumns = ["Id", "Commission name", "Commission sign"];
 
 exports.commissionBtnTxt = "Create commission";
 exports.createCommissionTitleText = "Create commission";

@@ -16,10 +16,9 @@ export interface GetProductCategoryByIdPayload {
   id: string;
 }
 export interface GetProductCategoryByIdResponse {
-  _id?: string;
+  _id: string;
   category_name: string;
-  search_name: string;
-  product_type: string;
+  category_image: string;
 }
 export interface dropDown {
   label: string;

@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Dashboard from "../Dashboard/Dashboard.web";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import {
-  GetProductSubCategoriesColumns,
-  ProductSubCategory,
-} from "../../Modal/GetProductSubCategories.modal";
 import {
   DELETE_PRODUCT_SUB_CATEGORY,
   GET_PRODUCT_SUB_CATEGORIES,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
-import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import { errorToaster, successToaster } from "../../Utils/common";
-import "./ProductSubCategories.web.css";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
+import {
+  GetProductSubCategoriesColumns,
+  ProductSubCategory,
+} from "../../Modal/GetProductSubCategories.modal";
+import "./ProductSubCategoryPage.web.css";
 
 const configJSON = require("../../Constants/Products");
 
-const ProductSubCategories = () => {
+const ProductSubCategotyPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
@@ -51,7 +51,6 @@ const ProductSubCategories = () => {
             _id: productCategory._id,
             sub_category_name: productCategory.sub_category_name,
             category_name: productCategory.product_category.category_name,
-            search_name: productCategory.search_name,
           })
       );
       setProductSubCategories(tempArr);
@@ -86,15 +85,15 @@ const ProductSubCategories = () => {
     }
   }, [dispatch, navigate, state]);
 
-  const addProductTypeHandle = () => {
+  const addProductSubCatHandle = () => {
     navigate("/product-sub-categories/create");
   };
 
-  const editProductTypeHandle = (id: string) => {
+  const editProductSubCatHandle = (id: string) => {
     navigate(`/product-sub-categories/edit/${id}`);
   };
 
-  const viewProductTypeClickHandle = (id: string) => {
+  const viewProductSubCatClickHandle = (id: string) => {
     navigate(`/product-sub-categories/view/${id}`);
   };
 
@@ -117,37 +116,39 @@ const ProductSubCategories = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Product sub-category"
+          title="Product Sub-Category"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="prodSubCategory_mainContainer">
-          <Box className="prodSubCategory_buttonContainer">
-            <ActiveButton
-              title={configJSON.productSubCatBtnTxt}
-              disabled={false}
-              onClick={addProductTypeHandle}
-            />
-          </Box>
-          {productSubCategories.length === 0 ? (
-            <NoDataFound />
-          ) : (
-            <DataTable
-              rows={productSubCategories}
-              columns={configJSON.productSubCatColumns}
-              onViewClick={viewProductTypeClickHandle}
-              onEditClick={editProductTypeHandle}
-              onDeleteClick={deleteBtnClickHandle}
-              isAction={true}
-            />
-          )}
+        <Box className="prodsubcatpage_buttonContainer">
+          <Typography className="prodsubcatpage_maintitleText">
+            Product Sub-Category
+          </Typography>
+          <ActiveButton
+            title={configJSON.productSubCatBtnTxt}
+            disabled={false}
+            onClick={addProductSubCatHandle}
+            style={{ width: "max-content" }}
+          />
         </Box>
-      </Dashboard>
+        {productSubCategories.length === 0 ? (
+          <NoDataFound />
+        ) : (
+          <DataTable
+            rows={productSubCategories}
+            columns={configJSON.productSubCatColumns}
+            onViewClick={viewProductSubCatClickHandle}
+            onEditClick={editProductSubCatHandle}
+            onDeleteClick={deleteBtnClickHandle}
+            isAction={true}
+          />
+        )}
+      </DashboardPage>
     </Box>
   );
 };
 
-export default ProductSubCategories;
+export default ProductSubCategotyPage;

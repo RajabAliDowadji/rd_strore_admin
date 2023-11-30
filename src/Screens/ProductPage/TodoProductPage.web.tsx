@@ -1,19 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Box, Grid, Typography } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
-import ActiveButton from "../../Ui/Button/ActiveButton.web";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
-import DeleteButton from "../../Ui/Button/DeleteButton.web";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
-import CancelButton from "../../Ui/Button/CancelButton.web";
-import DropDown from "../../Ui/DropDown/DropDown.web";
-import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
-import MultipleImageUpload from "../../Ui/Image/MultipleImageUpload.web";
-import { dropDownValidate } from "../../Validations/dropDownValidate.web";
-import { uploadimage_placeholder, noimage_placeholder } from "./assets";
-import { multiImageUploadValidate } from "../../Validations/multiImageUpload.web";
-import FileInput from "../../components/Modals/FileInput/FileInput.web";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_PRODUCT,
@@ -24,19 +10,33 @@ import {
   GET_PRODUCT_SUB_CATEGORIES,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
-import "./Products.web.css";
+import ActiveButton from "../../Ui/Button/ActiveButton.web";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
+import DeleteButton from "../../Ui/Button/DeleteButton.web";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import CancelButton from "../../Ui/Button/CancelButton.web";
+import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
 import {
-  ProductBrand,
   ProductBrandColumns,
+  ProductBrand,
 } from "../../Modal/GetProductBrands.modal";
 import {
   GetProductSubCategoriesColumns,
   ProductSubCategory,
 } from "../../Modal/GetProductSubCategories.modal";
+import { dropDownValidate } from "../../Validations/dropDownValidate.web";
+import { multiImageUploadValidate } from "../../Validations/multiImageUpload.web";
+import DropDown from "../../Ui/DropDown/DropDown.web";
+import MultipleImageUpload from "../../Ui/Image/MultipleImageUpload.web";
+import { uploadimage_placeholder, noimage_placeholder } from "./assets";
+import FileInput from "../../components/Modals/FileInput/FileInput.web";
+import "./ProductPage.web.css";
 
 const configJSON = require("../../Constants/Products");
 
-const TodoProduct = () => {
+const TodoProductPage = () => {
   const initialData = useMemo(() => {
     return {
       product_title: "",
@@ -54,7 +54,6 @@ const TodoProduct = () => {
         { file_url: "" },
         { file_url: "" },
       ],
-      search_name: "",
       is_vegetarian: "",
     };
   }, []);
@@ -136,7 +135,6 @@ const TodoProduct = () => {
       temp.product_sub_category =
         state.get_product_by_id.product.product_sub_category._id;
       temp.product_brand = state.get_product_by_id.product.product_brand._id;
-      temp.search_name = state.get_product_by_id.product.search_name;
       temp.product_images = state.get_product_by_id.product.product_images;
       temp.is_vegetarian = state.get_product_by_id.product.is_vegetarian
         ? "true"
@@ -192,7 +190,6 @@ const TodoProduct = () => {
             _id: productCategory._id,
             sub_category_name: productCategory.sub_category_name,
             category_name: productCategory.product_category.category_name,
-            search_name: productCategory.search_name,
           })
       );
       setProductSubCategories(tempArr);
@@ -259,11 +256,11 @@ const TodoProduct = () => {
     }
   }, [location]);
 
-  const cancelshopHandle = () => {
+  const cancelProductHandle = () => {
     navigate("/products");
   };
 
-  const deleteshopHandle = () => {
+  const deleteProductHandle = () => {
     setModalOpen(true);
   };
   const modalHandleClose = () => {
@@ -307,13 +304,6 @@ const TodoProduct = () => {
         ...dataError.errorMsg,
         [event.target.name]: isValid.message,
       },
-    }));
-  };
-
-  const optionalInputChangeHandle = (fieldName: string, event: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
     }));
   };
 
@@ -436,7 +426,7 @@ const TodoProduct = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
           title="Product"
@@ -451,9 +441,9 @@ const TodoProduct = () => {
           onSuccess={onFileUploadSuccess}
           files={files}
         />
-        <Box className="product_todoContainer">
-          <Box className="product_titleContainer">
-            <Typography className="product_titleText">
+        <Box className="prodpage_mainContainer">
+          <Box className="prodpage_titleContainer">
+            <Typography className="prodpage_titleText">
               {isEdit
                 ? configJSON.editProductTitleText
                 : configJSON.createProductTitleText}
@@ -463,7 +453,7 @@ const TodoProduct = () => {
             <Box>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_title"
                       type="text"
@@ -477,7 +467,7 @@ const TodoProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_size"
                       type="text"
@@ -491,7 +481,7 @@ const TodoProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_MRP_price"
                       type="text"
@@ -508,7 +498,7 @@ const TodoProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_price"
                       type="text"
@@ -522,7 +512,7 @@ const TodoProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <DropDown
                       label="Product sub-category"
                       name="product_sub_category"
@@ -546,7 +536,7 @@ const TodoProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <DropDown
                       label="Product brand"
                       name="product_brand"
@@ -570,7 +560,7 @@ const TodoProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={8}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_description"
                       type="text"
@@ -578,8 +568,6 @@ const TodoProduct = () => {
                       name="product_description"
                       placeholder=""
                       multiline={true}
-                      minRows={7}
-                      maxRows={7}
                       value={formData.product_description}
                       error={dataError.errors.product_description}
                       errorText={dataError.errorMsg.product_description}
@@ -591,7 +579,7 @@ const TodoProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <DropDown
                       label="Is Vegetarian"
                       name="is_vegetarian"
@@ -613,19 +601,6 @@ const TodoProduct = () => {
                       )}
                     />
                   </Box>
-                  <Box className="product_textFieldContainer">
-                    <CustomTextField
-                      id="search_name"
-                      type="text"
-                      label="Search name"
-                      name="search_name"
-                      value={formData.search_name}
-                      onChange={optionalInputChangeHandle.bind(
-                        this,
-                        "Search name"
-                      )}
-                    />
-                  </Box>
                 </Grid>
               </Grid>
               <Grid container spacing={3}>
@@ -633,7 +608,7 @@ const TodoProduct = () => {
                   <MultipleImageUpload
                     uploadimg_placeHolder={uploadimage_placeholder}
                     noimage_placeHolder={noimage_placeholder}
-                    title={"Product images"}
+                    title={"Product Images"}
                     onClick={onFileUploadClick}
                     selectedImage={formData.product_images}
                     error={dataError.errors.product_images}
@@ -642,44 +617,43 @@ const TodoProduct = () => {
                 </Grid>
               </Grid>
             </Box>
-            <Box className="product_buttonSubContainer">
+            <Box className="prodpage_buttonSubContainer">
               {isEdit ? (
-                <Box className="product_BtnContainer">
+                <Box className="prodpage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Update"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <DeleteButton
                     title="Delete"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
-                    onClick={deleteshopHandle}
+                    style={{ margin: "0px 0px 0px 15px" }}
+                    onClick={deleteProductHandle}
                   />
                 </Box>
               ) : (
-                <Box className="product_BtnContainer">
+                <Box className="prodpage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Save"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <CancelButton
                     title="Cancel"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
-                    onClick={cancelshopHandle}
+                    style={{ margin: "0px 0px 0px 15px" }}
+                    onClick={cancelProductHandle}
                   />
                 </Box>
               )}
             </Box>
           </form>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-
-export default TodoProduct;
+export default TodoProductPage;

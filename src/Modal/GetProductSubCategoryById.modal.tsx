@@ -29,5 +29,5 @@ export interface GetProductSubCategoryByIdResponse {
   _id?: string;
   sub_category_name: string;
   product_category: string;
-  search_name: string;
+  sub_category_image: string;
 }

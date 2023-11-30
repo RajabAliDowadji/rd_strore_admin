@@ -1,7 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Box, Divider, Grid, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import Dashboard from "../Dashboard/Dashboard.web";
+import {
+  ADD_FILE,
+  ADD_SHOP,
+  DELETE_FILE,
+  DELETE_SHOP,
+  EDIT_SHOP,
+  GET_PLACES,
+  GET_SHOP_BY_ID,
+  GET_SHOP_CATEGORIES,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
@@ -14,37 +24,27 @@ import {
   isImageUpload,
   successToaster,
 } from "../../Utils/common";
-import { emailValidate } from "../../Validations/emailValidate.web";
-import DropDown from "../../Ui/DropDown/DropDown.web";
-import { dropDownValidate } from "../../Validations/dropDownValidate.web";
-import ImageUpload from "../../Ui/Image/ImageUpload.web";
-import PhoneTextField from "../../Ui/CustomTextField/PhoneTextField.web";
-import { phoneNumberValidate } from "../../Validations/phoneNumberValidate.web";
-import { aadharValidate } from "../../Validations/aadharValidate.web";
-import { ShopCategory } from "../../Modal/GetShopCategories.modal";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
 import { Place } from "../../Modal/GetPlaces.modal";
+import { GetShopByIdResponse } from "../../Modal/GetShopById.modal";
+import { ShopCategory } from "../../Modal/GetShopCategories.modal";
+import { aadharValidate } from "../../Validations/aadharValidate.web";
+import { dropDownValidate } from "../../Validations/dropDownValidate.web";
+import { emailValidate } from "../../Validations/emailValidate.web";
+import { phoneNumberValidate } from "../../Validations/phoneNumberValidate.web";
+import "./ShopPage.web.css";
+import PhoneTextField from "../../Ui/CustomTextField/PhoneTextField.web";
+import DropDown from "../../Ui/DropDown/DropDown.web";
+import ImageUpload from "../../Ui/Image/ImageUpload.web";
 import {
   profile_placeHolder,
   shop_placeHolder,
   card_placeHolder,
 } from "./assets";
-import {
-  ADD_FILE,
-  ADD_SHOP,
-  DELETE_FILE,
-  DELETE_SHOP,
-  EDIT_SHOP,
-  GET_PLACES,
-  GET_SHOP_BY_ID,
-  GET_SHOP_CATEGORIES,
-  RESET_STATE,
-} from "../../Hooks/Saga/Constant";
-import "./Shops.web.css";
-import { GetShopByIdResponse } from "../../Modal/GetShopById.modal";
 
 const configJSON = require("../../Constants/Shop");
 
-const TodoShop = () => {
+const TodoShopPage = () => {
   const initialData = useMemo(() => {
     return {
       shop_name: "",
@@ -564,18 +564,19 @@ const TodoShop = () => {
       }
     }
   };
+
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Shop category"
+          title="Shop"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="shop_mainContainer">
-          <Box className="shop_titleContainer">
-            <Typography className="shop_titleText">
+        <Box className="shoppage_mainContainer">
+          <Box className="shoppage_titleContainer">
+            <Typography className="shoppage_titleText">
               {isEdit
                 ? configJSON.editShopTitleText
                 : configJSON.createShopTitleText}
@@ -585,7 +586,7 @@ const TodoShop = () => {
             <Box>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <CustomTextField
                       id="shop_name"
                       type="text"
@@ -599,7 +600,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <CustomTextField
                       id="owner_name"
                       type="text"
@@ -613,7 +614,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <CustomTextField
                       id="email"
                       type="text"
@@ -627,7 +628,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <PhoneTextField
                       value={formData.phone_number}
                       label="Phone number"
@@ -642,7 +643,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <PhoneTextField
                       value={formData.optional_number}
                       onChange={phoneChangeHandle.bind(
@@ -655,7 +656,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <CustomTextField
                       id="aadhar_number"
                       type="text"
@@ -669,7 +670,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <CustomTextField
                       id="second_owner_name"
                       type="text"
@@ -684,7 +685,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <PhoneTextField
                       value={formData.second_owner_number}
                       onChange={phoneChangeHandle.bind(
@@ -697,7 +698,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <DropDown
                       label="Shop category"
                       name="shop_category"
@@ -721,7 +722,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={8}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <CustomTextField
                       id="address"
                       type="text"
@@ -738,7 +739,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <DropDown
                       label="Place"
                       name="place"
@@ -762,13 +763,13 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
               </Grid>
-              <Divider className="shop_textFieldContainer" />
+              <Divider className="shoppage_textFieldContainer" />
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                  <Typography className="shop_titleText">Images</Typography>
+                  <Typography className="shoppage_titleText">Images</Typography>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <ImageUpload
                       profile_placeHolder={profile_placeHolder}
                       title={"Owner Image"}
@@ -784,7 +785,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <ImageUpload
                       profile_placeHolder={shop_placeHolder}
                       title={"Shop Image"}
@@ -800,7 +801,7 @@ const TodoShop = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="shop_textFieldContainer">
+                  <Box className="shoppage_textFieldContainer">
                     <ImageUpload
                       profile_placeHolder={card_placeHolder}
                       title={"Owner aadhar card Image"}
@@ -817,34 +818,34 @@ const TodoShop = () => {
                 </Grid>
               </Grid>
             </Box>
-            <Box className="shop_buttonSubContainer">
+            <Box className="shoppage_buttonSubContainer">
               {isEdit ? (
-                <Box className="shop_BtnContainer">
+                <Box className="shoppage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Update"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <DeleteButton
                     title="Delete"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+                    style={{ margin: "0px 0px 0px 15px" }}
                     onClick={deleteshopHandle}
                   />
                 </Box>
               ) : (
-                <Box className="shop_BtnContainer">
+                <Box className="shoppage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Save"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <CancelButton
                     title="Cancel"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+                    style={{ margin: "0px 0px 0px 15px" }}
                     onClick={cancelshopHandle}
                   />
                 </Box>
@@ -852,9 +853,8 @@ const TodoShop = () => {
             </Box>
           </form>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-
-export default TodoShop;
+export default TodoShopPage;

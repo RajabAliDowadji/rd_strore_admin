@@ -30,7 +30,14 @@ export interface ProductType {
 export interface GetProductCategoriesColumns {
   _id: string;
   category_name: string;
-  type_name?: string;
-  search_name: string;
-  product_type?: string;
+  category_image?: BucketFile;
+}
+export interface BucketFile {
+  _id: string;
+  file_name: string;
+  file_size: number;
+  file_key: string;
+  file_url: string;
+  createdAt: string;
+  updatedAt: string;
 }

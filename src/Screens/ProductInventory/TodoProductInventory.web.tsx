@@ -168,7 +168,6 @@ const TodoProductInventory = () => {
             _id: productCategory._id,
             sub_category_name: productCategory.sub_category_name,
             category_name: productCategory.product_category.category_name,
-            search_name: productCategory.search_name,
           })
       );
       setProductSubCategories(tempArr);

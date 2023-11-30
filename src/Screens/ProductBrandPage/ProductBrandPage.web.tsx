@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Dashboard from "../Dashboard/Dashboard.web";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import {
-  ProductBrand,
-  ProductBrandColumns,
-} from "../../Modal/GetProductBrands.modal";
 import {
   DELETE_PRODUCT_BRAND,
   GET_PRODUCT_BRANDS,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
-import NoDataFound from "../../Ui/Data/NoDataFound.web";
-import "./ProductBrands.web.css";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import { errorToaster, successToaster } from "../../Utils/common";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
+import {
+  ProductBrandColumns,
+  ProductBrand,
+} from "../../Modal/GetProductBrands.modal";
+import "./ProductBrandPage.web.css";
 
 const configJSON = require("../../Constants/Products");
 
-const ProductBrands = () => {
+const ProductBrandPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
@@ -111,37 +111,39 @@ const ProductBrands = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Product brand"
+          title="Product Brand"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="prodBrand_mainContainer">
-          <Box className="prodBrand_buttonContainer">
-            <ActiveButton
-              title={configJSON.productBrandBtnTxt}
-              disabled={false}
-              onClick={addProductBrandHandle}
-            />
-          </Box>
-          {productBrands.length === 0 ? (
-            <NoDataFound />
-          ) : (
-            <DataTable
-              rows={productBrands}
-              columns={configJSON.productBrandColumns}
-              onViewClick={viewProductBrandClickHandle}
-              onEditClick={editProductBrandHandle}
-              onDeleteClick={deleteBtnClickHandle}
-              isAction={true}
-            />
-          )}
+        <Box className="prodbrandpage_buttonContainer">
+          <Typography className="prodbrandpage_maintitleText">
+            Product Brand
+          </Typography>
+          <ActiveButton
+            title={configJSON.productBrandBtnTxt}
+            disabled={false}
+            onClick={addProductBrandHandle}
+            style={{ width: "max-content" }}
+          />
         </Box>
-      </Dashboard>
+        {productBrands.length === 0 ? (
+          <NoDataFound />
+        ) : (
+          <DataTable
+            rows={productBrands}
+            columns={configJSON.productBrandColumns}
+            onViewClick={viewProductBrandClickHandle}
+            onEditClick={editProductBrandHandle}
+            onDeleteClick={deleteBtnClickHandle}
+            isAction={true}
+          />
+        )}
+      </DashboardPage>
     </Box>
   );
 };
 
-export default ProductBrands;
+export default ProductBrandPage;

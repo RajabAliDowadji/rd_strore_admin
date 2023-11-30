@@ -125,6 +125,7 @@ const ViewPlacePage = () => {
               title={configJSON.createPlaceBtnTxt}
               disabled={false}
               onClick={addPlaceHandle}
+              style={{ width: "max-content" }}
             />
           </Box>
           <Box>

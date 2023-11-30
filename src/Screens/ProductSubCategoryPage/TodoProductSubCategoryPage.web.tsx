@@ -1,6 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Typography } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
+import { Box, Divider, Typography } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_FILE,
+  ADD_PRODUCT_SUB_CATEGORY,
+  DELETE_FILE,
+  DELETE_PRODUCT_SUB_CATEGORY,
+  EDIT_PRODUCT_SUB_CATEGORY,
+  GET_PRODUCT_CATEGORIES,
+  GET_PRODUCT_SUB_CATEGORY_BY_ID,
+  RESET_STATE,
+} from "../../Hooks/Saga/Constant";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
@@ -8,29 +18,30 @@ import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import CancelButton from "../../Ui/Button/CancelButton.web";
 import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
-import { dropDownValidate } from "../../Validations/dropDownValidate.web";
-import DropDown from "../../Ui/DropDown/DropDown.web";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  ADD_PRODUCT_SUB_CATEGORY,
-  DELETE_PRODUCT_SUB_CATEGORY,
-  EDIT_PRODUCT_SUB_CATEGORY,
-  GET_PRODUCT_CATEGORIES,
-  GET_PRODUCT_SUB_CATEGORY_BY_ID,
-  RESET_STATE,
-} from "../../Hooks/Saga/Constant";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
+import ImageUpload from "../../Ui/Image/ImageUpload.web";
+import { no_image } from "./assets";
 import { ProductCategory } from "../../Modal/GetProductCategories.modal";
-import "./ProductSubCategories.web.css";
+import { dropDownValidate } from "../../Validations/dropDownValidate.web";
+import "./ProductSubCategoryPage.web.css";
+import DropDown from "../../Ui/DropDown/DropDown.web";
 import { GetProductSubCategoryByIdResponse } from "../../Modal/GetProductSubCategoryById.modal";
 
 const configJSON = require("../../Constants/Products");
 
-const TodoProductSubCategory = () => {
+const TodoProductSubCategoryPage = () => {
   const initialData = useMemo(() => {
     return {
       sub_category_name: "",
       product_category: "",
-      search_name: "",
+      sub_category_image: "",
+    };
+  }, []);
+  const initialFileData = useMemo(() => {
+    return {
+      sub_category_image: {
+        file_url: "",
+      },
     };
   }, []);
   let { id } = useParams();
@@ -40,7 +51,8 @@ const TodoProductSubCategory = () => {
   const state = useSelector((state: any) => state);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [formData, setFormData] = useState(initialData);
+  const [formData, setFormData] = useState<any>(initialData);
+  const [fileData, setFileData] = useState<any>(initialFileData);
   const [productCategories, setProductCategories] = useState<ProductCategory[]>(
     []
   );
@@ -48,10 +60,12 @@ const TodoProductSubCategory = () => {
     errors: {
       sub_category_name: false,
       product_category: false,
+      sub_category_image: false,
     },
     errorMsg: {
       sub_category_name: "",
       product_category: "",
+      sub_category_image: "",
     },
   });
 
@@ -77,17 +91,38 @@ const TodoProductSubCategory = () => {
       state.get_product_sub_category_by_id.productSubCategory &&
       state.get_product_sub_category_by_id.productSubCategory !== null
     ) {
-      let temp: GetProductSubCategoryByIdResponse = initialData;
+      let temp: any = initialData;
+      let tempFile: any = {
+        sub_category_image: {
+          file_url: "",
+        },
+      };
       temp._id = state.get_product_sub_category_by_id.productSubCategory._id;
       temp.sub_category_name =
         state.get_product_sub_category_by_id.productSubCategory.sub_category_name;
       temp.product_category =
         state.get_product_sub_category_by_id.productSubCategory.product_category._id;
-      temp.search_name =
-        state.get_product_sub_category_by_id.productSubCategory.search_name;
+      temp.sub_category_image =
+        state.get_product_sub_category_by_id.productSubCategory.sub_category_image.file_url;
+      tempFile.sub_category_image =
+        state.get_product_sub_category_by_id.productSubCategory
+          .sub_category_image &&
+        state.get_product_sub_category_by_id.productSubCategory
+          .sub_category_image !== null &&
+        state.get_product_sub_category_by_id.productSubCategory
+          .sub_category_image
+          ? state.get_product_sub_category_by_id.productSubCategory
+              .sub_category_image
+          : tempFile.sub_category_image;
+
       setFormData((prev: GetProductSubCategoryByIdResponse) => ({
         ...prev,
         ...temp,
+      }));
+
+      setFileData((prev: string[]) => ({
+        ...prev,
+        ...tempFile,
       }));
     }
   }, [initialData, state]);
@@ -176,7 +211,7 @@ const TodoProductSubCategory = () => {
 
   const inputChangeHandle = (fieldName: string, event: any) => {
     let isValid = isEmpty(fieldName, event.target.value);
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }));
@@ -189,20 +224,56 @@ const TodoProductSubCategory = () => {
       },
     }));
   };
-
-  const optionalInputChangeHandle = (event: any) => {
-    setFormData((prev) => ({
+  const onFileChange = (event: any) => {
+    const file = event.target.files[0];
+    const key = event.target.name;
+    const reader = new FileReader();
+    if (fileData[key] && fileData[key]._id) {
+      dispatch({
+        type: DELETE_FILE,
+        payload: { id: fileData[key]._id },
+      });
+    }
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setFileData((prev: any) => ({
+        ...prev,
+        [key]: { file_url: reader.result },
+      }));
+    };
+    setFormData((prev: any) => ({
       ...prev,
-      [event.target.name]: event.target.value,
+      [key]: file,
     }));
   };
+
+  const onFileUpload = (key: string) => {
+    if (formData[key].length !== 0) {
+      let bodyData = new FormData();
+      bodyData.append("file", formData[key]);
+      dispatch({
+        type: ADD_FILE,
+        payload: bodyData,
+      });
+    } else {
+      setDataError((prev) => ({
+        ...prev,
+        errors: { ...dataError.errors, [key]: true },
+        errorMsg: {
+          ...dataError.errorMsg,
+          [key]: "Please upload File.",
+        },
+      }));
+    }
+  };
+
   const dropDownOnChangeHandle = (
     fieldName: string,
     keyName: string,
     values: any
   ) => {
     const isValid = dropDownValidate(fieldName, values);
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [keyName]: values[0]._id,
     }));
@@ -215,6 +286,7 @@ const TodoProductSubCategory = () => {
       },
     }));
   };
+
   const formSubmitHandle = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const isProdCatValid = isEmpty(
@@ -263,23 +335,23 @@ const TodoProductSubCategory = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Product category"
+          title="Product Sub-Category"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="prodSubCategory_mainContainer">
-          <Box className="prodSubCategory_titleContainer">
-            <Typography className="prodSubCategory_titleText">
+        <Box className="prodsubcatpage_mainContainer">
+          <Box className="prodsubcatpage_titleContainer">
+            <Typography className="prodsubcatpage_titleText">
               {isEdit
-                ? configJSON.editProductTypeTitleText
-                : configJSON.createProductTypeTitleText}
+                ? configJSON.editProductSubCatTitleText
+                : configJSON.createProductSubCatTitleText}
             </Typography>
           </Box>
           <form onSubmit={formSubmitHandle}>
-            <Box className="prodSubCategory_textFieldContainer">
+            <Box className="prodsubcatpage_textFieldContainer">
               <CustomTextField
                 id="sub_category_name"
                 type="text"
@@ -291,7 +363,7 @@ const TodoProductSubCategory = () => {
                 onChange={inputChangeHandle.bind(this, "Sub-category name")}
               />
             </Box>
-            <Box className="prodSubCategory_textFieldContainer">
+            <Box className="prodsubcatpage_textFieldContainer">
               <DropDown
                 label="Product category"
                 name="product_category"
@@ -313,44 +385,52 @@ const TodoProductSubCategory = () => {
                 )}
               />
             </Box>
-            <Box className="prodSubCategory_textFieldContainer">
-              <CustomTextField
-                id="search_name"
-                type="text"
-                label="Search name"
-                name="search_name"
-                value={formData.search_name}
-                onChange={optionalInputChangeHandle}
+            <Divider className="prodsubcatpage_textFieldContainer" />
+            <Typography className="prodsubcatpage_titleText">
+              Product Sub-Category Image
+            </Typography>
+            <Box className="prodsubcatpage_textFieldContainer">
+              <ImageUpload
+                profile_placeHolder={no_image}
+                title={"Product Sub-Category Image"}
+                description={
+                  "The product sub-category image should see perfectly and image size should be less than 5 Mb."
+                }
+                errorText={dataError.errorMsg.sub_category_image}
+                imageUrl={fileData.sub_category_image.file_url}
+                onFileChange={onFileChange}
+                name="sub_category_image"
+                onClick={onFileUpload}
               />
             </Box>
-            <Box className="prodSubCategory_buttonSubContainer">
+            <Box className="prodsubcatpage_buttonSubContainer">
               {isEdit ? (
-                <Box className="prodSubCategory_BtnContainer">
+                <Box className="prodsubcatpage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Update"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <DeleteButton
                     title="Delete"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+                    style={{ margin: "0px 0px 0px 15px" }}
                     onClick={deletePlaceHandle}
                   />
                 </Box>
               ) : (
-                <Box className="prodSubCategory_BtnContainer">
+                <Box className="prodsubcatpage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Save"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <CancelButton
                     title="Cancel"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+                    style={{ margin: "0px 0px 0px 15px" }}
                     onClick={cancelPlaceHandle}
                   />
                 </Box>
@@ -358,8 +438,8 @@ const TodoProductSubCategory = () => {
             </Box>
           </form>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-export default TodoProductSubCategory;
+export default TodoProductSubCategoryPage;

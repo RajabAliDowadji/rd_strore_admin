@@ -1,4 +1,4 @@
-.shoppage_maintitleText {
+.prodpage_maintitleText {
   font-size: 30px !important;
   color: var(--primary500) !important;
   font-weight: 600 !important;
@@ -6,7 +6,7 @@
   margin-right: 30px !important;
 }
 
-.shoppage_buttonContainer {
+.prodpage_buttonContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -15,7 +15,7 @@
   width: 100%;
 }
 
-.shoppage_viewbuttonContainer {
+.prodpage_viewbuttonContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -24,31 +24,32 @@
   width: 100%;
 }
 
-.shoppage_mainContainer {
+.prodpage_mainContainer {
   background: var(--background);
   padding: 30px;
   border-radius: 6px;
 }
 
-.shoppage_textFieldContainer {
+.prodpage_textFieldContainer {
   margin-bottom: 30px !important;
 }
 
-.shoppage_buttonSubContainer {
+.prodpage_buttonSubContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 }
 
-.shoppage_titleText {
+.prodpage_titleText {
   font-size: 24px !important;
-  font-weight: 600 !important;
+  font-weight: 300 !important;
   color: var(--primary500) !important;
   font-family: var(--fontFamily) !important;
+  margin-bottom: 30px !important;
 }
 
-.shoppage_titleContainer {
+.prodpage_titleContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -57,12 +58,12 @@
   width: 100%;
 }
 
-.shoppage_BtnContainer {
+.prodpage_BtnContainer {
   margin-top: 30px !important;
 }
 
 @media only screen and (max-width: 600px) {
-  .shoppage_BtnContainer {
+  .prodpage_BtnContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;

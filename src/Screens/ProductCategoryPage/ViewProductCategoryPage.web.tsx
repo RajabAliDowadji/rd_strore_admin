@@ -1,24 +1,26 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
+import { Box, Divider, Typography } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
-import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
-import { useNavigate, useParams } from "react-router-dom";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
 import {
   DELETE_PRODUCT_CATEGORY,
   GET_PRODUCT_CATEGORY_BY_ID,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
-import { useDispatch, useSelector } from "react-redux";
-import { GetProductCategoryByIdResponse } from "../../Modal/GetProductCategoryById.modal";
 import { errorToaster, successToaster } from "../../Utils/common";
-import "./ProductCategories.web.css";
+import ImageUpload from "../../Ui/Image/ImageUpload.web";
+import { GetProductCategoryByIdResponse } from "../../Modal/GetProductCategoryById.modal";
+import { profile_placeHolder } from "../ShopPage/assets";
+import "./ProductCategoryPage.web.css";
 
 const configJSON = require("../../Constants/Products");
 
-const ViewProductCategory = () => {
+const ViewProductCategoryPage = () => {
   let { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,8 +29,7 @@ const ViewProductCategory = () => {
     return {
       _id: "",
       category_name: "",
-      product_type: "",
-      search_name: "",
+      category_image: "",
     };
   }, []);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -52,10 +53,8 @@ const ViewProductCategory = () => {
       temp._id = state.get_product_category_by_id.productCategory._id;
       temp.category_name =
         state.get_product_category_by_id.productCategory.category_name;
-      temp.product_type =
-        state.get_product_category_by_id.productCategory.product_type.type_name;
-      temp.search_name =
-        state.get_product_category_by_id.productCategory.search_name;
+      temp.category_image =
+        state.get_product_category_by_id.productCategory.category_image.file_url;
       setFormData((prev: GetProductCategoryByIdResponse) => ({
         ...prev,
         ...temp,
@@ -85,17 +84,17 @@ const ViewProductCategory = () => {
     }
   }, [dispatch, navigate, state]);
 
-  const addProductTypeHandle = () => {
+  const addProductCatHandle = () => {
     dispatch({
       type: RESET_STATE,
       payload: { state: "product-categories" },
     });
     navigate("/product-categories/create");
   };
-  const editProductTypeHandle = () => {
+  const editProductCatHandle = () => {
     navigate(`/product-categories/edit/${id}`);
   };
-  const deleteProductTypeHandle = () => {
+  const deleteProductCatHandle = () => {
     setModalOpen(true);
   };
   const modalHandleClose = () => {
@@ -107,82 +106,76 @@ const ViewProductCategory = () => {
       payload: { id: id },
     });
   };
+
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Product type"
+          title="Product Category"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="prodCategory_mainContainer">
-          <Box className="prodCategory_buttonContainer">
+        <Box className="prodcatpage_mainContainer">
+          <Box className="prodcatpage_viewbuttonContainer">
             <ActiveButton
-              title={configJSON.productTypeBtnTxt}
+              title={configJSON.createProductCatTitleText}
               disabled={false}
-              onClick={addProductTypeHandle}
+              onClick={addProductCatHandle}
+              style={{ width: "max-content" }}
             />
           </Box>
-          <Box>
-            <Box className="prodCategory_textFieldContainer">
-              <CustomTextField
-                id="_id"
-                type="text"
-                label="Id"
-                name="_id"
-                value={formData._id}
-                disabled={true}
-              />
-            </Box>
-            <Box className="prodCategory_textFieldContainer">
-              <CustomTextField
-                id="category_name"
-                type="text"
-                label="Category name"
-                name="category_name"
-                value={formData.category_name}
-                disabled={true}
-              />
-            </Box>
-            <Box className="prodCategory_textFieldContainer">
-              <CustomTextField
-                id="product_type"
-                type="text"
-                label="product type"
-                name="product_type"
-                value={formData.product_type}
-                disabled={true}
-              />
-            </Box>
-            <Box className="prodCategory_textFieldContainer">
-              <CustomTextField
-                id="search_name"
-                type="text"
-                label="Search name"
-                name="search_name"
-                value={formData.search_name}
-                disabled={true}
-              />
-            </Box>
+          <Box className="prodcatpage_textFieldContainer">
+            <CustomTextField
+              id="_id"
+              type="text"
+              label="Id"
+              name="_id"
+              value={formData._id}
+              disabled={true}
+            />
           </Box>
-          <Box className="prodCategory_buttonSubContainer">
+          <Box className="prodcatpage_textFieldContainer">
+            <CustomTextField
+              id="category_name"
+              type="text"
+              label="Category name"
+              name="category_name"
+              value={formData.category_name}
+              disabled={true}
+            />
+          </Box>
+          <Divider className="prodcatpage_textFieldContainer" />
+          <Typography className="prodcatpage_titleText">
+            Product Category Image
+          </Typography>
+          <Box className="prodcatpage_textFieldContainer">
+            <ImageUpload
+              profile_placeHolder={profile_placeHolder}
+              title={""}
+              description={""}
+              imageUrl={formData.category_image}
+              name={""}
+              view={true}
+            />
+          </Box>
+          <Box className="prodcatpage_buttonSubContainer">
             <ActiveButton
               title={configJSON.editBtnTxt}
               disabled={false}
-              onClick={editProductTypeHandle}
-              style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+              onClick={editProductCatHandle}
+              style={{ margin: "0px 15px 0px 0px" }}
             />
             <DeleteButton
               title={configJSON.deleteBtnTxt}
               disabled={false}
-              onClick={deleteProductTypeHandle}
-              style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+              onClick={deleteProductCatHandle}
+              style={{ margin: "0px 0px 0px 15px" }}
             />
           </Box>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-export default ViewProductCategory;
+export default ViewProductCategoryPage;

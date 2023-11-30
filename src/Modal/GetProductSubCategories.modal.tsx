@@ -26,5 +26,4 @@ export interface GetProductSubCategoriesColumns {
   _id: string;
   sub_category_name: string;
   category_name: string;
-  search_name: string;
 }

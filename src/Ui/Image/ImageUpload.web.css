@@ -7,11 +7,11 @@
   width: 150px;
   height: 150px;
   margin-right: 20px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 4px;
   padding: 5px;
-  border: 1px dashed var(--gray);
   cursor: pointer;
+  mix-blend-mode: darken;
 }
 .imageTitleTxt {
   font-size: 24px !important;
@@ -50,7 +50,7 @@
   padding: 0.2em 0.4em;
   font-size: 24px;
   font-weight: 300;
-  color: var(--black);
+  color: var(--primary500);
   font-family: var(--fontFamily);
 }
 .multipleImage_subContainer {
@@ -66,7 +66,6 @@
   border-radius: 4px;
   padding: 20px;
   cursor: pointer;
-  border: 1px dashed var(--gray);
 }
 .multipleImage_noimage {
   width: 100%;
@@ -75,6 +74,7 @@
   border-radius: 4px;
   padding: 5px;
   cursor: pointer;
+  mix-blend-mode: darken;
 }
 .multipleImage_errorText {
   padding: 0.2em 0.8em;

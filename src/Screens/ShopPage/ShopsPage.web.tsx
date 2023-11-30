@@ -108,12 +108,13 @@ const ShopsPage = () => {
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="shopPage_buttonContainer">
-          <Typography className="shopPage_maintitleText">Shops</Typography>
+        <Box className="shoppage_buttonContainer">
+          <Typography className="shoppage_maintitleText">Shops</Typography>
           <ActiveButton
             title={configJSON.shopBtnTxt}
             disabled={false}
             onClick={addShopHandle}
+            style={{ width: "max-content" }}
           />
         </Box>
         {shops.length === 0 ? (

@@ -1,24 +1,26 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
+import { Box, Divider, Typography } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
-import DeleteButton from "../../Ui/Button/DeleteButton.web";
 import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
 import {
   DELETE_PRODUCT_SUB_CATEGORY,
   GET_PRODUCT_SUB_CATEGORY_BY_ID,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
 import { errorToaster, successToaster } from "../../Utils/common";
+import ImageUpload from "../../Ui/Image/ImageUpload.web";
+import { profile_placeHolder } from "../ShopPage/assets";
 import { GetProductSubCategoryByIdResponse } from "../../Modal/GetProductSubCategoryById.modal";
-import "./ProductSubCategories.web.css";
+import "./ProductSubCategoryPage.web.css";
 
 const configJSON = require("../../Constants/Products");
 
-const ViewProductSubCategory = () => {
+const ViewProductSubCategoryPage = () => {
   let { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ const ViewProductSubCategory = () => {
       _id: "",
       sub_category_name: "",
       product_category: "",
-      search_name: "",
+      sub_category_image: "",
     };
   }, []);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -54,8 +56,8 @@ const ViewProductSubCategory = () => {
         state.get_product_sub_category_by_id.productSubCategory.sub_category_name;
       temp.product_category =
         state.get_product_sub_category_by_id.productSubCategory.product_category.category_name;
-      temp.search_name =
-        state.get_product_sub_category_by_id.productSubCategory.search_name;
+      temp.sub_category_image =
+        state.get_product_sub_category_by_id.productSubCategory.sub_category_image.file_url;
       setFormData((prev: GetProductSubCategoryByIdResponse) => ({
         ...prev,
         ...temp,
@@ -111,82 +113,86 @@ const ViewProductSubCategory = () => {
       payload: { id: id },
     });
   };
+
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Product sub-category"
+          title="Product Sub-Category"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="prodSubCategory_mainContainer">
-          <Box className="prodSubCategory_buttonContainer">
+        <Box className="prodsubcatpage_mainContainer">
+          <Box className="prodsubcatpage_viewbuttonContainer">
             <ActiveButton
-              title={configJSON.productTypeBtnTxt}
+              title={configJSON.createProductSubCatTitleText}
               disabled={false}
               onClick={addProductSubCatHandle}
+              style={{ width: "max-content" }}
             />
           </Box>
-          <Box>
-            <Box className="prodSubCategory_textFieldContainer">
-              <CustomTextField
-                id="_id"
-                type="text"
-                label="Id"
-                name="_id"
-                value={formData._id}
-                disabled={true}
-              />
-            </Box>
-            <Box className="prodSubCategory_textFieldContainer">
-              <CustomTextField
-                id="sub_category_name"
-                type="text"
-                label="Sub-category name"
-                name="sub_category_name"
-                value={formData.sub_category_name}
-                disabled={true}
-              />
-            </Box>
-            <Box className="prodSubCategory_textFieldContainer">
-              <CustomTextField
-                id="product_category"
-                type="text"
-                label="Product category"
-                name="product_category"
-                value={formData.product_category}
-                disabled={true}
-              />
-            </Box>
-            <Box className="prodSubCategory_textFieldContainer">
-              <CustomTextField
-                id="search_name"
-                type="text"
-                label="Search name"
-                name="search_name"
-                value={formData.search_name}
-                disabled={true}
-              />
-            </Box>
+          <Box className="prodsubcatpage_textFieldContainer">
+            <CustomTextField
+              id="_id"
+              type="text"
+              label="Id"
+              name="_id"
+              value={formData._id}
+              disabled={true}
+            />
           </Box>
-          <Box className="prodSubCategory_buttonSubContainer">
+          <Box className="prodSubCategory_textFieldContainer">
+            <CustomTextField
+              id="sub_category_name"
+              type="text"
+              label="Sub-category name"
+              name="sub_category_name"
+              value={formData.sub_category_name}
+              disabled={true}
+            />
+          </Box>
+          <Box className="prodSubCategory_textFieldContainer">
+            <CustomTextField
+              id="product_category"
+              type="text"
+              label="Product category"
+              name="product_category"
+              value={formData.product_category}
+              disabled={true}
+            />
+          </Box>
+          <Divider className="prodsubcatpage_textFieldContainer" />
+          <Typography className="prodsubcatpage_titleText">
+            Product Sub Category Image
+          </Typography>
+          <Box className="prodsubcatpage_textFieldContainer">
+            <ImageUpload
+              profile_placeHolder={profile_placeHolder}
+              title={""}
+              description={""}
+              imageUrl={formData.sub_category_image}
+              name={""}
+              view={true}
+            />
+          </Box>
+          <Box className="prodsubcatpage_buttonSubContainer">
             <ActiveButton
               title={configJSON.editBtnTxt}
               disabled={false}
               onClick={editProductSubCatHandle}
-              style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+              style={{ margin: "0px 15px 0px 0px" }}
             />
             <DeleteButton
               title={configJSON.deleteBtnTxt}
               disabled={false}
               onClick={deleteProductSubCatHandle}
-              style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+              style={{ margin: "0px 0px 0px 15px" }}
             />
           </Box>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-export default ViewProductSubCategory;
+export default ViewProductSubCategoryPage;

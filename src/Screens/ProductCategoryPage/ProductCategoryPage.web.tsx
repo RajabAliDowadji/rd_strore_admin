@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Dashboard from "../Dashboard/Dashboard.web";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DataTable from "../../components/DataTable/DataTable.web";
-import {
-  ProductCategory,
-  GetProductCategoriesColumns,
-} from "../../Modal/GetProductCategories.modal";
 import {
   DELETE_PRODUCT_CATEGORY,
   GET_PRODUCT_CATEGORIES,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
-import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
 import { errorToaster, successToaster } from "../../Utils/common";
-import "./ProductCategories.web.css";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
+import {
+  GetProductCategoriesColumns,
+  ProductCategory,
+} from "../../Modal/GetProductCategories.modal";
+import "./ProductCategoryPage.web.css";
 
 const configJSON = require("../../Constants/Products");
 
-const ProductCategories = () => {
+const ProductCategoryPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
@@ -49,8 +49,6 @@ const ProductCategories = () => {
           tempArr.push({
             _id: productCategory._id,
             category_name: productCategory.category_name,
-            type_name: productCategory.product_type.type_name,
-            search_name: productCategory.search_name,
           })
       );
       setProductCategories(tempArr);
@@ -85,22 +83,27 @@ const ProductCategories = () => {
     }
   }, [dispatch, navigate, state]);
 
-  const addProductTypeHandle = () => {
+  const addProductCatHandle = () => {
     navigate("/product-categories/create");
   };
-  const editProductTypeHandle = (id: string) => {
+
+  const editProductCatHandle = (id: string) => {
     navigate(`/product-categories/edit/${id}`);
   };
-  const viewProductTypeClickHandle = (id: string) => {
+
+  const viewProductCatClickHandle = (id: string) => {
     navigate(`/product-categories/view/${id}`);
   };
+
   const deleteBtnClickHandle = (id: string) => {
     setId(id);
     setModalOpen(true);
   };
+
   const modalHandleClose = () => {
     setModalOpen(false);
   };
+
   const onDeleteConfirmHandle = () => {
     dispatch({
       type: DELETE_PRODUCT_CATEGORY,
@@ -108,39 +111,42 @@ const ProductCategories = () => {
     });
     setModalOpen(false);
   };
+
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Product type"
+          title="Product Category"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="prodCategory_mainContainer">
-          <Box className="prodCategory_buttonContainer">
-            <ActiveButton
-              title={configJSON.productCatBtnTxt}
-              disabled={false}
-              onClick={addProductTypeHandle}
-            />
-          </Box>
-          {productCategories.length === 0 ? (
-            <NoDataFound />
-          ) : (
-            <DataTable
-              rows={productCategories}
-              columns={configJSON.productCatColumns}
-              onViewClick={viewProductTypeClickHandle}
-              onEditClick={editProductTypeHandle}
-              onDeleteClick={deleteBtnClickHandle}
-              isAction={true}
-            />
-          )}
+        <Box className="prodcatpage_buttonContainer">
+          <Typography className="prodcatpage_maintitleText">
+            Product Category
+          </Typography>
+          <ActiveButton
+            title={configJSON.productCatBtnTxt}
+            disabled={false}
+            onClick={addProductCatHandle}
+            style={{ width: "max-content" }}
+          />
         </Box>
-      </Dashboard>
+        {productCategories.length === 0 ? (
+          <NoDataFound />
+        ) : (
+          <DataTable
+            rows={productCategories}
+            columns={configJSON.productCatColumns}
+            onViewClick={viewProductCatClickHandle}
+            onEditClick={editProductCatHandle}
+            onDeleteClick={deleteBtnClickHandle}
+            isAction={true}
+          />
+        )}
+      </DashboardPage>
     </Box>
   );
 };
 
-export default ProductCategories;
+export default ProductCategoryPage;

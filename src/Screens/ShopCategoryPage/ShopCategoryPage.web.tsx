@@ -122,6 +122,7 @@ const ShopCategoryPage = () => {
             title={configJSON.shopCategoryBtnTxt}
             disabled={false}
             onClick={addShopCategoryHandle}
+            style={{ width: "max-content" }}
           />
         </Box>
         {shopCategories.length === 0 ? (

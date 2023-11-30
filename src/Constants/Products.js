@@ -1,19 +1,9 @@
 exports.editBtnTxt = "Edit";
 exports.deleteBtnTxt = "Delete";
-exports.productTypeBtnTxt = "Create product type";
-exports.createProductTypeTitleText = "Create product type";
-exports.editProductTypeTitleText = "Edit product type";
-exports.productTypeColumns = ["Id", "Product type name", "Search name"];
-
 exports.productCatBtnTxt = "Create product category";
 exports.createProductCatTitleText = "Create product category";
 exports.editProductCatTitleText = "Edit product category";
-exports.productCatColumns = [
-  "Id",
-  "Product category name",
-  "Product Type",
-  "Search name",
-];
+exports.productCatColumns = ["Id", "Product category name"];
 
 exports.productSubCatBtnTxt = "Create product sub-category";
 exports.createProductSubCatTitleText = "Create product sub-category";
@@ -22,13 +12,12 @@ exports.productSubCatColumns = [
   "Id",
   "Product Sub-category name",
   "Product category",
-  "Search name",
 ];
 
 exports.productBrandBtnTxt = "Create product brand";
 exports.createProductBrandTitleText = "Create product brand";
 exports.editProductBrandTitleText = "Edit product brand";
-exports.productBrandColumns = ["Id", "Product brand name"];
+exports.productBrandColumns = ["Id", "Brand name"];
 
 exports.productBtnTxt = "Create product";
 exports.createProductTitleText = "Create product";

@@ -121,6 +121,7 @@ const PlacesPage = () => {
             title={configJSON.createPlaceBtnTxt}
             disabled={false}
             onClick={addPlaceHandle}
+            style={{ width: "max-content" }}
           />
         </Box>
         {places.length === 0 ? (

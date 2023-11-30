@@ -5,6 +5,7 @@
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .custommenu_mainTitleText {
@@ -45,7 +46,7 @@
 
 .MuiDrawer-paperAnchorLeft {
   padding: 10px 10px !important;
-  width: 15% !important;
+  width: 20% !important;
   background-color: var(--primary500) !important;
 }
 

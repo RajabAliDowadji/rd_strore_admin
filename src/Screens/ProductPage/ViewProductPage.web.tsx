@@ -1,25 +1,25 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Box, Grid } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import DeleteButton from "../../Ui/Button/DeleteButton.web";
+import ActiveButton from "../../Ui/Button/ActiveButton.web";
 import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
-import ViewMultiImages from "../../Ui/Image/ViewMultiImages.web";
-import { noimage_placeholder } from "./assets";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
 import {
   DELETE_PRODUCT,
   GET_PRODUCT_BY_ID,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
-import { useDispatch, useSelector } from "react-redux";
 import { errorToaster, successToaster } from "../../Utils/common";
-import "./Products.web.css";
+import ViewMultiImages from "../../Ui/Image/ViewMultiImages.web";
+import { noimage_placeholder } from "./assets";
+import "./ProductPage.web.css";
 
 const configJSON = require("../../Constants/Products");
 
-const ViewProduct = () => {
+const ViewProductPage = () => {
   const initialData = useMemo(() => {
     return {
       _id: "",
@@ -38,7 +38,6 @@ const ViewProduct = () => {
         { file_url: "" },
         { file_url: "" },
       ],
-      search_name: "",
       is_vegetarian: "",
     };
   }, []);
@@ -79,7 +78,6 @@ const ViewProduct = () => {
         state.get_product_by_id.product.product_sub_category.sub_category_name;
       temp.product_brand =
         state.get_product_by_id.product.product_brand.brand_name;
-      temp.search_name = state.get_product_by_id.product.search_name;
       temp.product_images = state.get_product_by_id.product.product_images;
       temp.is_vegetarian = state.get_product_by_id.product.is_vegetarian;
 
@@ -133,26 +131,27 @@ const ViewProduct = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
           title="Product"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="product_mainContainer">
-          <Box className="product_buttonContainer">
+        <Box className="prodpage_mainContainer">
+          <Box className="prodpage_viewbuttonContainer">
             <ActiveButton
               title={configJSON.productBtnTxt}
               disabled={false}
               onClick={addProductHandle}
+              style={{ width: "max-content" }}
             />
           </Box>
           <Box>
             <Box>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_title"
                       type="text"
@@ -164,7 +163,7 @@ const ViewProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_size"
                       type="text"
@@ -176,7 +175,7 @@ const ViewProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_MRP_price"
                       type="text"
@@ -188,7 +187,7 @@ const ViewProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_price"
                       type="text"
@@ -200,7 +199,7 @@ const ViewProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_sub_category"
                       type="text"
@@ -212,7 +211,7 @@ const ViewProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_brand"
                       type="text"
@@ -224,7 +223,7 @@ const ViewProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={8}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_description"
                       type="text"
@@ -237,7 +236,7 @@ const ViewProduct = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="is_vegetarian"
                       type="text"
@@ -247,22 +246,12 @@ const ViewProduct = () => {
                       value={formData.is_vegetarian ? "Yes" : "No"}
                     />
                   </Box>
-                  <Box className="product_textFieldContainer">
-                    <CustomTextField
-                      id="search_name"
-                      type="text"
-                      label="Search name"
-                      name="search_name"
-                      disabled={true}
-                      value={formData.search_name}
-                    />
-                  </Box>
                 </Grid>
                 <Grid item xs={12}>
-                  <Box className="product_textFieldContainer">
+                  <Box className="prodpage_textFieldContainer">
                     <ViewMultiImages
                       noimage_placeHolder={noimage_placeholder}
-                      title={"Product images"}
+                      title={"Product Images"}
                       selectedImage={formData.product_images}
                     />
                   </Box>
@@ -270,23 +259,24 @@ const ViewProduct = () => {
               </Grid>
             </Box>
           </Box>
-          <Box className="product_buttonSubContainer">
+
+          <Box className="prodpage_buttonSubContainer">
             <ActiveButton
               title={configJSON.editBtnTxt}
               disabled={false}
               onClick={editProductHandle}
-              style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+              style={{ margin: "0px 15px 0px 0px" }}
             />
             <DeleteButton
               title={configJSON.deleteBtnTxt}
               disabled={false}
               onClick={deleteBtnClickHandle}
-              style={{ width: "205px", margin: "0px 0px 0px 15px" }}
+              style={{ margin: "0px 0px 0px 15px" }}
             />
           </Box>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-export default ViewProduct;
+export default ViewProductPage;

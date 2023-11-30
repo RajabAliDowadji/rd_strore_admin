@@ -57,7 +57,7 @@ export function* resetStateAPISaga({
     yield put(addEditShopResetState());
     yield put(getShopByIdResetState());
     yield put(deleteShopResetState());
-  } else if (payload.state === "commission-types") {
+  } else if (payload.state === "commission-categories") {
     yield put(addEditCommissionTypeResetState());
     yield put(getCommissionTypeByIdResetState());
     yield put(deleteCommissionTypeResetState());

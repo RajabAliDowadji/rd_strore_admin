@@ -210,8 +210,8 @@ const CustomMenu = ({
     },
     {
       id: "10",
-      title: "Commission Type",
-      route: "commission-types",
+      title: "Commission Category",
+      route: "commission-categories",
       img: (route: string) => {
         return (
           <img
