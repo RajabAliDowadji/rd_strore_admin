@@ -9,7 +9,6 @@ import {
   active_place_icon,
   active_product_brand,
   active_product_cat_icon,
-  active_product_inv,
   active_product_rating,
   active_product_sub_cat_icon,
   active_products_icon,
@@ -21,7 +20,6 @@ import {
   inactive_place_icon,
   inactive_product_brand,
   inactive_product_cat_icon,
-  inactive_product_inv,
   inactive_product_rating,
   inactive_product_sub_cat_icon,
   inactive_products_icon,
@@ -194,22 +192,6 @@ const CustomMenu = ({
     },
     {
       id: "9",
-      title: "Product Inventory",
-      route: "product-inventories",
-      img: (route: string) => {
-        return (
-          <img
-            src={
-              pathRoute === route ? active_product_inv : inactive_product_inv
-            }
-            alt={`${route}_icon`}
-            className="custommenu_optionIcon"
-          />
-        );
-      },
-    },
-    {
-      id: "10",
       title: "Commission Category",
       route: "commission-categories",
       img: (route: string) => {
@@ -227,7 +209,7 @@ const CustomMenu = ({
       },
     },
     {
-      id: "11",
+      id: "10",
       title: "Commission",
       route: "commissions",
       img: (route: string) => {
@@ -241,7 +223,7 @@ const CustomMenu = ({
       },
     },
     {
-      id: "12",
+      id: "11",
       title: "Product Rating",
       route: "product-ratings",
       img: (route: string) => {

@@ -26,17 +26,11 @@ import ViewProductPage from "./Screens/ProductPage/ViewProductPage.web";
 import TodoProductPage from "./Screens/ProductPage/TodoProductPage.web";
 import CommissionCategoryPage from "./Screens/CommissionCategoryPage/CommissionCategoryPage.web";
 import ViewCommissionCategoryPage from "./Screens/CommissionCategoryPage/ViewCommissionCategoryPage.web";
-
-import Commissions from "./Screens/Commission/Commissions.web";
-import ProductInventories from "./Screens/ProductInventory/ProductInventories.web";
-import ProductRatings from "./Screens/ProductRating/ProductRatings.web";
-import Users from "./Screens/User/Users.web";
-import TodoCommissionType from "./Screens/CommissionType/TodoCommissionType.web";
-import ViewCommission from "./Screens/Commission/ViewCommission.web";
-import TodoCommission from "./Screens/Commission/TodoCommission.web";
-import ViewProductInventory from "./Screens/ProductInventory/ViewProductInventory.web";
-import TodoProductInventory from "./Screens/ProductInventory/TodoProductInventory.web";
-import TodoShopAdmin from "./Screens/User/TodoShopAdmin.web";
+import TodoCommissionCategoryPage from "./Screens/CommissionCategoryPage/TodoCommissionCategoryPage.web";
+import CommissionPage from "./Screens/CommissionPage/CommissionPage.web";
+import ViewCommissionPage from "./Screens/CommissionPage/ViewCommissionPage.web";
+import TodoCommissionPage from "./Screens/CommissionPage/TodoCommissionPage.web";
+import ProductRatingPage from "./Screens/ProductRatingPage/ProductRatingPage.web";
 import "./index.css";
 
 function App() {
@@ -136,45 +130,25 @@ function App() {
           path="/commission-categories/view/:id"
           element={<ViewCommissionCategoryPage />}
         />
-        {/* Done */}
         <Route
           path="/commission-categories/create"
-          element={<TodoCommissionType />}
+          element={<TodoCommissionCategoryPage />}
         />
         <Route
           path="/commission-categories/edit/:id"
-          element={<TodoCommissionType />}
+          element={<TodoCommissionCategoryPage />}
         />
         {/*  Commission Category Routes End */}
         {/*  Commissions Routes Start */}
-        <Route path="/commissions" element={<Commissions />} />
-        <Route path="/commissions/create" element={<TodoCommission />} />
-        <Route path="/commissions/view/:id" element={<ViewCommission />} />
-        <Route path="/commissions/edit/:id" element={<TodoCommission />} />
+        <Route path="/commissions" element={<CommissionPage />} />
+        <Route path="/commissions/view/:id" element={<ViewCommissionPage />} />
+        <Route path="/commissions/create" element={<TodoCommissionPage />} />
+        <Route path="/commissions/edit/:id" element={<TodoCommissionPage />} />
+        {/* Done */}
         {/*  Commissions Routes End */}
-        {/*  Product Inventory Routes Start */}
-        <Route path="/product-inventories" element={<ProductInventories />} />
-        <Route
-          path="/product-inventories/view/:id"
-          element={<ViewProductInventory />}
-        />
-        <Route
-          path="/product-inventories/create"
-          element={<TodoProductInventory />}
-        />
-        <Route
-          path="/product-inventories/edit/:id"
-          element={<TodoProductInventory />}
-        />
-        {/*  Product Inventory Routes End */}
         {/*  Product Ratings Routes Start */}
-        <Route path="/product-ratings" element={<ProductRatings />} />
+        <Route path="/product-ratings" element={<ProductRatingPage />} />
         {/*  Product Ratings Routes End */}
-        {/*  Users Routes Start */}
-        <Route path="/users" element={<Users />} />
-        <Route path="/users/create" element={<TodoShopAdmin />} />
-        <Route path="/users/edit/:id" element={<TodoShopAdmin />} />
-        {/*  Users Routes End */}
       </Routes>
     </React.Fragment>
   );

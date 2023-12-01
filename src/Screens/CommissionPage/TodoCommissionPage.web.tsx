@@ -1,15 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
-import ActiveButton from "../../Ui/Button/ActiveButton.web";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
-import DeleteButton from "../../Ui/Button/DeleteButton.web";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
-import CancelButton from "../../Ui/Button/CancelButton.web";
-import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
-import { dropDownValidate } from "../../Validations/dropDownValidate.web";
-import DropDown from "../../Ui/DropDown/DropDown.web";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_COMMISSION,
@@ -20,14 +10,24 @@ import {
   GET_PRODUCTS,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
+import ActiveButton from "../../Ui/Button/ActiveButton.web";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
+import DeleteButton from "../../Ui/Button/DeleteButton.web";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import CancelButton from "../../Ui/Button/CancelButton.web";
+import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
+import { GetCommissionByIdResponse } from "../../Modal/GetCommissionById.modal";
 import { CommissionType } from "../../Modal/GetCommissionTypes.modal";
 import { GetProductColumns, Product } from "../../Modal/GetProducts.modal";
-import { GetCommissionByIdResponse } from "../../Modal/GetCommissionById.modal";
-import "./Commissions.web.css";
+import { dropDownValidate } from "../../Validations/dropDownValidate.web";
+import DropDown from "../../Ui/DropDown/DropDown.web";
+import "./CommissionPage.web.css";
 
 const configJSON = require("../../Constants/Commission");
 
-const TodoCommission = () => {
+const TodoCommissionPage = () => {
   const initialData = useMemo(() => {
     return {
       commission: "",
@@ -48,12 +48,12 @@ const TodoCommission = () => {
   const [dataError, setDataError] = useState({
     errors: {
       commission: false,
-      commission_type: false,
+      commission_category: false,
       product: false,
     },
     errorMsg: {
       commission: "",
-      commission_type: "",
+      commission_category: "",
       product: "",
     },
   });
@@ -211,11 +211,11 @@ const TodoCommission = () => {
     }
   }, [location]);
 
-  const cancelcommissionsHandle = () => {
+  const cancelcommissionHandle = () => {
     navigate("/commissions");
   };
 
-  const deletecommissionsHandle = () => {
+  const deletecommissionHandle = () => {
     setModalOpen(true);
   };
 
@@ -313,25 +313,25 @@ const TodoCommission = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Commission type"
+          title="Commission Category"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="commissions_mainContainer">
-          <Box className="commissions_titleContainer">
-            <Typography className="commissions_titleText">
+        <Box className="commpage_mainContainer">
+          <Box className="commpage_titleContainer">
+            <Typography className="commpage_titleText">
               {isEdit
                 ? configJSON.editCommissionTitleText
                 : configJSON.createCommissionTitleText}
             </Typography>
           </Box>
           <form onSubmit={formSubmitHandle}>
-            <Box className="commissions_textFieldContainer">
+            <Box className="commpage_textFieldContainer">
               <DropDown
-                label="Commission type"
+                label="Commission category"
                 name="commission_type"
                 multi={false}
                 disabled={false}
@@ -341,17 +341,17 @@ const TodoCommission = () => {
                 valueField={"_id"}
                 data={commissionTypes}
                 values={formData.commission_type}
-                placeholder="Please commission type"
-                error={dataError.errors.commission_type}
-                errorText={dataError.errorMsg.commission_type}
+                placeholder="Please commission category"
+                error={dataError.errors.commission_category}
+                errorText={dataError.errorMsg.commission_category}
                 onChange={dropDownOnChangeHandle.bind(
                   this,
-                  "Commission type",
+                  "Commission category",
                   "commission_type"
                 )}
               />
             </Box>
-            <Box className="commissions_textFieldContainer">
+            <Box className="commpage_textFieldContainer">
               <CustomTextField
                 id="commission"
                 type="text"
@@ -364,7 +364,7 @@ const TodoCommission = () => {
               />
             </Box>
 
-            <Box className="commissions_textFieldContainer">
+            <Box className="commpage_textFieldContainer">
               <DropDown
                 label="Product"
                 name="product"
@@ -386,43 +386,43 @@ const TodoCommission = () => {
                 )}
               />
             </Box>
-            <Box className="commissions_buttonSubContainer">
+            <Box className="commpage_buttonSubContainer">
               {isEdit ? (
-                <Box className="commissions_BtnContainer">
+                <Box className="commpage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Update"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <DeleteButton
                     title="Delete"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
-                    onClick={deletecommissionsHandle}
+                    style={{ margin: "0px 0px 0px 15px" }}
+                    onClick={deletecommissionHandle}
                   />
                 </Box>
               ) : (
-                <Box className="commissions_BtnContainer">
+                <Box className="commpage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Save"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <CancelButton
                     title="Cancel"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
-                    onClick={cancelcommissionsHandle}
+                    style={{ margin: "0px 0px 0px 15px" }}
+                    onClick={cancelcommissionHandle}
                   />
                 </Box>
               )}
             </Box>
           </form>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-export default TodoCommission;
+export default TodoCommissionPage;

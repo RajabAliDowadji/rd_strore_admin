@@ -1,4 +1,4 @@
-.prodbrandpage_maintitleText {
+.commpage_maintitleText {
   font-size: 30px !important;
   color: var(--primary500) !important;
   font-weight: 600 !important;
@@ -6,7 +6,7 @@
   margin-right: 30px !important;
 }
 
-.prodbrandpage_buttonContainer {
+.commpage_buttonContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -15,7 +15,7 @@
   width: 100%;
 }
 
-.prodbrandpage_viewbuttonContainer {
+.commpage_viewbuttonContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -24,24 +24,24 @@
   width: 100%;
 }
 
-.prodbrandpage_mainContainer {
+.commpage_mainContainer {
   background: var(--background);
   padding: 30px;
   border-radius: 6px;
 }
 
-.prodbrandpage_textFieldContainer {
+.commpage_textFieldContainer {
   margin-bottom: 30px !important;
 }
 
-.prodbrandpage_buttonSubContainer {
+.commpage_buttonSubContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 }
 
-.prodbrandpage_titleText {
+.commpage_titleText {
   font-size: 24px !important;
   font-weight: 300 !important;
   color: var(--primary500) !important;
@@ -49,7 +49,7 @@
   margin-bottom: 30px !important;
 }
 
-.prodbrandpage_titleContainer {
+.commpage_titleContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -58,12 +58,12 @@
   width: 100%;
 }
 
-.prodbrandpage_BtnContainer {
+.commpage_BtnContainer {
   margin-top: 30px !important;
 }
 
 @media only screen and (max-width: 600px) {
-  .prodbrandpage_BtnContainer {
+  .commpage_BtnContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -71,12 +71,12 @@
     width: 100%;
   }
 
-  .prodbrandpage_buttonContainer {
+  .commpage_buttonContainer {
     flex-direction: column;
     text-align: center;
   }
 
-  .prodbrandpage_maintitleText {
+  .commpage_maintitleText {
     margin-bottom: 10px !important;
     margin-right: 0px !important;
   }

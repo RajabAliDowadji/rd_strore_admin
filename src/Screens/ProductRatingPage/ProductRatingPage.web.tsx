@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import Dashboard from "../Dashboard/Dashboard.web";
 import DataTable from "../../components/DataTable/DataTable.web";
+import { GET_PRODUCT_RATINGS } from "../../Hooks/Saga/Constant";
+import NoDataFound from "../../Ui/Data/NoDataFound.web";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
 import {
   GetProductRatingsColumns,
   ProductRating,
 } from "../../Modal/GetProductRatings.modal";
-import { GET_PRODUCT_RATINGS } from "../../Hooks/Saga/Constant";
-import NoDataFound from "../../Ui/Data/NoDataFound.web";
-import "./ProductRatings.web.css";
+import "./ProductRatingPage.web.css";
 
 const configJSON = require("../../Constants/Products");
 
-const ProductRatings = () => {
+const ProductRatingPage = () => {
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
   const [ProductRatings, setProductRatings] = useState<
@@ -54,29 +54,27 @@ const ProductRatings = () => {
 
   return (
     <Box>
-      <Dashboard>
-        <Box className="productRating_mainContainer">
-          <Box className="productRating_buttonContainer">
-            <Typography className="productRating_titleText">
-              {configJSON.productRatingTxt}
-            </Typography>
-          </Box>
-          {ProductRatings.length === 0 ? (
-            <NoDataFound />
-          ) : (
-            <DataTable
-              rows={ProductRatings}
-              columns={configJSON.productRatingColumns}
-              onViewClick={undefined}
-              onEditClick={undefined}
-              onDeleteClick={undefined}
-              isAction={false}
-            />
-          )}
+      <DashboardPage>
+        <Box className="prodratingpage_buttonContainer">
+          <Typography className="prodratingpage_maintitleText">
+            Product Rating
+          </Typography>
         </Box>
-      </Dashboard>
+        {ProductRatings.length === 0 ? (
+          <NoDataFound />
+        ) : (
+          <DataTable
+            rows={ProductRatings}
+            columns={configJSON.productRatingColumns}
+            onViewClick={undefined}
+            onEditClick={undefined}
+            onDeleteClick={undefined}
+            isAction={false}
+          />
+        )}
+      </DashboardPage>
     </Box>
   );
 };
 
-export default ProductRatings;
+export default ProductRatingPage;

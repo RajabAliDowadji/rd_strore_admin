@@ -1,0 +1,16 @@
+.prodratingpage_maintitleText {
+  font-size: 30px !important;
+  color: var(--primary500) !important;
+  font-weight: 600 !important;
+  font-family: var(--fontFamily) !important;
+  margin-right: 30px !important;
+}
+
+.prodratingpage_buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}

@@ -1,13 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
-import Dashboard from "../Dashboard/Dashboard.web";
-import ActiveButton from "../../Ui/Button/ActiveButton.web";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
-import DeleteButton from "../../Ui/Button/DeleteButton.web";
-import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
-import CancelButton from "../../Ui/Button/CancelButton.web";
-import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_COMMISSION_TYPE,
@@ -16,12 +8,19 @@ import {
   GET_COMMISSION_TYPE_BY_ID,
   RESET_STATE,
 } from "../../Hooks/Saga/Constant";
+import ActiveButton from "../../Ui/Button/ActiveButton.web";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import CustomTextField from "../../Ui/CustomTextField/CustomTextField.web";
+import DeleteButton from "../../Ui/Button/DeleteButton.web";
+import DeleteModal from "../../components/Modals/DeleteModal/DeleteModal.web";
+import CancelButton from "../../Ui/Button/CancelButton.web";
+import { errorToaster, isEmpty, successToaster } from "../../Utils/common";
+import DashboardPage from "../DashboardPage/DashboardPage.web";
 import { GetCommissionTypeByIdResponse } from "../../Modal/GetCommissionTypeById.modal";
-import "./CommissionTypes.web.css";
-
+import "./CommissionCategoryPage.web.css";
 const configJSON = require("../../Constants/Commission");
 
-const TodoCommissionType = () => {
+const TodoCommissionCategoryPage = () => {
   const initialData = useMemo(() => {
     return {
       commission_name: "",
@@ -59,9 +58,9 @@ const TodoCommissionType = () => {
       successToaster(state.add_edit_commission_type.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "commission-types" },
+        payload: { state: "commission-categories" },
       });
-      navigate("/commission-types");
+      navigate("/commission-categories");
     }
   }, [dispatch, navigate, state]);
 
@@ -84,7 +83,7 @@ const TodoCommissionType = () => {
       successToaster(state.delete_commission_type.message);
       dispatch({
         type: RESET_STATE,
-        payload: { state: "commission-types" },
+        payload: { state: "commission-categories" },
       });
     } else if (
       state &&
@@ -127,11 +126,11 @@ const TodoCommissionType = () => {
     }
   }, [location]);
 
-  const cancelcommissionTypeHandle = () => {
-    navigate("/commission-types");
+  const cancelcommissionCatHandle = () => {
+    navigate("/commission-categories");
   };
 
-  const deletecommissionTypeHandle = () => {
+  const deletecommissionCatHandle = () => {
     setModalOpen(true);
   };
 
@@ -144,7 +143,7 @@ const TodoCommissionType = () => {
       type: DELETE_COMMISSION_TYPE,
       payload: { id: id },
     });
-    navigate("/commission-types");
+    navigate("/commission-categories");
   };
 
   const inputChangeHandle = (fieldName: string, event: any) => {
@@ -204,23 +203,23 @@ const TodoCommissionType = () => {
 
   return (
     <Box>
-      <Dashboard>
+      <DashboardPage>
         <DeleteModal
           open={modalOpen}
-          title="Commission type"
+          title="Commission Category"
           onClose={modalHandleClose}
           onConfirmClick={onDeleteConfirmHandle}
         />
-        <Box className="commissionType_mainContainer">
-          <Box className="commissionType_titleContainer">
-            <Typography className="commissionType_titleText">
+        <Box className="commcatpage_mainContainer">
+          <Box className="commcatpage_titleContainer">
+            <Typography className="commcatpage_titleText">
               {isEdit
-                ? configJSON.editCommissionTypeTitleText
-                : configJSON.createCommissionTypeTitleText}
+                ? configJSON.editCommissionCatTitleText
+                : configJSON.createCommissionCatTitleText}
             </Typography>
           </Box>
           <form onSubmit={formSubmitHandle}>
-            <Box className="commissionType_textFieldContainer">
+            <Box className="commcatpage_textFieldContainer">
               <CustomTextField
                 id="commission_name"
                 type="text"
@@ -232,7 +231,7 @@ const TodoCommissionType = () => {
                 onChange={inputChangeHandle.bind(this, "Commisssion name")}
               />
             </Box>
-            <Box className="commissionType_textFieldContainer">
+            <Box className="commcatpage_textFieldContainer">
               <CustomTextField
                 id="commission_sign"
                 type="text"
@@ -244,43 +243,43 @@ const TodoCommissionType = () => {
                 onChange={inputChangeHandle.bind(this, "Commisssion sign")}
               />
             </Box>
-            <Box className="commissionType_buttonSubContainer">
+            <Box className="commcatpage_buttonSubContainer">
               {isEdit ? (
-                <Box className="commissionType_BtnContainer">
+                <Box className="commcatpage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Update"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <DeleteButton
                     title="Delete"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
-                    onClick={deletecommissionTypeHandle}
+                    style={{ margin: "0px 0px 0px 15px" }}
+                    onClick={deletecommissionCatHandle}
                   />
                 </Box>
               ) : (
-                <Box className="commissionType_BtnContainer">
+                <Box className="commcatpage_BtnContainer">
                   <ActiveButton
                     type="submit"
                     title="Save"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 15px 0px 0px" }}
+                    style={{ margin: "0px 15px 0px 0px" }}
                   />
                   <CancelButton
                     title="Cancel"
                     disabled={false}
-                    style={{ width: "205px", margin: "0px 0px 0px 15px" }}
-                    onClick={cancelcommissionTypeHandle}
+                    style={{ margin: "0px 0px 0px 15px" }}
+                    onClick={cancelcommissionCatHandle}
                   />
                 </Box>
               )}
             </Box>
           </form>
         </Box>
-      </Dashboard>
+      </DashboardPage>
     </Box>
   );
 };
-export default TodoCommissionType;
+export default TodoCommissionCategoryPage;

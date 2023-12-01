@@ -70,4 +70,14 @@
     margin-top: 30px !important;
     width: 100%;
   }
+
+  .commcatpage_buttonContainer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .commcatpage_maintitleText {
+    margin-bottom: 10px !important;
+    margin-right: 0px !important;
+  }
 }
