@@ -33,6 +33,10 @@ import MultipleImageUpload from "../../Ui/Image/MultipleImageUpload.web";
 import { uploadimage_placeholder, noimage_placeholder } from "./assets";
 import FileInput from "../../components/Modals/FileInput/FileInput.web";
 import "./ProductPage.web.css";
+import {
+  GetProductCategoriesColumns,
+  ProductCategory,
+} from "../../Modal/GetProductCategories.modal";
 
 const configJSON = require("../../Constants/Products");
 
@@ -45,6 +49,7 @@ const TodoProductPage = () => {
       product_price: "",
       product_description: "",
       product_sub_category: "",
+      product_category: "",
       product_brand: "",
       product_images: [
         { file_url: "" },
@@ -68,6 +73,9 @@ const TodoProductPage = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState(initialData);
   const [productBrands, setProductBrands] = useState<ProductBrandColumns[]>([]);
+  const [productCategories, setProductCategories] = useState<
+    GetProductCategoriesColumns[]
+  >([]);
   const [productSubCategories, setProductSubCategories] = useState<
     GetProductSubCategoriesColumns[]
   >([]);
@@ -79,6 +87,7 @@ const TodoProductPage = () => {
       product_price: false,
       product_description: false,
       product_brand: false,
+      product_category: false,
       product_sub_category: false,
       product_images: false,
       is_vegetarian: false,
@@ -90,6 +99,7 @@ const TodoProductPage = () => {
       product_price: "",
       product_description: "",
       product_brand: "",
+      product_category: "",
       product_sub_category: "",
       product_images: "",
       is_vegetarian: "",
@@ -134,6 +144,9 @@ const TodoProductPage = () => {
         state.get_product_by_id.product.product_description;
       temp.product_sub_category =
         state.get_product_by_id.product.product_sub_category._id;
+      temp.product_category = state.get_product_by_id.product.product_category
+        ? state.get_product_by_id.product.product_category._id
+        : "";
       temp.product_brand = state.get_product_by_id.product.product_brand._id;
       temp.product_images = state.get_product_by_id.product.product_images;
       temp.is_vegetarian = state.get_product_by_id.product.is_vegetarian
@@ -200,6 +213,32 @@ const TodoProductPage = () => {
       state.get_product_sub_categories.productSubCategories.length === 0
     ) {
       setProductSubCategories([]);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.get_product_categories &&
+      state.get_product_categories.productCategories &&
+      state.get_product_categories.productCategories.length !== 0
+    ) {
+      let tempArr: GetProductCategoriesColumns[] = [];
+      state.get_product_categories.productCategories.map(
+        (productCategory: ProductCategory) =>
+          tempArr.push({
+            _id: productCategory._id,
+            category_name: productCategory.category_name,
+          })
+      );
+      setProductCategories(tempArr);
+    } else if (
+      state &&
+      state.get_product_categories &&
+      state.get_product_categories.productCategories &&
+      state.get_product_categories.productCategories.length === 0
+    ) {
+      setProductCategories([]);
     }
   }, [state]);
 
@@ -347,6 +386,10 @@ const TodoProductPage = () => {
       "Product description",
       formData.product_description
     );
+    const isProdCatValid = dropDownValidate(
+      "Product category",
+      formData.product_category
+    );
     const isProdBrandValid = dropDownValidate(
       "Product brand",
       formData.product_brand
@@ -372,6 +415,7 @@ const TodoProductPage = () => {
       isProdMRPPriceValid.status ||
       isProdPriceValid.status ||
       isProdDescValid.status ||
+      isProdCatValid.status ||
       isProdBrandValid.status ||
       isProdSubCatValid.status ||
       isProdImagesValid.status ||
@@ -390,6 +434,7 @@ const TodoProductPage = () => {
           product_sub_category: isProdSubCatValid.status,
           product_images: isProdImagesValid.status,
           is_vegetarian: isVegetarianValid.status,
+          product_category: isProdCatValid.status,
         },
         errorMsg: {
           ...dataError.errorMsg,
@@ -402,6 +447,7 @@ const TodoProductPage = () => {
           product_sub_category: isProdSubCatValid.message,
           product_images: isProdImagesValid.message,
           is_vegetarian: isVegetarianValid.message,
+          product_category: isProdCatValid.message,
         },
       }));
     } else {
@@ -497,7 +543,7 @@ const TodoProductPage = () => {
                     />
                   </Box>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                   <Box className="prodpage_textFieldContainer">
                     <CustomTextField
                       id="product_price"
@@ -511,7 +557,31 @@ const TodoProductPage = () => {
                     />
                   </Box>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
+                  <Box className="prodpage_textFieldContainer">
+                    <DropDown
+                      label="Product category"
+                      name="product_category"
+                      multi={false}
+                      disabled={false}
+                      clearable={false}
+                      required={false}
+                      labelField={"category_name"}
+                      valueField={"_id"}
+                      data={productCategories}
+                      values={formData.product_category}
+                      placeholder="Please select product category."
+                      error={dataError.errors.product_category}
+                      errorText={dataError.errorMsg.product_category}
+                      onChange={dropDownOnChangeHandle.bind(
+                        this,
+                        "Product category",
+                        "product_category"
+                      )}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xs={3}>
                   <Box className="prodpage_textFieldContainer">
                     <DropDown
                       label="Product sub-category"
@@ -535,7 +605,7 @@ const TodoProductPage = () => {
                     />
                   </Box>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                   <Box className="prodpage_textFieldContainer">
                     <DropDown
                       label="Product brand"
@@ -559,6 +629,7 @@ const TodoProductPage = () => {
                     />
                   </Box>
                 </Grid>
+
                 <Grid item xs={8}>
                   <Box className="prodpage_textFieldContainer">
                     <CustomTextField

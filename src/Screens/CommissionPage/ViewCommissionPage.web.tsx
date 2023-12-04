@@ -171,6 +171,56 @@ const ViewCommissionPage = () => {
               disabled={true}
             />
           </Box>
+          <Box className="commpage_textFieldContainer">
+            <CustomTextField
+              id="commission"
+              type="text"
+              label="Commission"
+              name="commission"
+              value={formData.commission}
+              disabled={true}
+            />
+          </Box>
+          <Box className="commpage_textFieldContainer">
+            <CustomTextField
+              id="product_title"
+              type="text"
+              label="Product title"
+              name="product_title"
+              value={formData.product_title}
+              disabled={true}
+            />
+          </Box>
+          <Box className="commpage_textFieldContainer">
+            <CustomTextField
+              id="product_MRP_price"
+              type="number"
+              label="Product MRP price"
+              name="product_MRP_price"
+              value={formData.product_MRP_price.toString()}
+              disabled={true}
+            />
+          </Box>
+          <Box className="commpage_textFieldContainer">
+            <CustomTextField
+              id="product_price"
+              type="number"
+              label="Product price"
+              name="product_price"
+              value={formData.product_price.toString()}
+              disabled={true}
+            />
+          </Box>
+          <Box className="commpage_textFieldContainer">
+            <CustomTextField
+              id="commission_price"
+              type="text"
+              label="Commission price"
+              name="commission_price"
+              value={formData.commission_price.toString()}
+              disabled={true}
+            />
+          </Box>
           <Box className="commpage_buttonSubContainer">
             <ActiveButton
               title={configJSON.editBtnTxt}

@@ -15,7 +15,6 @@ export const getProductRatingsAPI = () => {
   } else {
     header = publicHeader;
   }
-
   return axios({
     method: GET,
     url: URL,

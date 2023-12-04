@@ -76,7 +76,10 @@ const TodoCommissionPage = () => {
   useEffect(() => {
     dispatch({
       type: GET_PRODUCTS,
-      payload: { brand_name: "", sub_category_name: "" },
+      payload: {
+        product_category: "",
+        product_sub_category: "",
+      },
     });
   }, [dispatch]);
 
@@ -176,6 +179,12 @@ const TodoCommissionPage = () => {
         payload: { state: "commissions" },
       });
       navigate("/commissions");
+    } else {
+      errorToaster(state.add_edit_commission.message);
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "commissions" },
+      });
     }
   }, [dispatch, navigate, state]);
 

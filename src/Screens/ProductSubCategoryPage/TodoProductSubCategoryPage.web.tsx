@@ -53,6 +53,7 @@ const TodoProductSubCategoryPage = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState<any>(initialData);
   const [fileData, setFileData] = useState<any>(initialFileData);
+  const [key, setKey] = useState("");
   const [productCategories, setProductCategories] = useState<ProductCategory[]>(
     []
   );
@@ -103,7 +104,8 @@ const TodoProductSubCategoryPage = () => {
       temp.product_category =
         state.get_product_sub_category_by_id.productSubCategory.product_category._id;
       temp.sub_category_image =
-        state.get_product_sub_category_by_id.productSubCategory.sub_category_image.file_url;
+        state.get_product_sub_category_by_id.productSubCategory.sub_category_image._id;
+
       tempFile.sub_category_image =
         state.get_product_sub_category_by_id.productSubCategory
           .sub_category_image &&
@@ -165,6 +167,28 @@ const TodoProductSubCategoryPage = () => {
       setProductCategories(tempArr);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (
+      state &&
+      state.add_edit_file &&
+      state.add_edit_file.file &&
+      state.add_edit_file.file !== null &&
+      !state.add_edit_file.isError &&
+      state.add_edit_file.message !== ""
+    ) {
+      successToaster(state.add_edit_file.message);
+      setFormData((prev: any) => ({
+        ...prev,
+        [key]: state.add_edit_file.file._id,
+      }));
+
+      dispatch({
+        type: RESET_STATE,
+        payload: { state: "file" },
+      });
+    }
+  }, [dispatch, formData, key, navigate, state]);
 
   useEffect(() => {
     if (
@@ -251,6 +275,7 @@ const TodoProductSubCategoryPage = () => {
     if (formData[key].length !== 0) {
       let bodyData = new FormData();
       bodyData.append("file", formData[key]);
+      setKey(key);
       dispatch({
         type: ADD_FILE,
         payload: bodyData,

@@ -72,7 +72,7 @@ export const addCommissionTypeEndPoint =
 // Commission Type End Point Start
 
 // Product Type End Point Start
-export const Product_END_POINT = "rd_admin/product/";
+export const Product_END_POINT = "product/";
 export const Get_Product_Types_END_POINT = "types";
 export const Add_Product_Type_END_POINT = "type/create";
 export const Get_Product_Type_By_Id_END_POINT = "type/";
@@ -208,7 +208,7 @@ export const getAdminCommissionEndPoint =
   BASE_URL + Get_Admin_Commissions_END_POINT;
 // Admin Commission End Point End
 
-export const Get_Product_Rating_END_POINT = "product/ratings";
+export const Get_Product_Rating_END_POINT = "ratings";
 
 export const getProductRatingsEndPoint =
   BASE_URL + Get_Product_Rating_END_POINT;
