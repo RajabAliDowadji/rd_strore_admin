@@ -23,7 +23,7 @@ export const RD_ADMIN_Login_END_POINT = "rd_admin/login";
 export const rdAdminLoginEndPoint = BASE_URL + RD_ADMIN_Login_END_POINT;
 
 // Place End Point Start
-export const Get_Places_END_POINT = "rd_admin/places";
+export const Get_Places_END_POINT = "places";
 export const Get_Place_END_POINT = "rd_admin/place";
 export const Add_Place_END_POINT = "rd_admin/place/create";
 export const Place_By_Id_END_POINT = "rd_admin/place/";
