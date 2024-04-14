@@ -1,0 +1,16 @@
+.shopstepper_stepperContainer {
+  padding: 24px 0px !important;
+  background: transparent !important;
+}
+
+.shopstepper_stepLabel {
+  color: var(--black) !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 5px !important;
+}
+
+.shopstepper_icon {
+  width: 48px !important;
+  object-fit: cover !important;
+}

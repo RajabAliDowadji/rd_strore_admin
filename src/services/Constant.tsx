@@ -51,11 +51,20 @@ export const addShopCategoryEndPoint = BASE_URL + Add_Shop_Category_END_POINT;
 export const Get_Shops_END_POINT = "rd_admin/shops";
 export const Get_Shop_By_Id_END_POINT = "rd_admin/shop/";
 export const Add_Shop_END_POINT = "rd_admin/shop/create";
+export const Add_Shop_Basic_Details_END_POINT =
+  "rd_admin/shop/basic_details/create";
+export const Edit_Shop_Basic_Details_END_POINT = "rd_admin/shop/basic_details/";
 export const getShopsEndPoint = BASE_URL + Get_Shops_END_POINT;
 export const shopByIdEndPoint = (id: string) => {
   return BASE_URL + Get_Shop_By_Id_END_POINT + id;
 };
 export const addShopEndPoint = BASE_URL + Add_Shop_END_POINT;
+
+export const addShopBasicDetailsEndPoint =
+  BASE_URL + Add_Shop_Basic_Details_END_POINT;
+export const editShopBasicDetailsEndPoint = (id: string) => {
+  return BASE_URL + Edit_Shop_Basic_Details_END_POINT + id;
+};
 // Shop End Point End
 
 // Commission Type End Point Start

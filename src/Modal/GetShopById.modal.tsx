@@ -27,9 +27,9 @@ export interface GetShopByIdResponse {
   aadhar_number: string;
   second_owner_name: string;
   second_owner_number: string;
-  owner_image: string;
-  owner_aadhar_card: string;
-  shop_image: string;
+  owner_image?: string;
+  owner_aadhar_card?: string;
+  shop_image?: string;
   address: string;
   place: string;
   shop_category: string;
@@ -38,7 +38,11 @@ export interface GetShopByIdResponse {
   createdAt?: string;
   updatedAt?: string;
 }
-
+export interface GetShopImagesByIdResponse {
+  owner_image: string;
+  owner_aadhar_card: string;
+  shop_image: string;
+}
 export interface GetShopSuccessByIdResponse {
   _id?: string;
   shop_name: string;

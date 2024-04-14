@@ -90,7 +90,7 @@ const CustomDrawer = (props: any) => {
         tabChangeHandle={tabHandleClick}
       />
       <Grid container className="customdrawer_gridConatiner">
-        {configJSON.menuOptions.map((menu: menuProps, index: number) => (
+        {configJSON.rdAdminmenuOptions.map((menu: menuProps, index: number) => (
           <Grid item xs={6} sm={3} md={3} lg={2}>
             {index < 6 && (
               <Box className="customdrawer_largeGridContainer">

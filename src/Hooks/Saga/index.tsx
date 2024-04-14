@@ -50,6 +50,10 @@ import deleteProductBrandSaga from "./DeleteProductBrand.saga";
 import getShopsSaga from "./GetShops.saga";
 import getShopByIdSaga from "./GetShopById.saga";
 import { addShopSaga, editShopSaga } from "./AddEditShop.saga";
+import {
+  addShopBasicDetailsSaga,
+  editShopBasicDetailsSaga,
+} from "./AddEditShopBasicDetails.saga";
 import deleteShopSaga from "./DeleteShop.saga";
 import getProductsSaga from "./GetProducts.saga";
 import deleteProductSaga from "./DeleteProduct.saga";
@@ -104,6 +108,8 @@ export default function* rootSaga() {
     fork(getShopByIdSaga),
     fork(addShopSaga),
     fork(editShopSaga),
+    fork(addShopBasicDetailsSaga),
+    fork(editShopBasicDetailsSaga),
     fork(deleteShopSaga),
     //Shop Saga Start
 

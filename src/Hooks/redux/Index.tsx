@@ -33,6 +33,7 @@ import getShopsReducer from "./GetShops.redux";
 import getShopByIdReducer from "./GetShopById.redux";
 import deleteShopReducer from "./DeleteShop.redux";
 import addEditShopReducer from "./AddEditShop.redux";
+import addEditShopBasicDetailsReducer from "./AddEditShopBasicDetails.redux";
 import addEditFileReducer from "./AddEditFile.redux";
 import addEditFilesReducer from "./AddEditFiles.redux";
 import deleteFileReducer from "./DeleteFile.redux";
@@ -75,6 +76,7 @@ const rootReducers = combineReducers({
   get_shop_by_id: getShopByIdReducer,
   delete_shop: deleteShopReducer,
   add_edit_shop: addEditShopReducer,
+  add_edit_shop_basic_details: addEditShopBasicDetailsReducer,
   //Shop Reducer End
 
   //Commission Type Reducer Start

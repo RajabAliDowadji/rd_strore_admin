@@ -23,6 +23,8 @@ export const GET_SHOP_BY_ID: string = "GET_SHOP_BY_ID";
 export const DELETE_SHOP: string = "DELETE_SHOP";
 export const ADD_SHOP: string = "ADD_SHOP";
 export const EDIT_SHOP: string = "EDIT_SHOP";
+export const ADD_SHOP_BASIC_DETAILS: string = "ADD_SHOP_BASIC_DETAILS";
+export const EDIT_SHOP_BASIC_DETAILS: string = "EDIT_SHOP_BASIC_DETAILS";
 // Shop API Type End
 
 // Commission Type API Type Start

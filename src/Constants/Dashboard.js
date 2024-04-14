@@ -1,6 +1,6 @@
 exports.editBtnTxt = "Edit";
 exports.deleteBtnTxt = "Delete";
-exports.menuOptions = [
+exports.rdAdminmenuOptions = [
   {
     id: "1",
     title: "All",
@@ -43,21 +43,53 @@ exports.menuOptions = [
   },
   {
     id: "9",
-    title: "Product Inventory",
-    route: "product-inventories",
-  },
-  {
-    id: "10",
     title: "Commission Type",
     route: "commission-types",
   },
   {
-    id: "11",
+    id: "10",
     title: "Commission",
     route: "commissions",
   },
   {
-    id: "12",
+    id: "11",
+    title: "Product Rating",
+    route: "product-ratings",
+  },
+];
+exports.shopAdminmenuOptions = [
+  {
+    id: "1",
+    title: "All",
+    route: "dashboard",
+  },
+  {
+    id: "2",
+    title: "Product Category",
+    route: "product-categories",
+  },
+  {
+    id: "3",
+    title: "Product Sub-Categoy",
+    route: "product-sub-categories",
+  },
+  {
+    id: "4",
+    title: "Product Brand",
+    route: "product-brands",
+  },
+  {
+    id: "5",
+    title: "Product",
+    route: "products",
+  },
+  {
+    id: "6",
+    title: "My Prodocuts",
+    route: "my-products",
+  },
+  {
+    id: "7",
     title: "Product Rating",
     route: "product-ratings",
   },
